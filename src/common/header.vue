@@ -5,7 +5,7 @@
       <el-col :span="16">
         <el-row>
           <el-col :span="2" :offset="8"><div><router-link to="/login" class="el-icon-search">首页</router-link></div></el-col>
-          <el-col :span="2"><div @mouseover="mouseOver"><router-link to="/login">归档</router-link></div></el-col>
+          <el-col :span="2"><div @mouseover="mouseOver($event)" ref="m"><router-link to="/login">归档</router-link></div></el-col>
           <el-col :span="2"><div><router-link to="/login">留言</router-link></div></el-col>
           <el-col :span="2"><div><router-link to="/login">关于</router-link></div></el-col>
         </el-row>
@@ -32,9 +32,11 @@
 <script>
   export default {
     methods:{
-      mouseOver(){
-        console.log(this.$el)
+      mouseOver(e){
+          console.log(111,e.currentTarget.firstElementChild);
+          // console.log(this.currentTarget.firstElementChild)
         // this.$el.style.color = "rgb(69, 71, 74)!important"
+          e.currentTarget.firstElementChild.style.color = "red"
       }
     }
   }
