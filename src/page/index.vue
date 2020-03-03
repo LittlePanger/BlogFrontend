@@ -4,18 +4,20 @@
       <Header></Header>
       <el-main>
         main
-<!--        <img src="../../build/logo.png" alt="">-->
       </el-main>
+      <Footer></Footer>
     </el-container>
   </div>
 </template>
 
 <script>
   import Header from '../common/header'
+  import Footer from '../common/footer'
     export default {
       name: "index",
       components: {
         Header,
+        Footer,
       }
     }
 
@@ -25,4 +27,8 @@
 main {
   background-color: #99a9bf;
 }
+/*撑开main*/
+/*.el-main{*/
+/*  min-height: calc(100vh - 134px)*/
+/*}*/
 </style>
