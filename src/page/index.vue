@@ -22,5 +22,7 @@
 </script>
 
 <style scoped>
-
+main {
+  background-color: #99a9bf;
+}
 </style>
