@@ -18,7 +18,7 @@
 <!--  </el-header>-->
   <el-header height="72px" style="padding: 0">
     <el-row :gutter="20">
-      <el-col :span="4" style="line-height: 72px"><router-link to="/"><img src="../../build/logo.png" alt="" style="height: 36px;vertical-align: middle"></router-link></el-col>
+      <el-col :span="4" style="line-height: 72px"><router-link to="/"><img src="../assets/logo.png" alt="" style="height: 50px;vertical-align: middle"></router-link></el-col>
       <el-col :span="16">
         <el-row>
           <el-col :span="3" :offset="6" v-for="item in navBarMiddle" :key="item.id" v-if="item.id === 0"><div @mouseover="mouseOver($event)" @mouseout="mouseOut($event)" style="height: 67px"><router-link v-bind:to="item.src" v-bind:class="item.icon">{{item.name}}</router-link></div></el-col>

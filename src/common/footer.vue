@@ -39,4 +39,7 @@
   p {
     color: #b9b9b9;
   }
+  footer {
+    margin-top: 25px;
+  }
 </style>
