@@ -8,6 +8,7 @@ const Home = () => import('../page/home');
 const Login = () => import('../page/login');
 const Folder = () => import('../page/folder');
 const Comment = () => import('../page/comment');
+const About = () => import('../page/about');
 
 
 Vue.use(Router)
@@ -23,9 +24,10 @@ export default new Router({
       children: [
         {path: '/folder',name: 'folder',component: Folder},
         {path: '/comment',name: 'comment',component: Comment},
+        {path: '/about',name: 'about',component: About},
       ],
     },
     {path: '/home', component: Home},
-    {path: '/login',name: 'login',component: Login},
+    {path: '/account/login',name: 'login',component: Login},
   ]
 })

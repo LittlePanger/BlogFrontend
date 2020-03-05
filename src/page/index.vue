@@ -3,8 +3,8 @@
     <el-container direction="vertical">
       <Header></Header>
       <el-main>
-        <div style="height: 400px;" class="mainImg" :style="{backgroundImage:'url(' + imgUrl + ')'}"><h1>{{title}}</h1></div>
-        <router-view @getTitle='getTitleIndex'></router-view>
+        <div style="height: 400px;" class="mainImg" :style="{backgroundImage:'url(' + mainImgUrl + ')'}"><h1>{{mainTitle}}</h1></div>
+        <router-view @getTitle='getTitleImgIndex'></router-view>
         <div>main</div>
       </el-main>
       <Footer></Footer>
@@ -21,8 +21,8 @@
     name: "index",
     data() {
       return {
-        title: '',
-        imgUrl:'',
+        mainTitle: '',
+        mainImgUrl:'',
       }
     },
     components: {
@@ -31,10 +31,9 @@
       MainImg,
     },
     methods: {
-      getTitleIndex(value) {
-        this.title = value.title;
-        this.imgUrl = value.url
-        console.log(this.imgUrl)
+      getTitleImgIndex(value) {
+        this.mainTitle = value.title;
+        this.mainImgUrl = value.url;
       }
     }
   }
@@ -48,7 +47,7 @@
   }
   .mainImg{
     background: no-repeat center center;
-    background-size: auto auto;
+    background-size: 100% auto;
   }
   .mainImg h1 {
     margin: 0;

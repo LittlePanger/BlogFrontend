@@ -1,7 +1,12 @@
 <template>
   <el-header height="74px" style="padding: 0" :class="{home:isHome}">
     <el-row :gutter="20">
-      <el-col :span="4" style="line-height: 72px"><router-link to="/"><img src="../assets/logo.png" alt="" style="height: 50px;vertical-align: middle"></router-link></el-col>
+      <el-col :span="4" style="line-height: 72px">
+        <router-link to="/">
+          <img src="../assets/nameLOGOWhite.png" alt="" style="height: 50px;vertical-align: middle" v-if="isHome">
+          <img src="../assets/nameLOGO.png" alt="" style="height: 50px;vertical-align: middle" v-else>
+        </router-link>
+      </el-col>
       <el-col :span="16">
         <el-row>
           <el-col :span="3" :offset="6" v-for="item in navBarMiddle" :key="item.id" v-if="item.id === 0">
@@ -26,35 +31,35 @@
 
 <script>
   export default {
-    data(){
+    data() {
       return {
-        isHome:false,
-        navBarMiddle:[
-          {'id':0,'name':'首页','src':'/home','icon':'e-iconshouye'},
-          {'id':1,'name':'归档','src':'/folder','icon':'e-iconwenjian'},
-          {'id':2,'name':'留言','src':'/comment','icon':'e-iconliuyan'},
-          {'id':3,'name':'关于','src':'/login','icon':'e-icon1'},
+        isHome: false,
+        navBarMiddle: [
+          {'id': 0, 'name': '首页', 'src': '/home', 'icon': 'e-iconshouye'},
+          {'id': 1, 'name': '归档', 'src': '/folder', 'icon': 'e-iconwenjian'},
+          {'id': 2, 'name': '留言', 'src': '/comment', 'icon': 'e-iconliuyan'},
+          {'id': 3, 'name': '关于', 'src': '/about', 'icon': 'e-icon1'},
         ],
-        navBarRight:[
-          {'id':0,'name':'搜索','src':'/login','icon':'e-iconsousuo'},
-          {'id':1,'name':'登录','src':'/login','icon':'e-icondingbudaohang-zhangh'},
+        navBarRight: [
+          {'id': 0, 'name': '搜索', 'src': '/login', 'icon': 'e-iconsousuo'},
+          {'id': 1, 'name': '登录', 'src': '/account/login', 'icon': 'e-icondingbudaohang-zhangh'},
         ],
-        navBarImg:{'src':'../../build/logo.png'}
+        navBarImg: {'src': '../../build/logo.png'}
 
       }
     },
-    methods:{
-      mouseOver(e){
+    methods: {
+      mouseOver(e) {
         e.currentTarget.firstElementChild.style.color = "#e67474";
         e.currentTarget.style.borderBottom = "5px solid #e67474"
       },
-      mouseOut(e){
+      mouseOut(e) {
         e.currentTarget.firstElementChild.style.color = "rgb(144,147,153)";
         e.currentTarget.style.borderBottom = "transparent"
       }
     },
     created() {
-      if (this.$route.path === '/home'){
+      if (this.$route.path === '/home') {
         this.isHome = true
       }
     }
@@ -65,8 +70,9 @@
   a {
     line-height: 72px;
     text-decoration: none;
-    color:rgb(144,147,153);
+    color: rgb(144, 147, 153);
   }
+
   /*.el-row {*/
   /*  margin-bottom: 20px;*/
   /*&:last-child {*/
