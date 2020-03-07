@@ -11,9 +11,9 @@
 </template>
 
 <script>
-  import Footer from '../common/footer'
-  import MainImg from '../common/mainImg'
-  import Header from '../common/header'
+  import Footer from '../components/footer'
+  import MainImg from '../components/mainImg'
+  import Header from '../components/header'
 
   export default {
     name: "home",

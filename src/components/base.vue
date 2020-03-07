@@ -12,9 +12,9 @@
 </template>
 
 <script>
-  import Header from '../common/header'
-  import Footer from '../common/footer'
-  import MainImg from '../common/mainImg'
+  import Header from './header'
+  import Footer from './footer'
+  import MainImg from './mainImg'
   export default {
     name: "base",
     components: {

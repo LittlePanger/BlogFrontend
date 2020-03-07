@@ -13,9 +13,9 @@
 </template>
 
 <script>
-  import Header from '../common/header'
-  import Footer from '../common/footer'
-  import MainImg from '../common/mainImg'
+  import Header from '../components/header'
+  import Footer from '../components/footer'
+  import MainImg from '../components/mainImg'
 
   export default {
     name: "index",
