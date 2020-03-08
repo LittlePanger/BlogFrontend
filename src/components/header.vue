@@ -41,7 +41,7 @@
           {'id': 3, 'name': '关于', 'src': '/about', 'icon': 'e-icon1'},
         ],
         navBarRight: [
-          {'id': 0, 'name': '搜索', 'src': '/login', 'icon': 'e-iconsousuo'},
+          {'id': 0, 'name': '搜索', 'src': '/article', 'icon': 'e-iconsousuo'},
           {'id': 1, 'name': '登录', 'src': '/account/login', 'icon': 'e-icondingbudaohang-zhangh'},
         ],
         navBarImg: {'src': '../../build/logo.png'}
