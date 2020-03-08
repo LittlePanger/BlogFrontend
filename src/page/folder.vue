@@ -1,27 +1,33 @@
 <template>
   <div class="folder-main">
-    <div style="height: 150px">
-      <div style="">
-        <div class="folder-img">
-          <a :href="overview[0].src">
-            <img :src="overview[0].img" alt="">
-          </a>
-        </div>
+    <div v-for="item in overview" :key="item.id" class="article">
+      <div class="folder-img">
+        <a :href="item.src">
+          <img :src="item.img" alt="">
+        </a>
       </div>
       <div class="folder-right">
-        <div class="folder-title">
-          <h1><a :href="overview[0].src">{{overview[0].title}}</a></h1>
-        </div>
-        <div class="folder-time">
-          <i class="el-icon-time"></i>
-          发布于{{overview[0].time}}
+        <div class="folder-right-top">
+          <div class="folder-title">
+            <h1><a :href="item.src">{{item.title}}</a></h1>
+          </div>
+          <div class="folder-time">
+            <i class="el-icon-time"></i>
+            发布于{{item.time}}
+          </div>
         </div>
         <div class="folder-content">
-          <p>{{overview[0].detail}}</p>
+          <p>{{item.detail}}</p>
         </div>
       </div>
+      <hr>
     </div>
-
+    <div class="block">
+      <el-pagination
+        layout="prev, pager, next, jumper"
+        :total="50">
+      </el-pagination>
+    </div>
   </div>
 </template>
 
@@ -129,6 +135,10 @@
     background-color: rgba(255, 255, 255, .8);
   }
 
+  .article {
+    height: 150px
+  }
+
   .folder-img {
     position: absolute;
     margin-top: 10px;
@@ -149,13 +159,18 @@
     width: 680px;
   }
 
+  .folder-right-top {
+    height: 40px;
+  }
+
   .folder-title {
-    padding-top: 10px;
+    padding-top: 15px;
+    float: left;
   }
 
   .folder-title h1 {
     margin: 0;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 400;
     line-height: 30px;
     color: #504e4e;
@@ -164,24 +179,47 @@
   .folder-title a {
     text-decoration: none;
   }
+
   .folder-title a:visited {
     color: #504e4e;
   }
+
   .folder-title a:hover {
     color: #e67474;
   }
 
   .folder-time {
+    float: right;
     color: #989898;
     font-size: 12px;
+    margin-top: 20px;
   }
 
   .folder-time i {
     font-size: 14px;
   }
 
+  .folder-content {
+    margin-top: 20px;
+  }
+
   .folder-content p {
-    margin-top: 5px;
+    /*margin-top: 5px;*/
+    font-size: 15px;
+    color: rgba(0, 0, 0, .66)
+  }
+
+  hr {
+    width: 30%;
+    height: 1px;
+    margin: 20px auto;
+    border: 0;
+    background: #efefef;
+  }
+
+  .el-pagination {
+    margin-top: 20px;
+    text-align: right;
   }
 
   /*.mainImg {*/
