@@ -128,7 +128,7 @@
 
 <style>
   .folder-main {
-    max-width: 800px;
+    width: 60%;
     padding: 0 10px;
     margin-left: auto;
     margin-right: auto;
@@ -156,7 +156,7 @@
   .folder-right {
     text-align: left;
     margin-left: 120px;
-    width: 680px;
+    /*width: 680px;*/
   }
 
   .folder-right-top {

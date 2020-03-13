@@ -1,6 +1,12 @@
 <template>
   <div>
     comment
+    comment
+
+    <div>
+      comment
+      comment
+    </div>
   </div>
 </template>
 
