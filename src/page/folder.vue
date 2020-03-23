@@ -128,15 +128,14 @@
 
 <style>
   .folder-main {
-    width: 60%;
+    width: auto;
     padding: 0 10px;
-    margin-left: auto;
-    margin-right: auto;
+    margin-top: 10px;
     background-color: rgba(255, 255, 255, .8);
   }
 
   .article {
-    height: 150px
+    min-height: 150px
   }
 
   .folder-img {

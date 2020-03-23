@@ -6,13 +6,13 @@
         <div style="height: 400px;" class="mainImg" :style="{backgroundImage:'url(' + mainImgUrl + ')'}"><h1>{{mainTitle}}</h1></div>
         <div>
           <el-row :gutter="10">
-            <el-col :xs="1" :sm="2" :md="4" :lg="6" :xl="6">
+            <el-col :xs="0" :sm="1" :md="3" :lg="5" :xl="5">
               <div class="grid-content bg-purple-light"></div>
             </el-col>
-            <el-col :xs="22" :sm="18" :md="14" :lg="12" :xl="12">
+            <el-col :xs="24" :sm="22" :md="18" :lg="14" :xl="14">
               <router-view @getTitle='getTitleImgIndex'></router-view>
             </el-col>
-            <el-col :xs="1" :sm="2" :md="4" :lg="6" :xl="6">
+            <el-col :xs="0" :sm="1" :md="3" :lg="5" :xl="5">
               <div class="grid-content bg-purple-light"></div>
             </el-col>
           </el-row>
@@ -76,20 +76,10 @@
   /*.el-main{*/
   /*  min-height: calc(100vh - 134px)*/
   /*}*/
-  .el-col {
-    border-radius: 4px;
-  }
-  .bg-purple-dark {
-    background: #99a9bf;
-  }
-  .bg-purple {
-    background: #d3dce6;
-  }
-  .bg-purple-light {
-    background: #e5e9f2;
+  .el-row {
+    background-color: #aaaaaa;
   }
   .grid-content {
-    border-radius: 4px;
-    min-height: 36px;
+    min-height: 1px;
   }
 </style>
