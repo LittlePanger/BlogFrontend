@@ -1,26 +1,34 @@
 <template>
   <div class="folder-main">
     <div v-for="item in overview" :key="item.id" class="article">
-      <div class="folder-img">
-        <a :href="item.src">
-          <img :src="item.img" alt="">
-        </a>
-      </div>
-      <div class="folder-right">
-        <div class="folder-right-top">
-          <div class="folder-title">
-            <h1><a :href="item.src">{{item.title}}</a></h1>
+      <el-row :gutter="10">
+        <el-col :xs="4" :sm="4" :md="4" :lg="4" :xl="4">
+          <div :class="{'folder-img-pc':isPc,'folder-img-mobile':!isPc}">
+            <a :href="item.src">
+              <img :src="item.img" alt="" :class="{'img-pc':isPc,'img-mobile':!isPc}">
+            </a>
           </div>
-          <div class="folder-time">
-            <i class="el-icon-time"></i>
-            发布于{{item.time}}
+        </el-col>
+        <el-col :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
+          <div class="folder-right">
+            <div class="folder-right-top">
+              <div class="folder-title">
+                <h1 :class="{'title-h1-pc':isPc,'title-h1-mobile':!isPc}"><a :href="item.src">{{item.title}}</a></h1>
+              </div>
+              <div :class="{'folder-time-pc':isPc,'folder-time-mobile':!isPc}">
+                <i class="el-icon-time"></i>
+                发布于{{item.time}}
+              </div>
+            </div>
+            <div class="folder-content">
+              <p>{{item.detail}}</p>
+            </div>
           </div>
-        </div>
-        <div class="folder-content">
-          <p>{{item.detail}}</p>
-        </div>
-      </div>
-      <hr>
+        </el-col>
+      </el-row>
+
+
+      <hr :class="{'hr-pc':isPc,'hr-mobile':!isPc}">
     </div>
     <div class="block">
       <el-pagination
@@ -35,6 +43,7 @@
 
   export default {
     name: "folder",
+    props: ['isPc'],
     data() {
       return {
         overview: [
@@ -120,8 +129,8 @@
       },
     },
     created() {
-      this.returnTitleImg()
-    }
+      this.returnTitleImg();
+    },
   }
 
 </script>
@@ -131,19 +140,20 @@
     width: auto;
     padding: 0 10px;
     margin-top: 10px;
-    background-color: rgba(255, 255, 255, .8);
+    background-color: rgb(255, 255, 255);
   }
 
   .article {
     min-height: 150px
   }
 
-  .folder-img {
-    position: absolute;
+  .folder-img-pc {
     margin-top: 10px;
   }
-
-  .folder-img img {
+  .folder-img-mobile {
+    margin-top: 25px;
+  }
+  .img-pc {
     width: 94px;
     height: 94px;
     border-radius: 50%;
@@ -151,10 +161,17 @@
     border: 1px solid #dadada;
     position: relative;
   }
-
+  .img-mobile {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    padding: 2px;
+    border: 1px solid #dadada;
+    position: relative;
+  }
   .folder-right {
     text-align: left;
-    margin-left: 120px;
+    /*margin-left: 120px;*/
     /*width: 680px;*/
   }
 
@@ -167,9 +184,17 @@
     float: left;
   }
 
-  .folder-title h1 {
+  .title-h1-pc {
     margin: 0;
     font-size: 20px;
+    font-weight: 400;
+    line-height: 30px;
+    color: #504e4e;
+  }
+
+  .title-h1-mobile {
+    margin: 0;
+    font-size: 18px;
     font-weight: 400;
     line-height: 30px;
     color: #504e4e;
@@ -187,13 +212,19 @@
     color: #e67474;
   }
 
-  .folder-time {
+  .folder-time-pc {
     float: right;
     color: #989898;
     font-size: 12px;
     margin-top: 20px;
   }
-
+  .folder-time-mobile {
+    margin: 3px 0;
+    width: 100%;
+    float: right;
+    color: #989898;
+    font-size: 12px;
+  }
   .folder-time i {
     font-size: 14px;
   }
@@ -208,10 +239,17 @@
     color: rgba(0, 0, 0, .66)
   }
 
-  hr {
+  .hr-pc {
     width: 30%;
     height: 1px;
     margin: 20px auto;
+    border: 0;
+    background: #efefef;
+  }
+  .hr-mobile {
+    width: 30%;
+    height: 1px;
+    margin: 3px auto;
     border: 0;
     background: #efefef;
   }

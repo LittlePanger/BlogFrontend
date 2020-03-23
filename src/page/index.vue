@@ -10,7 +10,7 @@
               <div class="grid-content bg-purple-light"></div>
             </el-col>
             <el-col :xs="24" :sm="22" :md="18" :lg="14" :xl="14">
-              <router-view @getTitle='getTitleImgIndex'></router-view>
+              <router-view @getTitle='getTitleImgIndex' :isPc="isPc"></router-view>
             </el-col>
             <el-col :xs="0" :sm="1" :md="3" :lg="5" :xl="5">
               <div class="grid-content bg-purple-light"></div>
@@ -33,7 +33,8 @@
     data() {
       return {
         mainTitle: '',
-        mainImgUrl:'',
+        mainImgUrl: '',
+        isPc: true,
       }
     },
     components: {
@@ -45,7 +46,16 @@
       getTitleImgIndex(value) {
         this.mainTitle = value.title;
         this.mainImgUrl = value.url;
+      },
+      getScreenWidth() {
+        let w = document.documentElement.clientWidth || document.body.clientWidth;
+        if (w<800){
+          this.isPc = false
+        }
       }
+    },
+    created() {
+      this.getScreenWidth()
     }
   }
 
