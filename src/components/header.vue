@@ -1,5 +1,5 @@
 <template>
-  <el-header height="74px" style="padding: 0" :class="{home:isHome}">
+  <el-header height="74px" style="padding: 0" :class="{home:isHome}" v-if="isPc" class="header-pc">
     <el-row :gutter="20">
       <el-col :span="4" style="line-height: 72px">
         <router-link to="/">
@@ -27,10 +27,18 @@
       </el-col>
     </el-row>
   </el-header>
+  <el-header v-else>
+    <div class="mobile-header-icon"><i class="el-icon-menu" style="font-size: 30px;line-height: 60px"></i></div>
+    <router-link to="/" class="mobile-header-logo">
+      <img src="../assets/nameLOGOWhite.png" alt="" style="height: 50px;vertical-align: middle" v-if="isHome">
+      <img src="../assets/nameLOGO.png" alt="" style="height: 50px;vertical-align: middle" v-else>
+    </router-link>
+  </el-header>
 </template>
 
 <script>
   export default {
+    props: ['isPc'],
     data() {
       return {
         isHome: false,
@@ -67,36 +75,19 @@
 </script>
 
 <style scoped>
-  a {
+  .header-pc a {
     line-height: 72px;
     text-decoration: none;
     color: rgb(144, 147, 153);
   }
-
-  /*.el-row {*/
-  /*  margin-bottom: 20px;*/
-  /*&:last-child {*/
-  /*   margin-bottom: 0;*/
-  /* }*/
-  /*}*/
-  /*.el-col {*/
-  /*  border-radius: 4px;*/
-  /*}*/
-  /*.bg-purple-dark {*/
-  /*  background: #99a9bf;*/
-  /*}*/
-  /*.bg-purple {*/
-  /*  background: #d3dce6;*/
-  /*}*/
-  /*.bg-purple-light {*/
-  /*  background: #e5e9f2;*/
-  /*}*/
-  /*.grid-content {*/
-  /*  border-radius: 4px;*/
-  /*  min-height: 36px;*/
-  /*}*/
-  /*.row-bg {*/
-  /*  padding: 10px 0;*/
-  /*  background-color: #f9fafc;*/
-  /*}*/
+  .mobile-header-icon{
+    height: 60px;
+    float: left;
+  }
+  .mobile-header-logo{
+    position: relative;
+    right: -15px;
+    float: right;
+    line-height: 50px;
+  }
 </style>

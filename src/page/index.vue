@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-container direction="vertical">
-      <Header></Header>
+      <Header :isPc="isPc"></Header>
       <el-main>
         <div style="height: 400px;" class="mainImg" :style="{backgroundImage:'url(' + mainImgUrl + ')'}"><h1>{{mainTitle}}</h1></div>
         <div>
