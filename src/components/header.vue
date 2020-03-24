@@ -27,8 +27,40 @@
       </el-col>
     </el-row>
   </el-header>
+
+  <!--  mobile  -->
   <el-header v-else>
-    <div class="mobile-header-icon"><i class="el-icon-menu" style="font-size: 30px;line-height: 60px"></i></div>
+    <div v-if="openMenu" @touchmove.prevent>
+      <div class="menu-open-left">
+        <div class="menu-top">
+          <div class="menu-avatar">
+            <img src="../assets/avatar.jpg" alt="">
+          </div>
+          <div class="menu-name">
+            <p>{{menuTop.name}}</p>
+          </div>
+          <div class="menu-social">
+            <a v-for="item in menuSocial" :key="item.id" :href="item.href"><i :class="item.icon"
+                                                                              :style="{'color':item.color}"></i></a>
+          </div>
+        </div>
+        <div class="menu-bottom">
+          <ul>
+            <li v-for="item in navBarMiddle" :key="item.id">
+              <router-link :to="item.src" :class="item.icon"><span>{{item.name}}</span></router-link>
+            </li>
+          </ul>
+          <p>© 2020 LittlePanger</p>
+        </div>
+      </div>
+      <div class="menu-open-right" @click="turnMenu">
+        <i class="el-icon-close menu-close"></i>
+      </div>
+    </div>
+    <div class="mobile-header-menu">
+      <i class="el-icon-menu" @click="turnMenu" v-if="isHome" style="color: white"></i>
+      <i class="el-icon-menu" @click="turnMenu" v-else></i>
+    </div>
     <router-link to="/" class="mobile-header-logo">
       <img src="../assets/nameLOGOWhite.png" alt="" style="height: 50px;vertical-align: middle" v-if="isHome">
       <img src="../assets/nameLOGO.png" alt="" style="height: 50px;vertical-align: middle" v-else>
@@ -42,6 +74,7 @@
     data() {
       return {
         isHome: false,
+        openMenu: false,
         navBarMiddle: [
           {'id': 0, 'name': '首页', 'src': '/home', 'icon': 'e-iconshouye'},
           {'id': 1, 'name': '归档', 'src': '/folder', 'icon': 'e-iconwenjian'},
@@ -52,8 +85,15 @@
           {'id': 0, 'name': '搜索', 'src': '/article', 'icon': 'e-iconsousuo'},
           {'id': 1, 'name': '登录', 'src': '/account/login', 'icon': 'e-icondingbudaohang-zhangh'},
         ],
-        navBarImg: {'src': '../../build/logo.png'}
-
+        navBarImg: {'src': '../../build/logo.png'},
+        menuTop: {
+          'name': 'LittlePanger', 'avatar': '../assets/avatar.jpg',
+        },
+        menuSocial: [
+          {'id': 0, 'name': 'weibo', 'href': '11', 'icon': 'e-iconweibo-copy', 'color': '#dd4b39'},
+          {'id': 1, 'name': 'github', 'href': '11', 'icon': 'e-icongithub', 'color': '#333'},
+          {'id': 2, 'name': 'twitter', 'href': '11', 'icon': 'e-icontuitetwitter43', 'color': '#00aced'}
+        ]
       }
     },
     methods: {
@@ -64,30 +104,133 @@
       mouseOut(e) {
         e.currentTarget.firstElementChild.style.color = "rgb(144,147,153)";
         e.currentTarget.style.borderBottom = "transparent"
+      },
+      turnMenu() {
+        this.openMenu = !this.openMenu
       }
     },
     created() {
       if (this.$route.path === '/home') {
         this.isHome = true
       }
-    }
+    },
   }
 </script>
 
 <style scoped>
+  a {
+    text-decoration: none;
+  }
+
   .header-pc a {
     line-height: 72px;
-    text-decoration: none;
     color: rgb(144, 147, 153);
   }
-  .mobile-header-icon{
+
+  .mobile-header-menu {
     height: 60px;
     float: left;
   }
-  .mobile-header-logo{
+
+  .mobile-header-menu i {
+    font-size: 30px;
+    line-height: 60px
+  }
+
+  .mobile-header-logo {
     position: relative;
     right: -15px;
     float: right;
     line-height: 50px;
+  }
+
+  .menu-open-left {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 35%;
+    bottom: 0;
+    background: rgb(255, 255, 255);
+    z-index: 9999;
+  }
+
+  .menu-open-right {
+    position: fixed;
+    top: 0;
+    left: 65%;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 9999;
+  }
+
+  .menu-close {
+    z-index: 10000;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    font-size: 35px;
+    color: white;
+    font-weight: bolder;
+  }
+
+  .menu-top {
+    height: 30%;
+    width: 100%;
+  }
+
+  .menu-bottom {
+    height: 70%;
+    width: 100%;
+  }
+
+  .menu-avatar {
+    padding: 25px 0 15px 0;
+    width: 100%;
+  }
+
+  .menu-avatar img {
+    width: 40%;
+    border-radius: 100%;
+  }
+
+  .menu-name p {
+    text-align: center;
+    color: #333;
+    font-weight: 900;
+    font-family: 'Ubuntu', sans-serif;
+    letter-spacing: 1.5px;
+  }
+
+  .menu-social i {
+    font-size: 17px;
+    margin: 0 15px;
+  }
+
+  .menu-bottom ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .menu-bottom li {
+    margin: 50px 0;
+  }
+
+  .menu-bottom a {
+    color: #333333;
+    font-weight: 600;
+  }
+
+  .menu-bottom span {
+    margin-left: 5px;
+  }
+
+  .menu-bottom p {
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    text-align: center;
+    font-size: 13px;
+    color: #b9b9b9;
   }
 </style>

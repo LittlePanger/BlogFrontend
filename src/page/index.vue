@@ -68,7 +68,7 @@
   }
   .mainImg{
     background: no-repeat center center;
-    background-size: 100% auto;
+    background-size: auto;
   }
   .mainImg h1 {
     margin: 0;
