@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-container direction="vertical" class="bg">
-      <Header></Header>
+      <Header :isPc="isPc"></Header>
       <el-main ref="main">
         <div>homemain</div>
       </el-main>
@@ -24,8 +24,19 @@
     },
     data() {
       return{
-
+        isPc: true,
       }
+    },
+    methods: {
+      getScreenWidth() {
+        let w = document.documentElement.clientWidth || document.body.clientWidth;
+        if (w<800){
+          this.isPc = false
+        }
+      }
+    },
+    created() {
+      this.getScreenWidth()
     },
     mounted() {
       // 屏幕高度-header高度
@@ -42,7 +53,7 @@
     height: 100%;
     position: absolute;
     background: url(../assets/home-bg.jpg) no-repeat center center;
-    background-size: auto auto;
+    background-size: auto;
     display: flex;
   }
 
