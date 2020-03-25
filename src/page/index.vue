@@ -8,7 +8,7 @@
           <h1>{{mainTitle}}</h1>
         </div>
         <div>
-          <el-row :gutter="10">
+          <el-row>
             <el-col :xs="0" :sm="1" :md="3" :lg="5" :xl="5">
               <div class="side-content"></div>
             </el-col>
@@ -66,7 +66,7 @@
 
 <style scoped>
   main {
-    background-color: #99a9bf;
+    /*background-color: #99a9bf;*/
     padding: 0;
   }
 
@@ -93,10 +93,20 @@
   /*  min-height: calc(100vh - 134px)*/
   /*}*/
   .el-row {
-    background-color: #aaaaaa;
+    /*background-color: #aaaaaa;*/
   }
 
   .side-content {
     min-height: 1px;
+  }
+  .mainImg ::after{
+    content: '';
+    width: 150%;
+    height: 4.375rem;
+    background: #fff;
+    left: -25%;
+    bottom: -2.875rem;
+    border-radius: 100%;
+    position: absolute;
   }
 </style>

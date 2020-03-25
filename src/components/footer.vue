@@ -40,6 +40,6 @@
     color: #b9b9b9;
   }
   footer {
-    margin-top: 25px;
+    margin-top: 100px;
   }
 </style>
