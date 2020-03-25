@@ -11,19 +11,21 @@
       <div class="comment-list-title">
         <h3>Comments | 1,632 条评论</h3>
       </div>
-      <div class="comment">
-        <div class="comment-top" style="height: 50px">
-          <div class="comment-avatar"><img src="../assets/avatar.jpg" style="    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    padding: 2px;
-    border: 1px solid #dadada;
-    position: relative;"></div>
-          <div class="comment-writer" style="    position: relative;
-    left: 43px;">123</div>
-          <div class="comment-info">发布于一天前巴拉巴拉巴拉</div>
+      <div class="comment" v-for="item in comment" :key="item.id">
+        <div class="comment-avatar">
+          <img :src="item.avatar" alt="">
         </div>
-        <div class="comment-body"></div>
+        <div class="comment-writer">{{item.writer}}
+        </div>
+        <div class="comment-info">
+          发布于{{item.time}}({{item.userAgent}})来自:{{item.address}}
+        </div>
+        <div class="comment-body">
+          <p style="text-align: left">
+            {{item.content}}
+          </p>
+        </div>
+        <hr>
       </div>
     </div>
   </div>
@@ -33,7 +35,55 @@
   export default {
     name: "comment",
     data() {
-      return {}
+      return {
+        comment: [
+          {
+            'id': 0,
+            'avatar': 'http://b-ssl.duitang.com/uploads/item/201511/25/20151125162407_nfySc.thumb.224_0.jpeg',
+            'writer': '小白',
+            'time': '2020-03-25',
+            'userAgent': '巴拉巴拉巴拉',
+            'address': '北京',
+            'content': '内容巴拉巴拉'
+          },
+          {
+            'id': 1,
+            'avatar': 'http://b-ssl.duitang.com/uploads/item/201511/25/20151125162407_nfySc.thumb.224_0.jpeg',
+            'writer': '小白',
+            'time': '2020-03-25',
+            'userAgent': '巴拉巴拉巴拉',
+            'address': '北京',
+            'content': '内容巴拉巴拉'
+          },
+          {
+            'id': 2,
+            'avatar': 'http://b-ssl.duitang.com/uploads/item/201511/25/20151125162407_nfySc.thumb.224_0.jpeg',
+            'writer': '小白',
+            'time': '2020-03-25',
+            'userAgent': '巴拉巴拉巴拉',
+            'address': '北京',
+            'content': '内容巴拉巴拉'
+          },
+          {
+            'id': 3,
+            'avatar': 'http://b-ssl.duitang.com/uploads/item/201511/25/20151125162407_nfySc.thumb.224_0.jpeg',
+            'writer': '小白',
+            'time': '2020-03-25',
+            'userAgent': '巴拉巴拉巴拉',
+            'address': '北京',
+            'content': '内容巴拉巴拉'
+          },
+          {
+            'id': 4,
+            'avatar': 'http://b-ssl.duitang.com/uploads/item/201511/25/20151125162407_nfySc.thumb.224_0.jpeg',
+            'writer': '小白',
+            'time': '2020-03-25',
+            'userAgent': '巴拉巴拉巴拉',
+            'address': '北京',
+            'content': '内容巴拉巴拉'
+          },
+        ]
+      }
     },
     methods: {
       returnTitleImg() {
@@ -116,11 +166,48 @@
     color: #7d7d7d;
     font-weight: 400;
   }
-  .comment-avatar{
+
+  .comment-avatar {
     position: absolute;
   }
-  .comment-writer,.comment-info{
+
+  .comment-avatar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    padding: 2px;
+    border: 1px solid #dadada;
+    position: relative;
+  }
+
+  .comment-writer, .comment-info {
     text-align: left;
+  }
+
+  .comment-writer {
+    padding: 3px 0;
+    position: relative;
+    left: 55px;
+    color: #FE9600;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .comment-info {
+    position: relative;
+    left: 55px;
+    font-size: 12px;
+    letter-spacing: 0px;
+    text-transform: none;
+    color: rgba(0, 0, 0, .35);
+  }
+
+  .comment hr{
+    height: 1px;
+    width: 100%;
+    background: #eee;
+    border: 0;
+    margin: 40px 0;
   }
 
 </style>
