@@ -28,6 +28,50 @@
         <hr>
       </div>
     </div>
+    <div class="comment-bottom">
+      <form class="comment-form" action="https://vuejs.org/" method="post" novalidate="true" v-model="visitors">
+
+        <!--      <div class="textarea-top"><label for="comment">这里应该有句话..</label></div>-->
+        <textarea name="" id="comment" cols="30" rows="10" class="comment-textarea" placeholder="这里应该有句话.."></textarea>
+        <div class="comment-form-user">
+          <div class="comment-form-avatar"><img src="../assets/defaultAvatar.png" alt=""></div>
+          <div class="comment-form-input">
+            <input placeholder="阁下是?" v-model="visitors.name"></input>
+            <input placeholder="邮箱" v-model="visitors.mail"></input>
+            <input placeholder="个人站点" v-model="visitors.site"></input>
+          </div>
+          <div class="comment-form-robot">
+            <p>I'm not a robot</p>
+            <label for="input-robot"><input type="checkbox" id="input-robot">I'm not a robot</label>
+          </div>
+
+        </div>
+      </form>
+
+      <!--      <el-form :inline="true" :model="visitors" class="demo-form-inline">-->
+      <!--        <el-upload-->
+      <!--          class="avatar-uploader"-->
+      <!--          action="https://jsonplaceholder.typicode.com/posts/"-->
+      <!--          :show-file-list="false"-->
+      <!--          :on-success="handleAvatarSuccess"-->
+      <!--          :before-upload="beforeAvatarUpload">-->
+      <!--          <img v-if="imageUrl" :src="imageUrl" class="avatar">-->
+      <!--          <i v-else class="el-icon-plus avatar-uploader-icon"></i>-->
+      <!--        </el-upload>-->
+
+      <!--        <el-form-item>-->
+      <!--          <el-input v-model="visitors.name" placeholder="阁下是"></el-input>-->
+      <!--        </el-form-item>-->
+      <!--        <el-form-item>-->
+      <!--          <el-input v-model="visitors.mail" placeholder="邮箱"></el-input>-->
+      <!--        </el-form-item>-->
+      <!--        <el-form-item>-->
+      <!--          <el-input v-model="visitors.site" placeholder="个人站点"></el-input>-->
+      <!--        </el-form-item>-->
+      <!--      </el-form>-->
+
+
+    </div>
   </div>
 </template>
 
@@ -36,10 +80,16 @@
     name: "comment",
     data() {
       return {
+        visitors: {
+          name: '',
+          mail: '',
+          site: '',
+        },
+        imageUrl: '',
         comment: [
           {
             'id': 0,
-            'avatar': 'http://b-ssl.duitang.com/uploads/item/201511/25/20151125162407_nfySc.thumb.224_0.jpeg',
+            'avatar': 'https://gss0.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/1b4c510fd9f9d72a11f2fd1ed22a2834349bbb1b.jpg',
             'writer': '小白',
             'time': '2020-03-25',
             'userAgent': '巴拉巴拉巴拉',
@@ -48,7 +98,7 @@
           },
           {
             'id': 1,
-            'avatar': 'http://b-ssl.duitang.com/uploads/item/201511/25/20151125162407_nfySc.thumb.224_0.jpeg',
+            'avatar': 'https://gss0.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/1b4c510fd9f9d72a11f2fd1ed22a2834349bbb1b.jpg',
             'writer': '小白',
             'time': '2020-03-25',
             'userAgent': '巴拉巴拉巴拉',
@@ -57,7 +107,7 @@
           },
           {
             'id': 2,
-            'avatar': 'http://b-ssl.duitang.com/uploads/item/201511/25/20151125162407_nfySc.thumb.224_0.jpeg',
+            'avatar': 'https://gss0.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/1b4c510fd9f9d72a11f2fd1ed22a2834349bbb1b.jpg',
             'writer': '小白',
             'time': '2020-03-25',
             'userAgent': '巴拉巴拉巴拉',
@@ -66,7 +116,7 @@
           },
           {
             'id': 3,
-            'avatar': 'http://b-ssl.duitang.com/uploads/item/201511/25/20151125162407_nfySc.thumb.224_0.jpeg',
+            'avatar': 'https://gss0.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/1b4c510fd9f9d72a11f2fd1ed22a2834349bbb1b.jpg',
             'writer': '小白',
             'time': '2020-03-25',
             'userAgent': '巴拉巴拉巴拉',
@@ -75,7 +125,7 @@
           },
           {
             'id': 4,
-            'avatar': 'http://b-ssl.duitang.com/uploads/item/201511/25/20151125162407_nfySc.thumb.224_0.jpeg',
+            'avatar': 'https://gss0.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/1b4c510fd9f9d72a11f2fd1ed22a2834349bbb1b.jpg',
             'writer': '小白',
             'time': '2020-03-25',
             'userAgent': '巴拉巴拉巴拉',
@@ -89,8 +139,23 @@
       returnTitleImg() {
         this.$emit('getTitle', {
           'title': '留言板',
-          'url': 'https://picjumbo.com/wp-content/uploads/mans-hand-is-trying-to-reach-the-sun_free_stock_photos_picjumbo_P1000733.jpg'
+          'url': 'http://img.article.pchome.net/01/58/91/24/pic_lib/wm/Bing03.jpg'
         })
+      },
+      handleAvatarSuccess(res, file) {
+        this.imageUrl = URL.createObjectURL(file.raw);
+      },
+      beforeAvatarUpload(file) {
+        const isJPG = file.type === 'image/jpeg';
+        const isLt2M = file.size / 1024 / 1024 < 2;
+
+        if (!isJPG) {
+          this.$message.error('上传头像图片只能是 JPG 格式!');
+        }
+        if (!isLt2M) {
+          this.$message.error('上传头像图片大小不能超过 2MB!');
+        }
+        return isJPG && isLt2M;
       }
     },
     mounted() {
@@ -102,12 +167,13 @@
 <style scoped>
   .comment-main {
     margin-top: 30px;
+    padding: 0 10%;
   }
 
   .poem-wrap {
     position: relative;
-    width: 60%;
-    left: 20%;
+    width: 80%;
+    left: 10%;
     min-height: 140px;
     border: 2px solid #797979;
     border-top-width: 0px;
@@ -153,10 +219,6 @@
     margin: 15px auto;
   }
 
-  .comment-list {
-    padding: 0 15%;
-  }
-
   .comment-list-title {
     text-align: left;
   }
@@ -178,6 +240,11 @@
     padding: 2px;
     border: 1px solid #dadada;
     position: relative;
+    transition: transform 1s ease-out;
+  }
+
+  .comment-avatar img:hover {
+    transform: rotateZ(360deg);
   }
 
   .comment-writer, .comment-info {
@@ -202,12 +269,73 @@
     color: rgba(0, 0, 0, .35);
   }
 
-  .comment hr{
+  .comment hr {
     height: 1px;
     width: 100%;
     background: #eee;
     border: 0;
     margin: 40px 0;
+  }
+
+  .comment-textarea {
+    width: 100%;
+    min-height: 170px;
+    padding: 10px 5px;
+    background-image: url('../assets/catLogo.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position-x: right;
+    background-position-y: bottom;
+    outline-color: #fe9600;
+    box-sizing: border-box;
+  }
+
+  /* *********保留********* */
+  /*.textarea-top label {*/
+  /*  width: fit-content;*/
+  /*  position: relative;*/
+  /*  margin: 0px;*/
+  /*  top: 11px;*/
+  /*  background: #fe9600;*/
+  /*  color: white;*/
+  /*  border-radius: 2%;*/
+  /*}*/
+  /* *********保留********* */
+  .comment-form-input{
+    margin-left: 60px;
+  }
+  .comment-form-input input {
+    padding: 20px;
+    font-size: 14px;
+    box-sizing: border-box;
+    display: inline-block;
+    width: 33%;
+    border-radius: 9px;
+    border: 1px solid #DBDBDB;
+    outline-color: #fe9600;
+  }
+
+  .comment-form-user {
+    position: relative;
+    margin-top: 20px;
+    height: 60px;
+  }
+
+  .comment-form-avatar {
+    position: absolute;
+    display: inline-block;
+    width: 55px;
+    height: 55px;
+    pointer-events: none;
+    left: 0;
+    top: 2px;
+  }
+
+  .comment-form-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 1px solid #dadada;
   }
 
 </style>

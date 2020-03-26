@@ -21,4 +21,7 @@ export default {
 body {
   margin: 0;
 }
+html{
+  overflow-x:hidden;
+}
 </style>
