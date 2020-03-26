@@ -41,8 +41,8 @@
             <input placeholder="个人站点" v-model="visitors.site"></input>
           </div>
           <div class="comment-form-robot">
-            <p>I'm not a robot</p>
-            <label for="input-robot"><input type="checkbox" id="input-robot">I'm not a robot</label>
+            <input type="checkbox" id="checkbox" v-model="visitors.robot"/><label for="checkbox"></label>
+            <span @click="visitors.robot = !visitors.robot">I'm not a robot</span>
           </div>
 
         </div>
@@ -84,6 +84,7 @@
           name: '',
           mail: '',
           site: '',
+          robot:false,
         },
         imageUrl: '',
         comment: [
@@ -301,15 +302,16 @@
   /*  border-radius: 2%;*/
   /*}*/
   /* *********保留********* */
-  .comment-form-input{
+  .comment-form-input {
     margin-left: 60px;
   }
+
   .comment-form-input input {
     padding: 20px;
     font-size: 14px;
     box-sizing: border-box;
     display: inline-block;
-    width: 33%;
+    width: 30%;
     border-radius: 9px;
     border: 1px solid #DBDBDB;
     outline-color: #fe9600;
@@ -318,7 +320,7 @@
   .comment-form-user {
     position: relative;
     margin-top: 20px;
-    height: 60px;
+    /*height: 60px;*/
   }
 
   .comment-form-avatar {
@@ -338,4 +340,57 @@
     border: 1px solid #dadada;
   }
 
+  .comment-form-robot {
+    margin-top: 30px;
+    text-align: left;
+  }
+  .comment-form-robot label{
+    position: absolute;
+    left: 0;
+  }
+  .comment-form-robot span{
+    cursor: pointer;
+    color: #555;
+    font-size: 16px;
+  }
+
+  #checkbox + label {
+    background-color: #FFF;
+    border: 1px solid #C1CACA;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
+    padding: 9px;
+    border-radius: 1000px;
+    display: inline-block;
+    margin-right: 30px;
+  }
+
+  #checkbox + label:active {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px 1px 3px rgba(0, 0, 0, 0.2);
+  }
+
+  #checkbox:checked + label {
+    background-color: #FFFFFF;
+    border: 1px solid #92A1AC;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05), inset 15px 10px -12px rgba(255, 255, 255, 0.1);
+    color: #243441;
+  }
+
+  #checkbox:checked + label:before {
+    content: ' ';
+    border-radius: 100px;
+    position: absolute;
+    background: #fe9600;
+    /*opacity: 0.8;*/
+    display: none;
+    box-shadow: inset 0 15px 23px -10px rgba(187, 230, 240, 0.3), 0 2px 2px rgba(0, 0, 0, 0.1);
+    top: 3px;
+    left: 3px;
+    width: 12px;
+    height: 12px;
+  }
+
+  #checkbox:checked + label:before {
+    content: ' ';
+    display: block;
+  }
 </style>
