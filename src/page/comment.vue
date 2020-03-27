@@ -44,33 +44,15 @@
             <input type="checkbox" id="checkbox" v-model="visitors.robot"/><label for="checkbox"></label>
             <span @click="visitors.robot = !visitors.robot">I'm not a robot</span>
           </div>
-
+          <div class="comment-form-submit">
+            <button>BOOM!!!</button>
+            <div class="comment-form-upload">
+              <input type="file">
+              <i class="el-icon-picture-outline"></i>
+            </div>
+          </div>
         </div>
       </form>
-
-      <!--      <el-form :inline="true" :model="visitors" class="demo-form-inline">-->
-      <!--        <el-upload-->
-      <!--          class="avatar-uploader"-->
-      <!--          action="https://jsonplaceholder.typicode.com/posts/"-->
-      <!--          :show-file-list="false"-->
-      <!--          :on-success="handleAvatarSuccess"-->
-      <!--          :before-upload="beforeAvatarUpload">-->
-      <!--          <img v-if="imageUrl" :src="imageUrl" class="avatar">-->
-      <!--          <i v-else class="el-icon-plus avatar-uploader-icon"></i>-->
-      <!--        </el-upload>-->
-
-      <!--        <el-form-item>-->
-      <!--          <el-input v-model="visitors.name" placeholder="阁下是"></el-input>-->
-      <!--        </el-form-item>-->
-      <!--        <el-form-item>-->
-      <!--          <el-input v-model="visitors.mail" placeholder="邮箱"></el-input>-->
-      <!--        </el-form-item>-->
-      <!--        <el-form-item>-->
-      <!--          <el-input v-model="visitors.site" placeholder="个人站点"></el-input>-->
-      <!--        </el-form-item>-->
-      <!--      </el-form>-->
-
-
     </div>
   </div>
 </template>
@@ -246,6 +228,7 @@
 
   .comment-avatar img:hover {
     transform: rotateZ(360deg);
+    border: 1px solid #fe9600;
   }
 
   .comment-writer, .comment-info {
@@ -311,7 +294,7 @@
     font-size: 14px;
     box-sizing: border-box;
     display: inline-block;
-    width: 30%;
+    width: 32%;
     border-radius: 9px;
     border: 1px solid #DBDBDB;
     outline-color: #fe9600;
@@ -352,6 +335,39 @@
     cursor: pointer;
     color: #555;
     font-size: 16px;
+  }
+
+  .comment-form-submit {
+    height: 60px;
+    margin-top: 20px;
+  }
+  .comment-form-submit button{
+    height: 46px;
+    width: 90%;
+    position: absolute;
+    left: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 3%;
+
+  }
+  .comment-form-upload{
+    border: 1px solid #ddd;
+    width: 6.5%;
+    height: 44px;
+    position: absolute;
+    right: 0;
+    line-height: 46px;
+  }
+  .comment-form-upload input{
+    width: 44px;
+    height: 44px;
+    position:absolute;
+    left: 0;
+    opacity:0;
+  }
+  .comment-form-upload i{
+    font-size: 20px;
   }
 
   #checkbox + label {
