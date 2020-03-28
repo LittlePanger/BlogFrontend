@@ -1,6 +1,6 @@
 <template>
   <el-header height="74px" style="padding: 0" :class="{home:isHome}" v-if="isPc" class="header-pc">
-    <el-row :gutter="20">
+    <el-row>
       <el-col :span="4" style="line-height: 72px">
         <router-link to="/">
           <img src="../assets/nameLOGOWhite.png" alt="" style="height: 50px;vertical-align: middle" v-if="isHome">
@@ -40,8 +40,9 @@
             <p>{{menuTop.name}}</p>
           </div>
           <div class="menu-social">
-            <a v-for="item in menuSocial" :key="item.id" :href="item.href"><i :class="item.icon"
-                                                                              :style="{'color':item.color}"></i></a>
+            <a v-for="item in menuSocial" :key="item.id" :href="item.href">
+              <i :class="item.icon" :style="{'color':item.color}"></i>
+            </a>
           </div>
         </div>
         <div class="menu-bottom">

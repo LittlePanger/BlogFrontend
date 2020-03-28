@@ -10,6 +10,7 @@ const Folder = () => import('../page/folder');
 const Comment = () => import('../page/comment');
 const About = () => import('../page/about');
 const Article = () => import('../page/article');
+const Test = () => import('../page/test');
 
 
 Vue.use(Router)
@@ -31,5 +32,6 @@ export default new Router({
     },
     {path: '/home', component: Home},
     {path: '/account/login',name: 'login',component: Login},
+    {path: '/test',name: 'test',component: Test},
   ]
 })

@@ -22,6 +22,6 @@ body {
   margin: 0;
 }
 html{
-  overflow-x:hidden;
+  /*overflow-x:hidden;*/
 }
 </style>

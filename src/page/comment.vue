@@ -15,10 +15,11 @@
         <div class="comment-avatar">
           <img :src="item.avatar" alt="">
         </div>
-        <div class="comment-writer">{{item.writer}}
+        <div class="comment-writer">
+          <a :href="item.site"><span>{{item.writer}}</span></a>
         </div>
         <div class="comment-info">
-          发布于{{item.time}}({{item.userAgent}})来自:{{item.address}}
+          <span>发布于{{item.time}}({{item.userAgent}})来自:{{item.address}}</span>
         </div>
         <div class="comment-body">
           <p style="text-align: left">
@@ -34,7 +35,10 @@
         <!--      <div class="textarea-top"><label for="comment">这里应该有句话..</label></div>-->
         <textarea name="" id="comment" cols="30" rows="10" class="comment-textarea" placeholder="这里应该有句话.."></textarea>
         <div class="comment-form-user">
-          <div class="comment-form-avatar"><img src="../assets/defaultAvatar.png" alt=""></div>
+          <div class="comment-form-avatar">
+            <i v-if="!imgData.hasOwnProperty('upload')" class="e-icondingbudaohang-zhangh"></i>
+            <img :src="getImgUrl(imgData)" alt="">
+          </div>
           <div class="comment-form-input">
             <input placeholder="阁下是?" v-model="visitors.name"></input>
             <input placeholder="邮箱" v-model="visitors.mail"></input>
@@ -46,9 +50,10 @@
           </div>
           <div class="comment-form-submit">
             <button>BOOM!!!</button>
-            <div class="comment-form-upload">
-              <input type="file">
-              <i class="el-icon-picture-outline"></i>
+            <div class="comment-form-upload el-icon-picture-outline" @mouseover="tips=true" @mouseleave="tips=false">
+              <span v-if="tips" class="comment-input-tip">给自己一个头像吧</span>
+              <span v-if="tips" class="triangle-down"></span>
+              <input type="file" @change="addImg" ref="inputer">
             </div>
           </div>
         </div>
@@ -66,14 +71,18 @@
           name: '',
           mail: '',
           site: '',
-          robot:false,
+          robot: false,
         },
-        imageUrl: '',
+        formData: new FormData(),
+        imgData: {},
+        defaultImgUrl: 'https://gss0.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/1b4c510fd9f9d72a11f2fd1ed22a2834349bbb1b.jpg',
+        tips: false,
         comment: [
           {
             'id': 0,
             'avatar': 'https://gss0.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/1b4c510fd9f9d72a11f2fd1ed22a2834349bbb1b.jpg',
             'writer': '小白',
+            'site': '',
             'time': '2020-03-25',
             'userAgent': '巴拉巴拉巴拉',
             'address': '北京',
@@ -83,6 +92,7 @@
             'id': 1,
             'avatar': 'https://gss0.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/1b4c510fd9f9d72a11f2fd1ed22a2834349bbb1b.jpg',
             'writer': '小白',
+            'site': '',
             'time': '2020-03-25',
             'userAgent': '巴拉巴拉巴拉',
             'address': '北京',
@@ -92,6 +102,7 @@
             'id': 2,
             'avatar': 'https://gss0.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/1b4c510fd9f9d72a11f2fd1ed22a2834349bbb1b.jpg',
             'writer': '小白',
+            'site': '',
             'time': '2020-03-25',
             'userAgent': '巴拉巴拉巴拉',
             'address': '北京',
@@ -101,6 +112,7 @@
             'id': 3,
             'avatar': 'https://gss0.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/1b4c510fd9f9d72a11f2fd1ed22a2834349bbb1b.jpg',
             'writer': '小白',
+            'site': '',
             'time': '2020-03-25',
             'userAgent': '巴拉巴拉巴拉',
             'address': '北京',
@@ -110,6 +122,7 @@
             'id': 4,
             'avatar': 'https://gss0.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/1b4c510fd9f9d72a11f2fd1ed22a2834349bbb1b.jpg',
             'writer': '小白',
+            'site': '',
             'time': '2020-03-25',
             'userAgent': '巴拉巴拉巴拉',
             'address': '北京',
@@ -125,21 +138,35 @@
           'url': 'http://img.article.pchome.net/01/58/91/24/pic_lib/wm/Bing03.jpg'
         })
       },
-      handleAvatarSuccess(res, file) {
-        this.imageUrl = URL.createObjectURL(file.raw);
+      addImg(event) {
+        let inputDOM = this.$refs.inputer;
+        // 通过DOM取文件数据
+        let fil = inputDOM.files[0];
+        if (fil.size > 1024 * 1024) {
+          // alert('请选择1M以内的图片！');
+          this.$message.error('请选择1M以内的图片！');
+          return false
+        }
+        this.$set(this.imgData, 'upload', fil);
       },
-      beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg';
-        const isLt2M = file.size / 1024 / 1024 < 2;
-
-        if (!isJPG) {
-          this.$message.error('上传头像图片只能是 JPG 格式!');
+      getImgUrl(dict) {
+        var url = null;
+        var file = null;
+        if (dict.upload !== undefined) {
+          file = dict.upload
+        } else {
+          return
+          // return this.defaultImgUrl
         }
-        if (!isLt2M) {
-          this.$message.error('上传头像图片大小不能超过 2MB!');
+        if (window.createObjectURL !== undefined) { // basic
+          url = window.createObjectURL(file);
+        } else if (window.URL !== undefined) { // mozilla(firefox)
+          url = window.URL.createObjectURL(file);
+        } else if (window.webkitURL !== undefined) { // webkit or chrome
+          url = window.webkitURL.createObjectURL(file);
         }
-        return isJPG && isLt2M;
-      }
+        return url;
+      },
     },
     mounted() {
       this.returnTitleImg()
@@ -237,18 +264,22 @@
 
   .comment-writer {
     padding: 3px 0;
-    position: relative;
-    left: 55px;
     color: #FE9600;
     font-size: 15px;
     font-weight: 600;
+    margin-left: 55px;
+  }
+
+  .comment-writer a {
+    color: #FE9600;
+    text-decoration: none;
   }
 
   .comment-info {
-    position: relative;
-    left: 55px;
+    width: fit-content;
+    margin-left: 55px;
     font-size: 12px;
-    letter-spacing: 0px;
+    letter-spacing: 0;
     text-transform: none;
     color: rgba(0, 0, 0, .35);
   }
@@ -302,8 +333,7 @@
 
   .comment-form-user {
     position: relative;
-    margin-top: 20px;
-    /*height: 60px;*/
+    margin-top: 30px;
   }
 
   .comment-form-avatar {
@@ -321,17 +351,29 @@
     height: 100%;
     border-radius: 50%;
     border: 1px solid #dadada;
-  }
-
-  .comment-form-robot {
-    margin-top: 30px;
-    text-align: left;
-  }
-  .comment-form-robot label{
     position: absolute;
     left: 0;
   }
-  .comment-form-robot span{
+
+  .comment-form-avatar i {
+    position: absolute;
+    font-size: 65px;
+    left: -4px;
+    top: -7px;
+    color: #ddd;
+  }
+
+  .comment-form-robot {
+    margin-top: 20px;
+    text-align: left;
+  }
+
+  .comment-form-robot label {
+    position: absolute;
+    left: 0;
+  }
+
+  .comment-form-robot span {
     cursor: pointer;
     color: #555;
     font-size: 16px;
@@ -341,7 +383,8 @@
     height: 60px;
     margin-top: 20px;
   }
-  .comment-form-submit button{
+
+  .comment-form-submit button {
     height: 46px;
     width: 90%;
     position: absolute;
@@ -349,25 +392,60 @@
     background-color: white;
     border: 1px solid #ddd;
     border-radius: 3%;
-
+    color: #555;
   }
-  .comment-form-upload{
+
+  .comment-form-submit button:hover {
+    border: 1px solid #fe9600;
+    color: #fe9600;
+  }
+
+  .comment-form-upload {
     border: 1px solid #ddd;
     width: 6.5%;
     height: 44px;
     position: absolute;
     right: 0;
     line-height: 46px;
-  }
-  .comment-form-upload input{
-    width: 44px;
-    height: 44px;
-    position:absolute;
-    left: 0;
-    opacity:0;
-  }
-  .comment-form-upload i{
     font-size: 20px;
+    color: #555;
+  }
+
+  .comment-form-upload input {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    opacity: 0;
+    top: 0;
+  }
+
+  .comment-form-upload:hover {
+    border: 1px solid #fe9600;
+    color: #fe9600;
+  }
+
+  .comment-input-tip {
+    height: 20px;
+    width: 125px;
+    line-height: 20px;
+    background-color: #555;
+    color: white;
+    font-size: 14px;
+    position: absolute;
+    left: -40px;
+    bottom: 55px;
+  }
+
+  .triangle-down {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 10px solid #555555;
+    position: absolute;
+    left: 18px;
+    top: -15px;
   }
 
   #checkbox + label {
