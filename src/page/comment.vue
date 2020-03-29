@@ -4,8 +4,8 @@
       <div class="poem-border poem-border-left"></div>
       <div class="poem-border poem-border-right"></div>
       <h1>念两句诗</h1>
-      <p class="poem-content">苟利国家生死以,岂因祸福避趋之</p>
-      <p class="poem-info">[清代] 林则徐《赴戍登程口占示家人》</p>
+      <p class="poem-content">{{poem.content}}</p>
+      <p class="poem-info">{{poem.title}}</p>
     </div>
     <div class="comment-list">
       <div class="comment-list-title">
@@ -51,9 +51,11 @@
           <div class="comment-form-submit">
             <button>BOOM!!!</button>
             <div class="comment-form-upload el-icon-picture-outline" @mouseover="tips=true" @mouseleave="tips=false">
-              <span v-if="tips" class="comment-input-tip">给自己一个头像吧</span>
-              <span v-if="tips" class="triangle-down"></span>
-              <input type="file" @change="addImg" ref="inputer">
+<!--              <span v-if="tips" class="comment-input-tip">给自己一个头像吧</span>-->
+<!--              <span v-if="tips" class="triangle-down"></span>-->
+              <el-tooltip effect="dark" content="给自己一个头像吧" placement="top">
+                <input type="file" @change="addImg" ref="inputer">
+              </el-tooltip>
             </div>
           </div>
         </div>
@@ -77,6 +79,7 @@
         imgData: {},
         defaultImgUrl: 'https://gss0.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/1b4c510fd9f9d72a11f2fd1ed22a2834349bbb1b.jpg',
         tips: false,
+        poem:{'content':'苟利国家生死以,岂因祸福避趋之','title':'[清代] 林则徐《赴戍登程口占示家人》'},
         comment: [
           {
             'id': 0,
