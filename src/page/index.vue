@@ -2,6 +2,7 @@
   <div>
     <el-container direction="vertical">
       <Header :isPc="isPc"></Header>
+      <ScrollGoTop></ScrollGoTop>
       <el-main>
         <div class="mainImg" style="height: 400px;">
           <img :src="mainImgUrl" alt="">
@@ -30,6 +31,7 @@
   import Header from '../components/header'
   import Footer from '../components/footer'
   import MainImg from '../components/mainImg'
+  import ScrollGoTop from '../components/scrollGoTop'
 
   export default {
     name: "index",
@@ -44,6 +46,7 @@
       Header,
       Footer,
       MainImg,
+      ScrollGoTop,
     },
     methods: {
       getTitleImgIndex(value) {
@@ -51,15 +54,20 @@
         this.mainImgUrl = value.url;
       },
       getScreenWidth() {
-        let w = document.documentElement.clientWidth || document.body.clientWidth;
-        if (w < 800) {
-          this.isPc = false
-        }
+        let width = document.documentElement.clientWidth || document.body.clientWidth;
+        this.isPc = width >= 768;
+        console.log(this.isPc)
       }
     },
     created() {
-      this.getScreenWidth()
-    }
+      // this.getScreenWidth()
+    },
+    mounted() {//给window添加一个滚动监听事件
+      window.addEventListener('resize', this.getScreenWidth)
+    },
+    destroyed() {//离开该页面需要移除这个监听的事件
+      window.removeEventListener('resize', this.getScreenWidth)
+    },
   }
 
 </script>
@@ -85,10 +93,12 @@
     position: absolute;
     width: 100%;
   }
-  .mainImg-h1-pc{
+
+  .mainImg-h1-pc {
     top: 74px;
   }
-  .mainImg-h1-mobile{
+
+  .mainImg-h1-mobile {
     top: 60px;
   }
   /*撑开main*/
@@ -102,6 +112,7 @@
   .side-content {
     min-height: 1px;
   }
+
   /*.mainImg ::after{*/
   /*  content: '';*/
   /*  width: 150%;*/
@@ -112,7 +123,7 @@
   /*  border-radius: 100%;*/
   /*  position: absolute;*/
   /*}*/
-  .mainImg ::after{
+  .mainImg ::after {
     content: '';
     width: 100%;
     height: 4.375rem;
