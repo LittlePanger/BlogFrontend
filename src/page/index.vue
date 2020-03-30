@@ -2,7 +2,7 @@
   <div>
     <el-container direction="vertical">
       <Header :isPc="isPc"></Header>
-      <ScrollGoTop></ScrollGoTop>
+      <ScrollGoTop :isPc="isPc"></ScrollGoTop>
       <el-main>
         <div class="mainImg" style="height: 400px;">
           <img :src="mainImgUrl" alt="">
@@ -10,13 +10,13 @@
         </div>
         <div>
           <el-row>
-            <el-col :xs="0" :sm="1" :md="3" :lg="5" :xl="7">
+            <el-col :xs="0" :sm="3" :md="3" :lg="5" :xl="7">
               <div class="side-content"></div>
             </el-col>
-            <el-col :xs="24" :sm="22" :md="18" :lg="14" :xl="10">
+            <el-col :xs="24" :sm="18" :md="18" :lg="14" :xl="10">
               <router-view @getTitle='getTitleImgIndex' :isPc="isPc"></router-view>
             </el-col>
-            <el-col :xs="0" :sm="1" :md="3" :lg="5" :xl="7">
+            <el-col :xs="0" :sm="3" :md="3" :lg="5" :xl="7">
               <div class="side-content"></div>
             </el-col>
           </el-row>
@@ -56,11 +56,9 @@
       getScreenWidth() {
         let width = document.documentElement.clientWidth || document.body.clientWidth;
         this.isPc = width >= 768;
-        console.log(this.isPc)
       }
     },
     created() {
-      // this.getScreenWidth()
     },
     mounted() {//给window添加一个滚动监听事件
       window.addEventListener('resize', this.getScreenWidth)

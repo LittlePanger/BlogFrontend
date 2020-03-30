@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-collapse-transition>
-      <div v-show="scrollShow" class="scrollShow-cat" @click="goTop"></div>
+      <div v-if="(scrollShow)&&(isPc)" class="scrollShow-cat" @click="goTop"></div>
     </el-collapse-transition>
   </div>
 
@@ -9,6 +9,7 @@
 
 <script>
   export default {
+    props: ['isPc'],
     data() {
       return {
         scrollShow: false,
@@ -54,12 +55,13 @@
 
 <style scoped>
   .scrollShow-cat {
-    width: 70px;
-    height: 900px;
+    width: 49px;
+    height: 630px;
     position: fixed;
     z-index: 99;
     top: 0;
     right: 50px;
     background-image: url("../assets/scroll.png");
+    background-size: 49px 630px;
   }
 </style>

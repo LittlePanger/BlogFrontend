@@ -1,5 +1,5 @@
 <template>
-  <el-header height="74px" style="padding: 0" :class="{home:isHome}" v-if="isPc" class="header-pc">
+  <el-header height="74px" style="padding: 0" :class="{'home':isHome,'header-pc':!isHome}" v-if="isPc">
     <el-row>
       <el-col :span="4" style="line-height: 72px">
         <router-link to="/">
@@ -99,11 +99,15 @@
     },
     methods: {
       mouseOver(e) {
-        e.currentTarget.firstElementChild.style.color = "#e67474";
+        if (!this.isHome) {
+          e.currentTarget.firstElementChild.style.color = "#e67474";
+        }
         e.currentTarget.style.borderBottom = "5px solid #e67474"
       },
       mouseOut(e) {
-        e.currentTarget.firstElementChild.style.color = "rgb(144,147,153)";
+        if (!this.isHome) {
+          e.currentTarget.firstElementChild.style.color = "rgb(144,147,153)";
+        }
         e.currentTarget.style.borderBottom = "transparent"
       },
       turnMenu() {
@@ -126,6 +130,16 @@
   .header-pc a {
     line-height: 72px;
     color: rgb(144, 147, 153);
+  }
+
+  .home {
+    position: fixed;
+    width: 100%;
+  }
+
+  .home a {
+    line-height: 72px;
+    color: #FFFFFF;
   }
 
   .mobile-header-menu {

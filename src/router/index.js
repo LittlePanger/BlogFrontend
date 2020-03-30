@@ -10,7 +10,7 @@ const Folder = () => import('../page/folder');
 const Comment = () => import('../page/comment');
 const About = () => import('../page/about');
 const Article = () => import('../page/article');
-const Test = () => import('../page/test');
+const Test = () => import('../page/test/test');
 
 
 Vue.use(Router)
