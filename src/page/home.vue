@@ -20,14 +20,31 @@
             <div class="side-content"></div>
           </el-col>
           <el-col :xs="24" :sm="18" :md="18" :lg="14" :xl="10">
-            <div class="card-wrapper" v-for="item in articleDetail" :key="item.id">
+            <div class="card-wrapper" v-for="(item,index) in articleDetail" :key="item.id">
               <div class="card">
-                <div class="card-img right"><img :src="item.img" alt=""></div>
-                <div class="card-content left">
-                  <span>{{item.title}}</span>
-                  <div class="bottom clearfix">
-                    <time class="time">{{item.time}}</time>
-                    <el-button type="text" class="button">操作按钮</el-button>
+                <div class="card-img" :class="{'right':index%2 != 1,'left':index%2 != 0}">
+                  <img :src="item.img" alt="">
+                </div>
+                <div class="card-content" :class="{'left':index%2 != 1,'right':index%2 != 0}">
+                  <div class="card-content-wrapper">
+                    <div class="card-content-title">
+                      <h3><a :href="item.src" class="card-content-a">{{item.title}}</a></h3>
+                    </div>
+                    <div class="card-info">
+                      <i class="el-icon-time card-icon">
+                        <time class="card-info-content">{{item.time}}</time>
+                      </i>
+                      <i class="el-icon-view card-icon">
+                        <span class="card-info-content">{{item.heat}}℃</span>
+                      </i>
+                      <i class="el-icon-s-comment card-icon">
+                        <span class="card-info-content">{{item.commentNum}}条评论</span>
+                      </i>
+                    </div>
+                    <div class="card-content-detail">
+                      <p>{{item.detail}}</p>
+                    </div>
+                    <a :href="item.src" class="el-icon-more card-content-a"></a>
                   </div>
                 </div>
               </div>
@@ -148,7 +165,6 @@
 
   main {
     padding: 0;
-    color: red;
     /*margin-top: 961px;*/
     margin-bottom: 50px;
     overflow: visible;
@@ -176,32 +192,89 @@
     width: 100%;
     height: 300px;
     padding: 0;
-    border-radius: 20px;
+    border-radius: 10px;
     border: 1px solid #92A1AC;
     overflow: hidden;
+    box-shadow: 2px 2px 10px #909090;
+    /*box-shadow:0px 12px 8px -12px #000*/
+  }
+
+  .card:hover img {
+    transform: scale(1.1);
+  }
+
+  .card:hover {
+    box-shadow: -2px -2px 10px #909090;
+    transition: box-shadow .3s ease
   }
 
   .left {
     float: left;
+    text-align: left;
   }
 
   .right {
     float: right;
+    text-align: right;
   }
 
   .card-img {
     height: 100%;
-    width: 55%;
+    width: 60%;
+    overflow: hidden;
   }
 
   .card-img img {
-    width: 100%;
     height: 100%;
+    object-fit: cover;
+    transition: all 0.6s;
+  }
+
+  .card-img img:hover {
+    /*transform: scale(1.1);*/
   }
 
   .card-content {
     height: 100%;
-    width: 45%;
+    width: 40%;
+  }
+
+  .card-content-wrapper {
+    margin: 40px 20px;
+    height: 220px;
+  }
+
+  .card-content-a {
+    text-decoration: none;
+    color: #504e4e;
+  }
+
+  .card-info {
+    color: #888;
+    margin-bottom: 15px;
+  }
+
+  .card-icon {
+    font-size: 14px;
+    margin-right: 4px;
+  }
+
+  .card-info-content {
+    font-size: 12px;
+    margin: 0 4px;
+  }
+
+  .card-content-detail {
+    font-size: 15px;
+  }
+
+  .el-icon-more {
+    font-size: 30px;
+    margin-top: 18px;
+  }
+
+  .card-content-a:hover {
+    color: #FE9600;
   }
 
   /*wave*/
