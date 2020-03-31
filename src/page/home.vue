@@ -15,7 +15,28 @@
       </div>
       <div class="scroll-to-main"><i class="el-icon-arrow-down" @click="scrollToMain"></i></div>
       <el-main ref="main">
-        <div style="height: 900px">homemain</div>
+        <el-row>
+          <el-col :xs="0" :sm="3" :md="3" :lg="5" :xl="7">
+            <div class="side-content"></div>
+          </el-col>
+          <el-col :xs="24" :sm="18" :md="18" :lg="14" :xl="10">
+            <div class="card-wrapper" v-for="item in articleDetail" :key="item.id">
+              <div class="card">
+                <div class="card-img right"><img :src="item.img" alt=""></div>
+                <div class="card-content left">
+                  <span>{{item.title}}</span>
+                  <div class="bottom clearfix">
+                    <time class="time">{{item.time}}</time>
+                    <el-button type="text" class="button">操作按钮</el-button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </el-col>
+          <el-col :xs="0" :sm="3" :md="3" :lg="5" :xl="7">
+            <div class="side-content"></div>
+          </el-col>
+        </el-row>
       </el-main>
       <Footer></Footer>
     </el-container>
@@ -36,6 +57,38 @@
       return {
         isPc: true,
         mainHeight: 0,
+        articleDetail: [
+          {
+            'id': 0,
+            'title': '这是一个文章的标题,很长很长的那种',
+            'time': '2020-03-07',
+            'src': 'https://www.baidu.com',
+            'img': 'http://image.biaobaiju.com/uploads/20190504/21/1556975848-dCYyeaURhD.jpg',
+            'detail': '忽然间一股拳风从耳畔擦过，竟是刮面如刀。裘千仞这一掌未及打实，急忙缩回手臂，架开了从旁袭来的一拳',
+            'heat': 3251,
+            'commentNum': 15,
+          },
+          {
+            'id': 1,
+            'title': '标题',
+            'time': '2020-03-07',
+            'src': 'https://www.baidu.com',
+            'img': 'http://image.biaobaiju.com/uploads/20190504/21/1556975848-dCYyeaURhD.jpg',
+            'detail': '忽然间一股拳风从耳畔擦过，竟是刮面如刀。裘千仞这一掌未及打实，急忙缩回手臂，架开了从旁袭来的一拳',
+            'heat': 3251,
+            'commentNum': 15,
+          },
+          {
+            'id': 2,
+            'title': '标题',
+            'time': '2020-03-07',
+            'src': 'https://www.baidu.com',
+            'img': 'http://image.biaobaiju.com/uploads/20190504/21/1556975848-dCYyeaURhD.jpg',
+            'detail': '忽然间一股拳风从耳畔擦过，竟是刮面如刀。裘千仞这一掌未及打实，急忙缩回手臂，架开了从旁袭来的一拳',
+            'heat': 3251,
+            'commentNum': 15,
+          },
+        ]
       }
     },
     methods: {
@@ -109,6 +162,46 @@
     bottom: 100px;
     transform: scale(1.5, 1);
     z-index: 20;
+  }
+
+  .side-content {
+    min-height: 1px;
+  }
+
+  .card-wrapper {
+    margin-top: 30px;
+  }
+
+  .card {
+    width: 100%;
+    height: 300px;
+    padding: 0;
+    border-radius: 20px;
+    border: 1px solid #92A1AC;
+    overflow: hidden;
+  }
+
+  .left {
+    float: left;
+  }
+
+  .right {
+    float: right;
+  }
+
+  .card-img {
+    height: 100%;
+    width: 55%;
+  }
+
+  .card-img img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .card-content {
+    height: 100%;
+    width: 45%;
   }
 
   /*wave*/
