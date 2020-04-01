@@ -4,9 +4,9 @@
       <Header :isPc="isPc"></Header>
       <ScrollGoTop :isPc="isPc"></ScrollGoTop>
       <el-main>
-        <div class="mainImg">
-          <img :src="mainImgUrl" alt="">
-          <h1 :class="{'mainImg-h1-pc':isPc,'mainImg-h1-mobile':!isPc}">{{mainTitle}}</h1>
+        <div class="mainImg" :class="{'mainImg-pc':isPc,'mainImg-mobile':!isPc}">
+          <img class="mainImg-img" :src="mainImgUrl" alt="">
+          <h1 class="mainImg-h1" :class="{'mainImg-h1-pc':isPc,'mainImg-h1-mobile':!isPc}">{{mainTitle}}</h1>
         </div>
         <div>
           <el-row>
@@ -83,18 +83,23 @@
     padding: 0;
   }
 
-  .mainImg{
+  .mainImg-pc{
     height: 400px;
     margin-top: 74px;
   }
 
-  .mainImg img {
+  .mainImg-mobile {
+    height: 400px;
+    margin-top: 60px;
+  }
+
+  .mainImg-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
 
-  .mainImg h1 {
+  .mainImg-h1 {
     margin: 0;
     height: 400px;
     line-height: 400px;
@@ -111,6 +116,7 @@
   .mainImg-h1-mobile {
     top: 60px;
   }
+
   /*撑开main*/
   /*.el-main{*/
   /*  min-height: calc(100vh - 134px)*/

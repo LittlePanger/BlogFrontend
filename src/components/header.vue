@@ -29,35 +29,37 @@
 
   <!--  mobile  -->
   <el-header class="header-mobile" v-else>
-    <div class="mobile-menu" v-if="menuState" @touchmove.prevent>
-      <div class="menu-open-left animated faster" :class="{'fadeInUp':menuState,'fadeOutUp':!menuState}">
-        <div class="menu-top">
-          <div class="menu-avatar">
-            <img src="../assets/avatar.jpg" alt="">
+    <transition leave-active-class="animated zoomOut faster">
+      <div class="mobile-menu" v-if="menuState" @touchmove.prevent>
+        <div class="menu-open-left animated fadeInUp faster">
+          <div class="menu-top">
+            <div class="menu-avatar">
+              <img src="../assets/avatar.jpg" alt="">
+            </div>
+            <div class="menu-name">
+              <p>{{menuTop.name}}</p>
+            </div>
+            <div class="menu-social">
+              <a v-for="item in menuSocial" :key="item.id" :href="item.href">
+                <i :class="item.icon" :style="{'color':item.color}"></i>
+              </a>
+            </div>
           </div>
-          <div class="menu-name">
-            <p>{{menuTop.name}}</p>
-          </div>
-          <div class="menu-social">
-            <a v-for="item in menuSocial" :key="item.id" :href="item.href">
-              <i :class="item.icon" :style="{'color':item.color}"></i>
-            </a>
+          <div class="menu-bottom">
+            <ul>
+              <li v-for="item in navBarMiddle" :key="item.id">
+                <router-link :to="item.src" :class="item.icon"><span @click="closeMenu">{{item.name}}</span></router-link>
+              </li>
+            </ul>
+            <p>© 2020 LittlePanger</p>
           </div>
         </div>
-        <div class="menu-bottom">
-          <ul>
-            <li v-for="item in navBarMiddle" :key="item.id">
-              <router-link :to="item.src" :class="item.icon"><span @click="closeMenu">{{item.name}}</span></router-link>
-            </li>
-          </ul>
-          <p>© 2020 LittlePanger</p>
+        <div class="menu-open-right animated fadeInDown faster" @click="closeMenu">
+          <i class="el-icon-close menu-close"></i>
         </div>
       </div>
-      <div class="menu-open-right animated fadeInDown faster" @click="closeMenu">
-        <i class="el-icon-close menu-close"></i>
-      </div>
-    </div>
-      <div class="mobile-header-menu">
+    </transition>
+    <div class="mobile-header-menu">
       <i class="el-icon-menu" @click="openMenu"></i>
     </div>
     <router-link to="/" class="mobile-header-logo">
@@ -123,20 +125,21 @@
     color: #666;
   }
 
-  .header-pc{
+  .header-pc {
     background-color: rgba(255, 255, 255, 0.95);
     position: fixed;
     width: 100%;
     z-index: 9999;
   }
 
-  .header-mobile{
+  .header-mobile {
     background-color: rgba(255, 255, 255, 0.95);
     position: fixed;
     width: 100%;
     z-index: 9999;
   }
-  .mobile-menu{
+
+  .mobile-menu {
     position: fixed;
     top: 0;
     bottom: 0;

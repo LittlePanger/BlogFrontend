@@ -1,7 +1,8 @@
 <template>
   <div>
-    <el-container direction="vertical" class="bg">
+    <el-container direction="vertical">
       <Header :isPc="isPc"></Header>
+      <div class="bg"></div>
       <div class="waveWrapper waveAnimation" :style="{'top':mainHeight-110 + 'px'}">
         <div class="waveWrapperInner bgTop">
           <div class="wave waveTop"></div>
@@ -13,15 +14,17 @@
           <div class="wave waveBottom"></div>
         </div>
       </div>
-      <div class="scroll-to-main"><i class="el-icon-arrow-down" @click="scrollToMain"></i></div>
+      <div class="scroll-to-main" :style="{'top':mainHeight-146 + 'px'}">
+        <i class="el-icon-arrow-down" @click="scrollToMain"></i>
+      </div>
       <el-main ref="main">
         <el-row>
           <el-col :xs="0" :sm="5" :md="4" :lg="7" :xl="8">
             <div class="side-content"></div>
           </el-col>
           <el-col :xs="24" :sm="14" :md="16" :lg="10" :xl="8">
-            <div class="card-wrapper" v-for="(item,index) in articleDetail" :key="item.id">
-              <div class="card">
+            <div class="card-wrapper" v-if="isPc">
+              <div class="card" v-for="(item,index) in articleDetail" :key="item.id">
                 <div class="card-img" :class="{'right':index%2 != 1,'left':index%2 != 0}">
                   <img :src="item.img" alt="">
                 </div>
@@ -48,6 +51,38 @@
                   </div>
                 </div>
               </div>
+            </div>
+            <div class="card-wrapper-mobile" v-else>
+              <div class="card-mobile" v-for="item in articleDetail" :key="item.id">
+                <div class="card-img-mobile">
+                  <img :src="item.img" alt="">
+                </div>
+                <div class="card-content-mobile">
+                  <div class="card-content-wrapper-mobile">
+                    <div class="card-content-title-mobile">
+                      <h3><a :href="item.src" class="card-content-a">{{item.title}}</a></h3>
+                    </div>
+                    <div class="card-info-mobile">
+                      <i class="el-icon-time card-icon-mobile">
+                        <time class="card-info-content-mobile">{{item.time}}</time>
+                      </i>
+                      <i class="el-icon-view card-icon-mobile">
+                        <span class="card-info-content-mobile">{{item.heat}}℃</span>
+                      </i>
+                      <i class="el-icon-s-comment card-icon-mobile">
+                        <span class="card-info-content-mobile">{{item.commentNum}}条评论</span>
+                      </i>
+                    </div>
+                    <div class="card-content-detail-mobile">
+                      <p>{{item.detail}}</p>
+                    </div>
+                    <hr class="card-hr">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="more">
+              <router-link to="/folder">more</router-link>
             </div>
           </el-col>
           <el-col :xs="0" :sm="5" :md="4" :lg="7" :xl="8">
@@ -125,10 +160,10 @@
           scrollHeight = 0;
         if (document.documentElement.scrollTop === 0) {
           // 减去 header
-          height = _that.mainHeight -74
+          height = _that.mainHeight - 74
         } else {
           // 减去header和已经划过的距离
-          height = _that.mainHeight - document.documentElement.scrollTop -74
+          height = _that.mainHeight - document.documentElement.scrollTop - 74
           scrollHeight = document.documentElement.scrollTop
         }
         cancelAnimationFrame(timer);
@@ -173,12 +208,14 @@
     overflow: visible;
   }
 
+  .scroll-to-main{
+    position: relative;
+  }
+
   .el-icon-arrow-down {
     font-size: 35px;
     color: white;
     font-weight: 900;
-    position: absolute;
-    bottom: 100px;
     transform: scale(1.5, 1);
     z-index: 20;
   }
@@ -187,13 +224,10 @@
     min-height: 1px;
   }
 
-  .card-wrapper {
-    margin-top: 30px;
-  }
-
   .card {
     width: 100%;
     height: 300px;
+    margin-top: 30px;
     padding: 0;
     border-radius: 10px;
     border: 1px solid #92A1AC;
@@ -231,10 +265,6 @@
     height: 100%;
     object-fit: cover;
     transition: all 0.6s;
-  }
-
-  .card-img img:hover {
-    /*transform: scale(1.1);*/
   }
 
   .card-content {
@@ -278,6 +308,65 @@
 
   .card-content-a:hover {
     color: #FE9600;
+  }
+
+  /*mobile*/
+  .card-mobile {
+    padding: 0 15px;
+    height: 440px;
+    text-align: left;
+  }
+
+  .card-img-mobile {
+    height: 210px;
+    margin-bottom: 20px;
+  }
+
+  .card-img-mobile img {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    object-fit: cover;
+  }
+
+  .card-content-mobile {
+    height: 210px;
+  }
+
+  .card-info-mobile {
+    color: #888;
+    margin-bottom: 15px;
+  }
+
+  .card-icon-mobile {
+    margin-right: 4px;
+  }
+
+  .card-info-content-mobile {
+    margin: 0 4px;
+  }
+
+  .card-hr {
+    width: 50%;
+    height: 1px;
+    margin: 25px auto;
+    border: 0;
+    background: #efefef;
+  }
+
+  .more {
+    width: 150px;
+    height: 45px;
+    margin: 30px auto 0;
+    border: 1px solid black;
+    border-radius: 20px;
+  }
+
+  .more a {
+    display: block;
+    line-height: 45px;
+    text-decoration: none;
+    color: #2c3e50;
   }
 
   /*wave*/
