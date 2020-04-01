@@ -4,7 +4,7 @@
       <Header :isPc="isPc"></Header>
       <ScrollGoTop :isPc="isPc"></ScrollGoTop>
       <el-main>
-        <div class="mainImg" style="height: 400px;">
+        <div class="mainImg">
           <img :src="mainImgUrl" alt="">
           <h1 :class="{'mainImg-h1-pc':isPc,'mainImg-h1-mobile':!isPc}">{{mainTitle}}</h1>
         </div>
@@ -60,8 +60,15 @@
     },
     created() {
     },
-    mounted() {//给window添加一个滚动监听事件
+    mounted() {
+      // 进入页面判断width
+      this.getScreenWidth()
+      //给window添加一个滚动监听事件
       window.addEventListener('resize', this.getScreenWidth)
+      // 切换路由页面返回顶部
+      this.$router.afterEach((to, from) => {
+        window.scrollTo(0, 0)
+      })
     },
     destroyed() {//离开该页面需要移除这个监听的事件
       window.removeEventListener('resize', this.getScreenWidth)
@@ -74,6 +81,11 @@
   main {
     /*background-color: #99a9bf;*/
     padding: 0;
+  }
+
+  .mainImg{
+    height: 400px;
+    margin-top: 74px;
   }
 
   .mainImg img {

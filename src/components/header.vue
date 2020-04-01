@@ -1,10 +1,9 @@
 <template>
-  <el-header height="74px" style="padding: 0" :class="{'home':isHome,'header-pc':!isHome}" v-if="isPc">
+  <el-header height="74px" style="padding: 0" class="header-pc" v-if="isPc">
     <el-row>
       <el-col :span="4" style="line-height: 72px">
         <router-link to="/">
-          <img src="../assets/nameLOGOWhite.png" alt="" style="height: 50px;vertical-align: middle" v-if="isHome">
-          <img src="../assets/nameLOGO.png" alt="" style="height: 50px;vertical-align: middle" v-else>
+          <img src="../assets/nameLOGO.png" alt="" style="height: 50px;vertical-align: middle">
         </router-link>
       </el-col>
       <el-col :span="16">
@@ -29,9 +28,9 @@
   </el-header>
 
   <!--  mobile  -->
-  <el-header v-else>
-    <div v-if="openMenu" @touchmove.prevent>
-      <div class="menu-open-left">
+  <el-header class="header-mobile" v-else>
+    <div class="mobile-menu" v-if="menuState" @touchmove.prevent>
+      <div class="menu-open-left animated faster" :class="{'fadeInUp':menuState,'fadeOutUp':!menuState}">
         <div class="menu-top">
           <div class="menu-avatar">
             <img src="../assets/avatar.jpg" alt="">
@@ -48,23 +47,21 @@
         <div class="menu-bottom">
           <ul>
             <li v-for="item in navBarMiddle" :key="item.id">
-              <router-link :to="item.src" :class="item.icon"><span>{{item.name}}</span></router-link>
+              <router-link :to="item.src" :class="item.icon"><span @click="closeMenu">{{item.name}}</span></router-link>
             </li>
           </ul>
           <p>© 2020 LittlePanger</p>
         </div>
       </div>
-      <div class="menu-open-right" @click="turnMenu">
+      <div class="menu-open-right animated fadeInDown faster" @click="closeMenu">
         <i class="el-icon-close menu-close"></i>
       </div>
     </div>
-    <div class="mobile-header-menu">
-      <i class="el-icon-menu" @click="turnMenu" v-if="isHome" style="color: white"></i>
-      <i class="el-icon-menu" @click="turnMenu" v-else></i>
+      <div class="mobile-header-menu">
+      <i class="el-icon-menu" @click="openMenu"></i>
     </div>
     <router-link to="/" class="mobile-header-logo">
-      <img src="../assets/nameLOGOWhite.png" alt="" style="height: 50px;vertical-align: middle" v-if="isHome">
-      <img src="../assets/nameLOGO.png" alt="" style="height: 50px;vertical-align: middle" v-else>
+      <img src="../assets/nameLOGO.png" alt="" style="height: 50px;vertical-align: middle">
     </router-link>
   </el-header>
 </template>
@@ -74,8 +71,7 @@
     props: ['isPc'],
     data() {
       return {
-        isHome: false,
-        openMenu: false,
+        menuState: false,
         navBarMiddle: [
           {'id': 0, 'name': '首页', 'src': '/home', 'icon': 'e-iconshouye'},
           {'id': 1, 'name': '归档', 'src': '/folder', 'icon': 'e-iconwenjian'},
@@ -99,24 +95,18 @@
     },
     methods: {
       mouseOver(e) {
-        if (!this.isHome) {
-          e.currentTarget.firstElementChild.style.color = "#e67474";
-        }
+        e.currentTarget.firstElementChild.style.color = "#e67474";
         e.currentTarget.style.borderBottom = "5px solid #e67474"
       },
       mouseOut(e) {
-        if (!this.isHome) {
-          e.currentTarget.firstElementChild.style.color = "rgb(144,147,153)";
-        }
+        e.currentTarget.firstElementChild.style.color = "#666";
         e.currentTarget.style.borderBottom = "transparent"
       },
-      turnMenu() {
-        this.openMenu = !this.openMenu
-      }
-    },
-    created() {
-      if (this.$route.path === '/home') {
-        this.isHome = true
+      openMenu() {
+        this.menuState = true
+      },
+      closeMenu() {
+        this.menuState = false
       }
     },
   }
@@ -129,17 +119,30 @@
 
   .header-pc a {
     line-height: 72px;
-    color: rgb(144, 147, 153);
+    /*color: rgb(144, 147, 153);*/
+    color: #666;
   }
 
-  .home {
+  .header-pc{
+    background-color: rgba(255, 255, 255, 0.95);
     position: fixed;
     width: 100%;
+    z-index: 9999;
   }
 
-  .home a {
-    line-height: 72px;
-    color: #FFFFFF;
+  .header-mobile{
+    background-color: rgba(255, 255, 255, 0.95);
+    position: fixed;
+    width: 100%;
+    z-index: 9999;
+  }
+  .mobile-menu{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
   }
 
   .mobile-header-menu {

@@ -16,10 +16,10 @@
       <div class="scroll-to-main"><i class="el-icon-arrow-down" @click="scrollToMain"></i></div>
       <el-main ref="main">
         <el-row>
-          <el-col :xs="0" :sm="3" :md="3" :lg="5" :xl="7">
+          <el-col :xs="0" :sm="5" :md="4" :lg="7" :xl="8">
             <div class="side-content"></div>
           </el-col>
-          <el-col :xs="24" :sm="18" :md="18" :lg="14" :xl="10">
+          <el-col :xs="24" :sm="14" :md="16" :lg="10" :xl="8">
             <div class="card-wrapper" v-for="(item,index) in articleDetail" :key="item.id">
               <div class="card">
                 <div class="card-img" :class="{'right':index%2 != 1,'left':index%2 != 0}">
@@ -50,7 +50,7 @@
               </div>
             </div>
           </el-col>
-          <el-col :xs="0" :sm="3" :md="3" :lg="5" :xl="7">
+          <el-col :xs="0" :sm="5" :md="4" :lg="7" :xl="8">
             <div class="side-content"></div>
           </el-col>
         </el-row>
@@ -124,9 +124,11 @@
           height = 0,
           scrollHeight = 0;
         if (document.documentElement.scrollTop === 0) {
-          height = _that.mainHeight
+          // 减去 header
+          height = _that.mainHeight -74
         } else {
-          height = _that.mainHeight - document.documentElement.scrollTop
+          // 减去header和已经划过的距离
+          height = _that.mainHeight - document.documentElement.scrollTop -74
           scrollHeight = document.documentElement.scrollTop
         }
         cancelAnimationFrame(timer);
@@ -145,6 +147,7 @@
     },
     mounted() {
       this.getMainHeight()
+      this.getScreenWidth()
       window.addEventListener('resize', this.getScreenWidth)
     },
     destroyed() {
