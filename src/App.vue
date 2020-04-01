@@ -24,4 +24,6 @@ body {
 html{
   /*overflow-x:hidden;*/
 }
+/*body{cursor:url('./assets/img/pointer.png'), default;}*/
+/*a:hover{cursor:url(https://www.jishusongshu.com/wp-content/uploads/2020/01/link1.png), pointer;}*/
 </style>

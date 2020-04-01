@@ -10,13 +10,13 @@
         </div>
         <div>
           <el-row>
-            <el-col :xs="0" :sm="3" :md="3" :lg="5" :xl="7">
+            <el-col :xs="0" :sm="3" :md="5" :lg="5" :xl="7">
               <div class="side-content"></div>
             </el-col>
-            <el-col :xs="24" :sm="18" :md="18" :lg="14" :xl="10">
+            <el-col :xs="24" :sm="18" :md="14" :lg="14" :xl="10">
               <router-view @getTitle='getTitleImgIndex' :isPc="isPc"></router-view>
             </el-col>
-            <el-col :xs="0" :sm="3" :md="3" :lg="5" :xl="7">
+            <el-col :xs="0" :sm="3" :md="5" :lg="5" :xl="7">
               <div class="side-content"></div>
             </el-col>
           </el-row>

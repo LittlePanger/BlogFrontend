@@ -273,7 +273,7 @@
   }
 
   .card-content-wrapper {
-    margin: 40px 20px;
+    margin: 20px 20px;
     height: 220px;
   }
 
@@ -303,7 +303,6 @@
 
   .el-icon-more {
     font-size: 30px;
-    margin-top: 18px;
   }
 
   .card-content-a:hover {
