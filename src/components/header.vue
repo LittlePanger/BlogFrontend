@@ -129,14 +129,14 @@
     background-color: rgba(255, 255, 255, 0.95);
     position: fixed;
     width: 100%;
-    z-index: 9999;
+    z-index: 999;
   }
 
   .header-mobile {
     background-color: rgba(255, 255, 255, 0.95);
     position: fixed;
     width: 100%;
-    z-index: 9999;
+    z-index: 999;
   }
 
   .mobile-menu {
@@ -145,7 +145,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 9999;
+    z-index: 999;
   }
 
   .mobile-header-menu {
@@ -172,7 +172,7 @@
     right: 35%;
     bottom: 0;
     background: rgb(255, 255, 255);
-    z-index: 9999;
+    z-index: 999;
   }
 
   .menu-open-right {
@@ -182,11 +182,11 @@
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.4);
-    z-index: 9999;
+    z-index: 999;
   }
 
   .menu-close {
-    z-index: 10000;
+    z-index: 1000;
     position: absolute;
     top: 5px;
     left: 5px;
