@@ -55,13 +55,13 @@
 
 <style scoped>
   .scrollShow-cat {
-    width: 49px;
-    height: 630px;
+    width: 63px;
+    height: 810px;
     position: fixed;
     z-index: 99;
     top: 0;
     right: 50px;
     background-image: url("../assets/scroll.png");
-    background-size: 49px 630px;
+    background-size: 63px 810px;
   }
 </style>

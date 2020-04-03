@@ -9,12 +9,12 @@
       <el-col :span="16">
         <el-row>
           <el-col :span="3" :offset="6" v-for="item in navBarMiddle" :key="item.id" v-if="item.id === 0">
-            <div @mouseover="mouseOver($event)" @mouseout="mouseOut($event)" style="height: 69px">
+            <div @mouseover="mouseOver($event)" @mouseout="mouseOut($event)" class="header-link">
               <router-link v-bind:to="item.src" v-bind:class="item.icon">{{item.name}}</router-link>
             </div>
           </el-col>
           <el-col :span="3" v-else>
-            <div @mouseover="mouseOver($event)" @mouseout="mouseOut($event)" style="height: 69px">
+            <div @mouseover="mouseOver($event)" @mouseout="mouseOut($event)" class="header-link">
               <router-link :to="item.src" v-bind:class="item.icon">{{item.name}}</router-link>
             </div>
           </el-col>
@@ -48,7 +48,8 @@
           <div class="menu-bottom">
             <ul>
               <li v-for="item in navBarMiddle" :key="item.id">
-                <router-link :to="item.src" :class="item.icon"><span @click="closeMenu">{{item.name}}</span></router-link>
+                <router-link :to="item.src" :class="item.icon"><span @click="closeMenu">{{item.name}}</span>
+                </router-link>
               </li>
             </ul>
             <p>© 2020 LittlePanger</p>
@@ -98,11 +99,11 @@
     methods: {
       mouseOver(e) {
         e.currentTarget.firstElementChild.style.color = "#e67474";
-        e.currentTarget.style.borderBottom = "5px solid #e67474"
+        e.currentTarget.style.backgroundSize = "100% 5px"
       },
       mouseOut(e) {
         e.currentTarget.firstElementChild.style.color = "#666";
-        e.currentTarget.style.borderBottom = "transparent"
+        e.currentTarget.style.backgroundSize = "0 5px"
       },
       openMenu() {
         this.menuState = true
@@ -117,6 +118,14 @@
 <style scoped>
   a {
     text-decoration: none;
+  }
+
+  .header-link {
+    height: 74px;
+    transition: background-size 250ms linear;
+    background: linear-gradient(90deg, #fe9600 0, #fe9600 0) no-repeat left bottom;
+    background-size: 0 5px;
+    border-bottom: 5px;
   }
 
   .header-pc a {

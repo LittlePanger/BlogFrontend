@@ -41,4 +41,18 @@
   #nprogress .spinner {
     z-index: 1
   }
+
+  /*滚动条*/
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  /* 滚动条的滑块 */
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #fe9600;
+    background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%,
+    rgba(255, 255, 255, .2) 75%, transparent 75%, transparent);
+  }
 </style>
