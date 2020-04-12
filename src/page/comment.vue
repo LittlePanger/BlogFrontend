@@ -65,6 +65,8 @@
 </template>
 
 <script>
+  import {pageComment} from "../api/api";
+
   export default {
     name: "comment",
     data() {
@@ -135,11 +137,8 @@
       }
     },
     methods: {
-      returnTitleImg() {
-        this.$emit('getTitle', {
-          'title': '留言板',
-          'url': 'http://img.article.pchome.net/01/58/91/24/pic_lib/wm/Bing03.jpg'
-        })
+      returnTitleImg(data) {
+        this.$emit('getTitle', data)
       },
       addImg(event) {
         let inputDOM = this.$refs.inputer;
@@ -172,6 +171,14 @@
       },
     },
     mounted() {
+      pageComment().then(res => {
+        this.returnTitleImg(res.data)
+      }).catch(res => {
+        // this.returnTitleImg({
+        //   'title': '留言板',
+        //   'url': 'http://img.article.pchome.net/01/58/91/24/pic_lib/wm/Bing03.jpg'
+        // })
+      });
       this.returnTitleImg()
     }
   }

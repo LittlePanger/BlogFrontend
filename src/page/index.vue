@@ -51,7 +51,7 @@
     methods: {
       getTitleImgIndex(value) {
         this.mainTitle = value.title;
-        this.mainImgUrl = value.url;
+        this.mainImgUrl = value.src;
       },
       getScreenWidth() {
         let width = document.documentElement.clientWidth || document.body.clientWidth;
