@@ -41,6 +41,8 @@
 
 <script>
 
+  import {pageFolder} from "../api/api";
+
   export default {
     name: "folder",
     props: ['isPc'],
@@ -121,16 +123,20 @@
       }
     },
     methods: {
-      returnTitleImg() {
-        this.$emit('getTitle', {
+      returnTitleImg(data) {
+        this.$emit('getTitle', data)
+      },
+    },
+    mounted() {
+      pageFolder().then(res => {
+        this.returnTitleImg(res.data)
+      }).catch(res => {
+        this.returnTitleImg({
           'title': '归档',
           'url': 'http://pic.lvmama.com/uploads/pc/place2/2017-05-25/f722ecdd-48f6-4aa8-a935-77e64b756743.jpg'
         })
-      },
-    },
-    created() {
-      this.returnTitleImg();
-    },
+      });
+    }
   }
 
 </script>
@@ -150,9 +156,11 @@
   .folder-img-pc {
     margin-top: 10px;
   }
+
   .folder-img-mobile {
     margin-top: 25px;
   }
+
   .img-pc {
     width: 94px;
     height: 94px;
@@ -161,6 +169,7 @@
     border: 1px solid #dadada;
     position: relative;
   }
+
   .img-mobile {
     width: 50px;
     height: 50px;
@@ -169,6 +178,7 @@
     border: 1px solid #dadada;
     position: relative;
   }
+
   .folder-right {
     text-align: left;
     /*margin-left: 120px;*/
@@ -218,6 +228,7 @@
     font-size: 12px;
     margin-top: 20px;
   }
+
   .folder-time-mobile {
     margin: 3px 0;
     width: 100%;
@@ -225,6 +236,7 @@
     color: #989898;
     font-size: 12px;
   }
+
   .folder-time i {
     font-size: 14px;
   }
@@ -246,6 +258,7 @@
     border: 0;
     background: #efefef;
   }
+
   .hr-mobile {
     width: 30%;
     height: 1px;

@@ -174,12 +174,11 @@
       pageComment().then(res => {
         this.returnTitleImg(res.data)
       }).catch(res => {
-        // this.returnTitleImg({
-        //   'title': '留言板',
-        //   'url': 'http://img.article.pchome.net/01/58/91/24/pic_lib/wm/Bing03.jpg'
-        // })
+        this.returnTitleImg({
+          'title': '留言板',
+          'src': 'http://img.article.pchome.net/01/58/91/24/pic_lib/wm/Bing03.jpg'
+        })
       });
-      this.returnTitleImg()
     }
   }
 </script>

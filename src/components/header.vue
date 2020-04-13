@@ -70,6 +70,9 @@
 </template>
 
 <script>
+  import {socialInfo} from "../api/api";
+  import {personalInfo} from "../api/api";
+
   export default {
     props: ['isPc'],
     data() {
@@ -86,14 +89,8 @@
           {'id': 1, 'name': '登录', 'src': '/account/login', 'icon': 'e-icondingbudaohang-zhangh'},
         ],
         navBarImg: {'src': '../../build/logo.png'},
-        menuTop: {
-          'name': 'LittlePanger', 'avatar': '../assets/avatar.jpg',
-        },
-        menuSocial: [
-          {'id': 0, 'name': 'weibo', 'href': '11', 'icon': 'e-iconweibo-copy', 'color': '#dd4b39'},
-          {'id': 1, 'name': 'github', 'href': '11', 'icon': 'e-icongithub', 'color': '#333'},
-          {'id': 2, 'name': 'twitter', 'href': '11', 'icon': 'e-icontuitetwitter43', 'color': '#00aced'}
-        ]
+        menuTop: {},
+        menuSocial: []
       }
     },
     methods: {
@@ -112,6 +109,24 @@
         this.menuState = false
       }
     },
+    mounted() {
+      socialInfo().then(res =>{
+        this.menuSocial = res.data
+      }).catch(res => {
+        this.menuSocial = [
+          {'id': 0, 'name': 'weibo', 'href': '11', 'icon': 'e-iconweibo-copy', 'color': '#dd4b39'},
+          {'id': 1, 'name': 'github', 'href': '11', 'icon': 'e-icongithub', 'color': '#333'},
+          {'id': 2, 'name': 'twitter', 'href': '11', 'icon': 'e-icontuitetwitter43', 'color': '#00aced'}
+        ]
+      });
+      personalInfo().then(res =>{
+        this.menuTop = res.data[0]
+      }).catch(res => {
+        this.menuSocial = {
+          'name': 'LittlePanger', 'avatar': '../assets/avatar.jpg',
+        }
+      });
+    }
   }
 </script>
 
