@@ -8,20 +8,20 @@
       </el-col>
       <el-col :span="16">
         <el-row>
-          <el-col :span="3" :offset="6" v-for="item in navBarMiddle" :key="item.id" v-if="item.id === 0">
+          <el-col :span="3" :offset="6" v-for="item in navBarMiddle" :key="item.id" v-if="item.id === 1">
             <div @mouseover="mouseOver($event)" @mouseout="mouseOut($event)" class="header-link">
-              <router-link v-bind:to="item.src" v-bind:class="item.icon">{{item.name}}</router-link>
+              <router-link v-bind:to="item.url" v-bind:class="item.icon">{{item.name}}</router-link>
             </div>
           </el-col>
           <el-col :span="3" v-else>
             <div @mouseover="mouseOver($event)" @mouseout="mouseOut($event)" class="header-link">
-              <router-link :to="item.src" v-bind:class="item.icon">{{item.name}}</router-link>
+              <router-link :to="item.url" v-bind:class="item.icon">{{item.name}}</router-link>
             </div>
           </el-col>
         </el-row>
       </el-col>
       <el-col :span="4" style="line-height: 72px">
-        <router-link v-for="item in navBarRight" :key="item.id" :to="item.src" style="margin-left: 25px"><span
+        <router-link v-for="item in navBarRight" :key="item.id" :to="item.url" style="margin-left: 25px"><span
           :class="item.icon" style="font-size: 25px"></span></router-link>
       </el-col>
     </el-row>
@@ -72,22 +72,15 @@
 <script>
   import {socialInfo} from "../api/api";
   import {personalInfo} from "../api/api";
+  import {navBar} from "../api/api";
 
   export default {
     props: ['isPc'],
     data() {
       return {
         menuState: false,
-        navBarMiddle: [
-          {'id': 0, 'name': '首页', 'src': '/home', 'icon': 'e-iconshouye'},
-          {'id': 1, 'name': '归档', 'src': '/folder', 'icon': 'e-iconwenjian'},
-          {'id': 2, 'name': '留言', 'src': '/comment', 'icon': 'e-iconliuyan'},
-          {'id': 3, 'name': '关于', 'src': '/about', 'icon': 'e-icon1'},
-        ],
-        navBarRight: [
-          {'id': 0, 'name': '搜索', 'src': '/article', 'icon': 'e-iconsousuo'},
-          {'id': 1, 'name': '登录', 'src': '/account/login', 'icon': 'e-icondingbudaohang-zhangh'},
-        ],
+        navBarMiddle: [],
+        navBarRight: [],
         navBarImg: {'src': '../../build/logo.png'},
         menuTop: {},
         menuSocial: []
@@ -125,6 +118,21 @@
         this.menuSocial = {
           'name': 'LittlePanger', 'avatar': '../assets/avatar.jpg',
         }
+      });
+      navBar().then(res =>{
+        this.navBarMiddle = res.data.middle;
+        this.navBarRight= res.data.right
+      }).catch(res => {
+        this.navBarMiddle = [
+          {'id': 1, 'name': '首页', 'url': '/home', 'icon': 'e-iconshouye'},
+          {'id': 2, 'name': '归档', 'url': '/folder', 'icon': 'e-iconwenjian'},
+          {'id': 3, 'name': '留言', 'url': '/comment', 'icon': 'e-iconliuyan'},
+          {'id': 4, 'name': '关于', 'url': '/about', 'icon': 'e-icon1'},
+        ];
+        this.navBarRight = [
+          {'id': 0, 'name': '搜索', 'url': '/article', 'icon': 'e-iconsousuo'},
+          {'id': 1, 'name': '登录', 'url': '/account/login', 'icon': 'e-icondingbudaohang-zhangh'},
+        ]
       });
     }
   }

@@ -9,7 +9,7 @@ const Login = () => import('../page/login');
 const Folder = () => import('../page/folder');
 const Comment = () => import('../page/comment');
 const About = () => import('../page/about');
-const Article = () => import('../page/article');
+const ArticleCom = () => import('../page/article');
 const Test = () => import('../page/test/test');
 
 
@@ -27,7 +27,7 @@ export default new Router({
         {path: '/folder',name: 'folder',component: Folder},
         {path: '/comment',name: 'comment',component: Comment},
         {path: '/about',name: 'about',component: About},
-        {path: '/article',name: 'article',component: Article},
+        {path: '/article/:year/:month/:day/:name',name: 'article',component: ArticleCom},
       ],
     },
     {path: '/home', component: Home},

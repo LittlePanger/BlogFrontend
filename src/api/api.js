@@ -20,3 +20,11 @@ export const socialInfo = (params) => {
 export const personalInfo = (params) => {
   return http.fetchGet(`${baseUrl}/api/personalInfo`, params)
 };
+// 导航
+export const navBar = (params) => {
+  return http.fetchGet(`${baseUrl}/api/navBar`, params)
+};
+// 文章
+export const articleAPI = (params) => {
+  return http.fetchGet(`${baseUrl}/api/article`, params)
+};

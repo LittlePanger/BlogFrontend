@@ -9,10 +9,14 @@ import '../static/css/e-icon.css'
 import mouse from '../static/js/mouseClick'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
 
-Vue.config.productionTip = false
-Vue.use(ElementUI)
-Vue.use(mouse)
+Vue.config.productionTip = false;
+Vue.use(ElementUI);
+Vue.use(mouse);
+Vue.use(mavonEditor);
+
 
 //进度条
 NProgress.inc(0.2);
