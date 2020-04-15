@@ -30,26 +30,26 @@
       </div>
     </div>
     <div class="comment-bottom">
-      <form class="comment-form" action="https://vuejs.org/" method="post" novalidate="true" v-model="visitors">
+<!--      <form class="comment-form" action="http://127.0.0.1:8000/api/comment" method="post" novalidate="true" v-model="commentData">-->
 
         <!--      <div class="textarea-top"><label for="comment">这里应该有句话..</label></div>-->
-        <textarea name="" id="comment" cols="30" rows="10" class="comment-textarea" placeholder="这里应该有句话.."></textarea>
+        <textarea name="" id="comment" cols="30" rows="10" class="comment-textarea" placeholder="这里应该有句话.." v-model="commentData.content"></textarea>
         <div class="comment-form-user">
           <div class="comment-form-avatar">
             <i v-if="!imgData.hasOwnProperty('upload')" class="e-icondingbudaohang-zhangh"></i>
             <img :src="getImgUrl(imgData)" alt="">
           </div>
           <div class="comment-form-input">
-            <input placeholder="阁下是?" v-model="visitors.name"></input>
-            <input placeholder="邮箱" v-model="visitors.mail"></input>
-            <input placeholder="个人站点" v-model="visitors.site"></input>
+            <input placeholder="阁下是?" v-model="commentData.name"></input>
+            <input placeholder="邮箱" v-model="commentData.mail"></input>
+            <input placeholder="个人站点" v-model="commentData.site"></input>
           </div>
           <div class="comment-form-robot">
-            <input type="checkbox" id="checkbox" v-model="visitors.robot"/><label for="checkbox"></label>
-            <span @click="visitors.robot = !visitors.robot">I'm not a robot</span>
+            <input type="checkbox" id="checkbox" v-model="commentData.robot"/><label for="checkbox"></label>
+            <span @click="commentData.robot = !commentData.robot">I'm not a robot</span>
           </div>
           <div class="comment-form-submit">
-            <button>BOOM!!!</button>
+            <button @click="test">BOOM!!!</button>
             <div class="comment-form-upload el-icon-picture-outline" @mouseover="tips=true" @mouseleave="tips=false">
 <!--              <span v-if="tips" class="comment-input-tip">给自己一个头像吧</span>-->
 <!--              <span v-if="tips" class="triangle-down"></span>-->
@@ -59,25 +59,27 @@
             </div>
           </div>
         </div>
-      </form>
+<!--      </form>-->
     </div>
   </div>
 </template>
 
 <script>
   import {pageComment} from "../api/api";
+  import {postTest} from "../api/api";
 
   export default {
     name: "comment",
     data() {
       return {
-        visitors: {
+        commentData: {
           name: '',
           mail: '',
           site: '',
           robot: false,
+          content:'',
         },
-        formData: new FormData(),
+        avatarData: new FormData(),
         imgData: {},
         defaultImgUrl: 'https://gss0.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/1b4c510fd9f9d72a11f2fd1ed22a2834349bbb1b.jpg',
         tips: false,
@@ -137,6 +139,11 @@
       }
     },
     methods: {
+      test(){
+        postTest(this.avatarData).then(res => {
+
+        })
+      },
       returnTitleImg(data) {
         this.$emit('getTitle', data)
       },
@@ -150,6 +157,7 @@
           return false
         }
         this.$set(this.imgData, 'upload', fil);
+        this.avatarData.append('file',fil);
       },
       getImgUrl(dict) {
         var url = null;

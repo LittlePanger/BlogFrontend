@@ -36,3 +36,6 @@ export const articleDetailHome = (params) => {
 export const articleDetailFolder = (params) => {
   return http.fetchGet(`${baseUrl}/api/articleDetail/folder`, params)
 };
+export const postTest = (params) => {
+  return http.fetchPost(`${baseUrl}/api/comment`, params)
+};
