@@ -4,8 +4,8 @@
       <el-row :gutter="10">
         <el-col :xs="4" :sm="4" :md="4" :lg="4" :xl="4">
           <div :class="{'folder-img-pc':isPc,'folder-img-mobile':!isPc}">
-            <a :href="item.src">
-              <img :src="item.img" alt="" :class="{'img-pc':isPc,'img-mobile':!isPc}">
+            <a :href="item.url">
+              <img :src="item.src" alt="" :class="{'img-pc':isPc,'img-mobile':!isPc}">
             </a>
           </div>
         </el-col>
@@ -14,7 +14,7 @@
             <div class="folder-right-top">
               <div class="folder-title">
                 <h1 :class="{'title-h1-pc':isPc,'title-h1-mobile':!isPc}">
-                  <router-link :to="item.src"><span>{{item.title}}</span></router-link>
+                  <router-link :to="item.url"><span>{{item.title}}</span></router-link>
 <!--                  <a :href="item.src">{{item.title}}</a>-->
                 </h1>
               </div>
@@ -35,8 +35,11 @@
     </div>
     <div class="block">
       <el-pagination
-        layout="prev, pager, next, jumper"
-        :total="50">
+        layout="prev, pager, next"
+        :total="total"
+        :page-size="5"
+        @current-change="handleCurrentChange"
+      >
       </el-pagination>
     </div>
   </div>
@@ -45,90 +48,27 @@
 <script>
 
   import {pageFolder} from "../api/api";
+  import {articleDetailFolder} from "../api/api";
 
   export default {
     name: "folder",
     props: ['isPc'],
     data() {
       return {
-        overview: [
-          {
-            'title': '这是一个文章的标题,很长很长的那种',
-            'time': '2020-03-07',
-            'src': 'article/2020/04/14/1.html',
-            'img': 'http://pic.lvmama.com/uploads/pc/place2/2017-05-25/f722ecdd-48f6-4aa8-a935-77e64b756743.jpg',
-            'detail': '忽然间一股拳风从耳畔擦过，竟是刮面如刀。裘千仞这一掌未及打实，急忙缩回手臂，架开了从旁袭来的一拳，怒道：“老顽童，你又来啦。”却是周伯通见瑛姑势危，施展《九阴真经》中的上乘功夫，解开了他这铁掌绝招。'
-          },
-          {
-            'title': '标题',
-            'time': '2020-03-07',
-            'src': 'https://www.baidu.com',
-            'img': 'http://pic.lvmama.com/uploads/pc/place2/2017-05-25/f722ecdd-48f6-4aa8-a935-77e64b756743.jpg',
-            'detail': '忽然间一股拳风从耳畔擦过，竟是刮面如刀。裘千仞这一掌未及打实，急忙缩回手臂，架开了从旁袭来的一拳，怒道：“老顽童，你又来啦。”却是周伯通见瑛姑势危，施展《九阴真经》中的上乘功夫，解开了他这铁掌绝招。'
-          },
-          {
-            'title': '这是一个文章的标题,很长很长的那种',
-            'time': '2020-03-07',
-            'src': 'https://www.baidu.com',
-            'img': 'http://pic.lvmama.com/uploads/pc/place2/2017-05-25/f722ecdd-48f6-4aa8-a935-77e64b756743.jpg',
-            'detail': '忽然间一股拳风从耳畔擦过，竟是刮面如刀。裘千仞这一掌未及打实，急忙缩回手臂，架开了从旁袭来的一拳，怒道：“老顽童，你又来啦。”却是周伯通见瑛姑势危，施展《九阴真经》中的上乘功夫，解开了他这铁掌绝招。'
-          },
-          {
-            'title': '这是一个文章的标题,很长很长的那种',
-            'time': '2020-03-07',
-            'src': 'https://www.baidu.com',
-            'img': 'http://pic.lvmama.com/uploads/pc/place2/2017-05-25/f722ecdd-48f6-4aa8-a935-77e64b756743.jpg',
-            'detail': '忽然间一股拳风从耳畔擦过，竟是刮面如刀。裘千仞这一掌未及打实，急忙缩回手臂，架开了从旁袭来的一拳，怒道：“老顽童，你又来啦。”却是周伯通见瑛姑势危，施展《九阴真经》中的上乘功夫，解开了他这铁掌绝招。'
-          },
-          {
-            'title': '这是一个文章的标题,很长很长的那种',
-            'time': '2020-03-07',
-            'src': 'https://www.baidu.com',
-            'img': 'http://pic.lvmama.com/uploads/pc/place2/2017-05-25/f722ecdd-48f6-4aa8-a935-77e64b756743.jpg',
-            'detail': '忽然间一股拳风从耳畔擦过，竟是刮面如刀。裘千仞这一掌未及打实，急忙缩回手臂，架开了从旁袭来的一拳，怒道：“老顽童，你又来啦。”却是周伯通见瑛姑势危，施展《九阴真经》中的上乘功夫，解开了他这铁掌绝招。'
-          },
-          {
-            'title': '这是一个文章的标题,很长很长的那种',
-            'time': '2020-03-07',
-            'src': 'https://www.baidu.com',
-            'img': 'http://pic.lvmama.com/uploads/pc/place2/2017-05-25/f722ecdd-48f6-4aa8-a935-77e64b756743.jpg',
-            'detail': '忽然间一股拳风从耳畔擦过，竟是刮面如刀。裘千仞这一掌未及打实，急忙缩回手臂，架开了从旁袭来的一拳，怒道：“老顽童，你又来啦。”却是周伯通见瑛姑势危，施展《九阴真经》中的上乘功夫，解开了他这铁掌绝招。'
-          },
-          {
-            'title': '这是一个文章的标题,很长很长的那种',
-            'time': '2020-03-07',
-            'src': 'https://www.baidu.com',
-            'img': 'http://pic.lvmama.com/uploads/pc/place2/2017-05-25/f722ecdd-48f6-4aa8-a935-77e64b756743.jpg',
-            'detail': '忽然间一股拳风从耳畔擦过，竟是刮面如刀。裘千仞这一掌未及打实，急忙缩回手臂，架开了从旁袭来的一拳，怒道：“老顽童，你又来啦。”却是周伯通见瑛姑势危，施展《九阴真经》中的上乘功夫，解开了他这铁掌绝招。'
-          },
-          {
-            'title': '这是一个文章的标题,很长很长的那种',
-            'time': '2020-03-07',
-            'src': 'https://www.baidu.com',
-            'img': 'http://pic.lvmama.com/uploads/pc/place2/2017-05-25/f722ecdd-48f6-4aa8-a935-77e64b756743.jpg',
-            'detail': '忽然间一股拳风从耳畔擦过，竟是刮面如刀。裘千仞这一掌未及打实，急忙缩回手臂，架开了从旁袭来的一拳，怒道：“老顽童，你又来啦。”却是周伯通见瑛姑势危，施展《九阴真经》中的上乘功夫，解开了他这铁掌绝招。'
-          },
-          {
-            'title': '这是一个文章的标题,很长很长的那种',
-            'time': '2020-03-07',
-            'src': 'https://www.baidu.com',
-            'img': 'http://pic.lvmama.com/uploads/pc/place2/2017-05-25/f722ecdd-48f6-4aa8-a935-77e64b756743.jpg',
-            'detail': '忽然间一股拳风从耳畔擦过，竟是刮面如刀。裘千仞这一掌未及打实，急忙缩回手臂，架开了从旁袭来的一拳，怒道：“老顽童，你又来啦。”却是周伯通见瑛姑势危，施展《九阴真经》中的上乘功夫，解开了他这铁掌绝招。'
-          },
-          {
-            'title': '这是一个文章的标题,很长很长的那种',
-            'time': '2020-03-07',
-            'src': 'https://www.baidu.com',
-            'img': 'http://pic.lvmama.com/uploads/pc/place2/2017-05-25/f722ecdd-48f6-4aa8-a935-77e64b756743.jpg',
-            'detail': '忽然间一股拳风从耳畔擦过，竟是刮面如刀。裘千仞这一掌未及打实，急忙缩回手臂，架开了从旁袭来的一拳，怒道：“老顽童，你又来啦。”却是周伯通见瑛姑势危，施展《九阴真经》中的上乘功夫，解开了他这铁掌绝招。'
-          },
-        ]
+        overview: [],
+        total: 0
       }
     },
     methods: {
       returnTitleImg(data) {
         this.$emit('getTitle', data)
       },
+      handleCurrentChange(val){
+        articleDetailFolder({'page':val}).then(res => {
+          this.total = res.count
+          this.overview = res.results
+        })
+      }
     },
     mounted() {
       pageFolder().then(res => {
@@ -139,6 +79,10 @@
           'src': 'http://pic.lvmama.com/uploads/pc/place2/2017-05-25/f722ecdd-48f6-4aa8-a935-77e64b756743.jpg'
         })
       });
+      articleDetailFolder().then(res => {
+        this.total = res.count
+        this.overview = res.results
+      })
     }
   }
 

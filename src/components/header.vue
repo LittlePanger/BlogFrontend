@@ -48,7 +48,7 @@
           <div class="menu-bottom">
             <ul>
               <li v-for="item in navBarMiddle" :key="item.id">
-                <router-link :to="item.src" :class="item.icon"><span @click="closeMenu">{{item.name}}</span>
+                <router-link :to="item.url" :class="item.icon"><span @click="closeMenu">{{item.name}}</span>
                 </router-link>
               </li>
             </ul>

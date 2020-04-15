@@ -28,3 +28,11 @@ export const navBar = (params) => {
 export const articleAPI = (params) => {
   return http.fetchGet(`${baseUrl}/api/article`, params)
 };
+// 首页文章详情
+export const articleDetailHome = (params) => {
+  return http.fetchGet(`${baseUrl}/api/articleDetail/home`, params)
+};
+// 归档文章详情
+export const articleDetailFolder = (params) => {
+  return http.fetchGet(`${baseUrl}/api/articleDetail/folder`, params)
+};

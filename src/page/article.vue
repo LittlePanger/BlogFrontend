@@ -50,7 +50,7 @@
     mounted() {
       this.returnTitleImg()
       articleAPI(this.$route.params).then(res => {
-        this.article.content = res.data[0].content
+        this.article.content = res.data.content
       }).catch(res => {
         this.returnTitleImg({
           'title': '留言板',

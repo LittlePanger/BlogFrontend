@@ -26,12 +26,12 @@
             <div class="card-wrapper" v-if="isPc">
               <div class="card" v-for="(item,index) in articleDetail" :key="item.id">
                 <div class="card-img" :class="{'right':index%2 != 1,'left':index%2 != 0}">
-                  <img :src="item.img" alt="">
+                  <img :src="item.src" alt="">
                 </div>
                 <div class="card-content" :class="{'left':index%2 != 1,'right':index%2 != 0}">
                   <div class="card-content-wrapper">
                     <div class="card-content-title">
-                      <h3><a :href="item.src" class="card-content-a">{{item.title}}</a></h3>
+                      <h3><a :href="item.url" class="card-content-a">{{item.title}}</a></h3>
                     </div>
                     <div class="card-info">
                       <i class="el-icon-time card-icon">
@@ -52,15 +52,16 @@
                 </div>
               </div>
             </div>
+            <!--移动端-->
             <div class="card-wrapper-mobile" v-else>
               <div class="card-mobile" v-for="item in articleDetail" :key="item.id">
                 <div class="card-img-mobile">
-                  <img :src="item.img" alt="">
+                  <img :src="item.src" alt="">
                 </div>
                 <div class="card-content-mobile">
                   <div class="card-content-wrapper-mobile">
                     <div class="card-content-title-mobile">
-                      <h3><a :href="item.src" class="card-content-a">{{item.title}}</a></h3>
+                      <h3><a :href="item.url" class="card-content-a">{{item.title}}</a></h3>
                     </div>
                     <div class="card-info-mobile">
                       <i class="el-icon-time card-icon-mobile">
@@ -96,6 +97,7 @@
 </template>
 
 <script>
+  import {articleDetailHome} from '../api/api'
   import Footer from '../components/footer'
   import Header from '../components/header'
 
@@ -109,38 +111,7 @@
       return {
         isPc: true,
         mainHeight: 0,
-        articleDetail: [
-          {
-            'id': 0,
-            'title': '这是一个文章的标题,很长很长的那种',
-            'time': '2020-03-07',
-            'src': 'https://www.baidu.com',
-            'img': 'http://image.biaobaiju.com/uploads/20190504/21/1556975848-dCYyeaURhD.jpg',
-            'detail': '忽然间一股拳风从耳畔擦过，竟是刮面如刀。裘千仞这一掌未及打实，急忙缩回手臂，架开了从旁袭来的一拳',
-            'heat': 3251,
-            'commentNum': 15,
-          },
-          {
-            'id': 1,
-            'title': '标题',
-            'time': '2020-03-07',
-            'src': 'https://www.baidu.com',
-            'img': 'http://image.biaobaiju.com/uploads/20190504/21/1556975848-dCYyeaURhD.jpg',
-            'detail': '忽然间一股拳风从耳畔擦过，竟是刮面如刀。裘千仞这一掌未及打实，急忙缩回手臂，架开了从旁袭来的一拳',
-            'heat': 3251,
-            'commentNum': 15,
-          },
-          {
-            'id': 2,
-            'title': '标题',
-            'time': '2020-03-07',
-            'src': 'https://www.baidu.com',
-            'img': 'http://image.biaobaiju.com/uploads/20190504/21/1556975848-dCYyeaURhD.jpg',
-            'detail': '忽然间一股拳风从耳畔擦过，竟是刮面如刀。裘千仞这一掌未及打实，急忙缩回手臂，架开了从旁袭来的一拳',
-            'heat': 3251,
-            'commentNum': 15,
-          },
-        ]
+        articleDetail: []
       }
     },
     methods: {
@@ -184,6 +155,10 @@
       this.getMainHeight()
       this.getScreenWidth()
       window.addEventListener('resize', this.getScreenWidth)
+      articleDetailHome().then(res => {
+        this.articleDetail = res.data
+      }).catch(res => {
+      })
     },
     destroyed() {
       window.removeEventListener('resize', this.getScreenWidth)
@@ -208,7 +183,7 @@
     overflow: visible;
   }
 
-  .scroll-to-main{
+  .scroll-to-main {
     position: relative;
   }
 
