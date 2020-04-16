@@ -13,7 +13,7 @@
       </div>
       <div class="comment" v-for="item in comment" :key="item.id">
         <div class="comment-avatar">
-          <img :src="item.avatar" alt="">
+          <img :src="imgUrl(item.avatar)" alt="">
         </div>
         <div class="comment-writer">
           <a :href="item.site"><span>{{item.writer}}</span></a>
@@ -40,7 +40,7 @@
             <img :src="getImgUrl(imgData)" alt="">
           </div>
           <div class="comment-form-input">
-            <input placeholder="阁下是?" v-model="commentData.name"></input>
+            <input placeholder="阁下是?" v-model="commentData.writer"></input>
             <input placeholder="邮箱" v-model="commentData.mail"></input>
             <input placeholder="个人站点" v-model="commentData.site"></input>
           </div>
@@ -49,7 +49,7 @@
             <span @click="commentData.robot = !commentData.robot">I'm not a robot</span>
           </div>
           <div class="comment-form-submit">
-            <button @click="test">BOOM!!!</button>
+            <button @click="submit">BOOM!!!</button>
             <div class="comment-form-upload el-icon-picture-outline" @mouseover="tips=true" @mouseleave="tips=false">
 <!--              <span v-if="tips" class="comment-input-tip">给自己一个头像吧</span>-->
 <!--              <span v-if="tips" class="triangle-down"></span>-->
@@ -66,20 +66,22 @@
 
 <script>
   import {pageComment} from "../api/api";
-  import {postTest} from "../api/api";
+  import {commentSubmit} from "../api/api";
+  import {baseUrl} from "../api/api";
 
   export default {
     name: "comment",
     data() {
       return {
         commentData: {
-          name: '',
+          writer: '',
           mail: '',
           site: '',
           robot: false,
           content:'',
+          userAgent:''
         },
-        avatarData: new FormData(),
+        formData: new FormData(),
         imgData: {},
         defaultImgUrl: 'https://gss0.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/1b4c510fd9f9d72a11f2fd1ed22a2834349bbb1b.jpg',
         tips: false,
@@ -87,7 +89,7 @@
         comment: [
           {
             'id': 0,
-            'avatar': 'https://gss0.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/1b4c510fd9f9d72a11f2fd1ed22a2834349bbb1b.jpg',
+            'avatar': 'comment/avatar/avatar.jpg',
             'writer': '小白',
             'site': '',
             'time': '2020-03-25',
@@ -97,7 +99,7 @@
           },
           {
             'id': 1,
-            'avatar': 'https://gss0.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/1b4c510fd9f9d72a11f2fd1ed22a2834349bbb1b.jpg',
+            'avatar': 'comment/avatar/avatar.jpg',
             'writer': '小白',
             'site': '',
             'time': '2020-03-25',
@@ -107,7 +109,7 @@
           },
           {
             'id': 2,
-            'avatar': 'https://gss0.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/1b4c510fd9f9d72a11f2fd1ed22a2834349bbb1b.jpg',
+            'avatar': 'comment/avatar/avatar.jpg',
             'writer': '小白',
             'site': '',
             'time': '2020-03-25',
@@ -117,7 +119,7 @@
           },
           {
             'id': 3,
-            'avatar': 'https://gss0.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/1b4c510fd9f9d72a11f2fd1ed22a2834349bbb1b.jpg',
+            'avatar': 'comment/avatar/avatar.jpg',
             'writer': '小白',
             'site': '',
             'time': '2020-03-25',
@@ -127,7 +129,7 @@
           },
           {
             'id': 4,
-            'avatar': 'https://gss0.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/1b4c510fd9f9d72a11f2fd1ed22a2834349bbb1b.jpg',
+            'avatar': 'comment/avatar/avatar.jpg',
             'writer': '小白',
             'site': '',
             'time': '2020-03-25',
@@ -139,15 +141,34 @@
       }
     },
     methods: {
-      test(){
-        postTest(this.avatarData).then(res => {
+      imgUrl(path){//拼接图片URL
+        return baseUrl + '/api/img/' + path
+      },
+      submit(){//提交
+        let comment = this.commentData;
+        comment['userAgent'] = navigator.userAgent;
+        for(let i in comment){
+          if(comment.hasOwnProperty(i)){
+            this.formData.append(i,comment[i])
+          }
+        }
+        // 加一个加载组件
+        commentSubmit(this.formData).then(res => {
 
         })
+        this.commentData = {
+          writer: '',
+          mail: '',
+          site: '',
+          robot: false,
+          content:'',
+          userAgent:''
+        }
       },
       returnTitleImg(data) {
         this.$emit('getTitle', data)
       },
-      addImg(event) {
+      addImg(event) {//头像添加到头像框内
         let inputDOM = this.$refs.inputer;
         // 通过DOM取文件数据
         let fil = inputDOM.files[0];
@@ -157,7 +178,7 @@
           return false
         }
         this.$set(this.imgData, 'upload', fil);
-        this.avatarData.append('file',fil);
+        this.formData.append('file',fil);
       },
       getImgUrl(dict) {
         var url = null;

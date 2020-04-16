@@ -1,5 +1,5 @@
 import http from './base'
-const baseUrl = 'http://127.0.0.1:8000'
+export const baseUrl = 'http://127.0.0.1:8000'
 // 归档
 export const pageFolder = (params) => {
   return http.fetchGet(`${baseUrl}/api/page/folder`, params)
@@ -36,6 +36,7 @@ export const articleDetailHome = (params) => {
 export const articleDetailFolder = (params) => {
   return http.fetchGet(`${baseUrl}/api/articleDetail/folder`, params)
 };
-export const postTest = (params) => {
+// 留言板提交留言
+export const commentSubmit = (params) => {
   return http.fetchPost(`${baseUrl}/api/comment`, params)
 };
