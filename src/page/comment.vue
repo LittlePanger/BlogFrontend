@@ -9,7 +9,7 @@
     </div>
     <div class="comment-list">
       <div class="comment-list-title">
-        <h3>Comments | 1,632 条评论</h3>
+        <h3>Comments | {{commentCount}} 条评论</h3>
       </div>
       <div class="comment" v-for="item in comment" :key="item.id">
         <div class="comment-avatar">
@@ -19,7 +19,7 @@
           <a :href="item.site"><span>{{item.writer}}</span></a>
         </div>
         <div class="comment-info">
-          <span>发布于{{item.time}}({{item.userAgent}})来自:{{item.address}}</span>
+          <span>发布于{{item.time}}({{item.system}}{{item.browser}})来自:{{item.address}}</span>
         </div>
         <div class="comment-body">
           <p style="text-align: left">
@@ -28,142 +28,118 @@
         </div>
         <hr>
       </div>
+      <div class="page-block">
+        <el-pagination
+          layout="prev, pager, next"
+          :total="commentCount"
+          :page-size="5"
+          @current-change="handleCurrentChange"
+        >
+        </el-pagination>
+      </div>
     </div>
     <div class="comment-bottom">
-<!--      <form class="comment-form" action="http://127.0.0.1:8000/api/comment" method="post" novalidate="true" v-model="commentData">-->
-
-        <!--      <div class="textarea-top"><label for="comment">这里应该有句话..</label></div>-->
-        <textarea name="" id="comment" cols="30" rows="10" class="comment-textarea" placeholder="这里应该有句话.." v-model="commentData.content"></textarea>
-        <div class="comment-form-user">
-          <div class="comment-form-avatar">
-            <i v-if="!imgData.hasOwnProperty('upload')" class="e-icondingbudaohang-zhangh"></i>
-            <img :src="getImgUrl(imgData)" alt="">
-          </div>
-          <div class="comment-form-input">
-            <input placeholder="阁下是?" v-model="commentData.writer"></input>
-            <input placeholder="邮箱" v-model="commentData.mail"></input>
-            <input placeholder="个人站点" v-model="commentData.site"></input>
-          </div>
-          <div class="comment-form-robot">
-            <input type="checkbox" id="checkbox" v-model="commentData.robot"/><label for="checkbox"></label>
-            <span @click="commentData.robot = !commentData.robot">I'm not a robot</span>
-          </div>
-          <div class="comment-form-submit">
-            <button @click="submit">BOOM!!!</button>
-            <div class="comment-form-upload el-icon-picture-outline" @mouseover="tips=true" @mouseleave="tips=false">
-<!--              <span v-if="tips" class="comment-input-tip">给自己一个头像吧</span>-->
-<!--              <span v-if="tips" class="triangle-down"></span>-->
-              <el-tooltip effect="dark" content="给自己一个头像吧" placement="top">
-                <input type="file" @change="addImg" ref="inputer">
-              </el-tooltip>
-            </div>
+      <textarea name="" id="comment" cols="30" rows="10" class="comment-textarea" placeholder="这里应该有句话.."
+                v-model="commentData.content"></textarea>
+      <div class="comment-form-user">
+        <div class="comment-form-avatar">
+          <i v-if="!imgData.hasOwnProperty('upload')" class="e-icondingbudaohang-zhangh"></i>
+          <img :src="getImgUrl(imgData)" alt="">
+        </div>
+        <div class="comment-form-input">
+          <input placeholder="阁下是?" v-model="commentData.writer"></input>
+          <input placeholder="邮箱" v-model="commentData.mail"></input>
+          <input placeholder="个人站点" v-model="commentData.site"></input>
+        </div>
+        <div class="comment-form-robot">
+          <input type="checkbox" id="checkbox" v-model="commentData.robot"/><label for="checkbox"></label>
+          <span @click="commentData.robot = !commentData.robot">I'm not a robot</span>
+        </div>
+        <div class="comment-form-submit">
+          <button @click="submit">BOOM!!!</button>
+          <div class="comment-form-upload el-icon-picture-outline" @mouseover="tips=true" @mouseleave="tips=false">
+            <!--              <span v-if="tips" class="comment-input-tip">给自己一个头像吧</span>-->
+            <!--              <span v-if="tips" class="triangle-down"></span>-->
+            <el-tooltip effect="dark" content="给自己一个头像吧" placement="top">
+              <input type="file" @change="addImg" ref="inputer">
+            </el-tooltip>
           </div>
         </div>
-<!--      </form>-->
+      </div>
+      <!--      </form>-->
     </div>
   </div>
 </template>
 
 <script>
-  import {pageComment} from "../api/api";
-  import {commentSubmit} from "../api/api";
-  import {baseUrl} from "../api/api";
+  import {baseUrl, pageComment, commentGet, commentSubmit, articleDetailFolder} from "../api/api";
 
   export default {
     name: "comment",
     data() {
       return {
+        commentCount: 0,
         commentData: {
           writer: '',
           mail: '',
           site: '',
           robot: false,
-          content:'',
-          userAgent:''
+          content: '',
+          userAgent: ''
         },
         formData: new FormData(),
         imgData: {},
         defaultImgUrl: 'https://gss0.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/1b4c510fd9f9d72a11f2fd1ed22a2834349bbb1b.jpg',
         tips: false,
-        poem:{'content':'苟利国家生死以,岂因祸福避趋之','title':'[清代] 林则徐《赴戍登程口占示家人》'},
-        comment: [
-          {
-            'id': 0,
-            'avatar': 'comment/avatar/avatar.jpg',
-            'writer': '小白',
-            'site': '',
-            'time': '2020-03-25',
-            'userAgent': '巴拉巴拉巴拉',
-            'address': '北京',
-            'content': '内容巴拉巴拉'
-          },
-          {
-            'id': 1,
-            'avatar': 'comment/avatar/avatar.jpg',
-            'writer': '小白',
-            'site': '',
-            'time': '2020-03-25',
-            'userAgent': '巴拉巴拉巴拉',
-            'address': '北京',
-            'content': '内容巴拉巴拉'
-          },
-          {
-            'id': 2,
-            'avatar': 'comment/avatar/avatar.jpg',
-            'writer': '小白',
-            'site': '',
-            'time': '2020-03-25',
-            'userAgent': '巴拉巴拉巴拉',
-            'address': '北京',
-            'content': '内容巴拉巴拉'
-          },
-          {
-            'id': 3,
-            'avatar': 'comment/avatar/avatar.jpg',
-            'writer': '小白',
-            'site': '',
-            'time': '2020-03-25',
-            'userAgent': '巴拉巴拉巴拉',
-            'address': '北京',
-            'content': '内容巴拉巴拉'
-          },
-          {
-            'id': 4,
-            'avatar': 'comment/avatar/avatar.jpg',
-            'writer': '小白',
-            'site': '',
-            'time': '2020-03-25',
-            'userAgent': '巴拉巴拉巴拉',
-            'address': '北京',
-            'content': '内容巴拉巴拉'
-          },
-        ]
+        poem: {'content': '苟利国家生死以,岂因祸福避趋之', 'title': '[清代] 林则徐《赴戍登程口占示家人》'},
+        comment: []
       }
     },
     methods: {
-      imgUrl(path){//拼接图片URL
+      imgUrl(path) {//拼接图片URL
         return baseUrl + '/api/img/' + path
       },
-      submit(){//提交
+      handleCurrentChange(val) {
+        commentGet({'page': val}).then(res => {
+          this.commentCount = res.count
+          this.comment = res.results
+        })
+      },
+      check() {//校验数据
+
+      },
+      submit() {//提交
+        let send = this.sending();
         let comment = this.commentData;
         comment['userAgent'] = navigator.userAgent;
-        for(let i in comment){
-          if(comment.hasOwnProperty(i)){
-            this.formData.append(i,comment[i])
+        for (let i in comment) {
+          if (comment.hasOwnProperty(i)) {
+            this.formData.append(i, comment[i])
           }
         }
-        // 加一个加载组件
         commentSubmit(this.formData).then(res => {
-
+          if (res.code === 200) {
+            // 成功后移除发送中,弹出发送成功
+            send.close();
+            this.sendSuccess();
+            this.comment.unshift(res.data);
+            this.comment.pop();
+            this.commentCount += 1;
+            this.imgData = {};
+            this.commentData = {
+              writer: '',
+              mail: '',
+              site: '',
+              robot: false,
+              content: '',
+              userAgent: ''
+            }
+          } else {
+            // 失败后移除发送中,弹出发送失败及错误原因
+            send.close();
+            this.sendError(res.error)
+          }
         })
-        this.commentData = {
-          writer: '',
-          mail: '',
-          site: '',
-          robot: false,
-          content:'',
-          userAgent:''
-        }
       },
       returnTitleImg(data) {
         this.$emit('getTitle', data)
@@ -178,7 +154,7 @@
           return false
         }
         this.$set(this.imgData, 'upload', fil);
-        this.formData.append('file',fil);
+        this.formData.append('file', fil);
       },
       getImgUrl(dict) {
         var url = null;
@@ -198,6 +174,26 @@
         }
         return url;
       },
+      // 消息提醒
+      sending() {
+        return this.$message({
+          message: '正在传输信号,嘟~~~',
+          duration: 0
+        })
+      },
+      sendSuccess() {
+        this.$message({
+          message: '收到，OVER!',
+          type: 'success'
+        });
+      },
+      sendError(msg) {
+        this.$message({
+          message: '<p>发送失败了TvT</p><b>' + msg + '</b>',
+          type: 'error',
+          dangerouslyUseHTMLString: true,
+        });
+      }
     },
     mounted() {
       pageComment().then(res => {
@@ -208,6 +204,10 @@
           'src': 'http://img.article.pchome.net/01/58/91/24/pic_lib/wm/Bing03.jpg'
         })
       });
+      commentGet().then(res => {
+        this.commentCount = res.count
+        this.comment = res.results
+      })
     }
   }
 </script>
@@ -328,6 +328,11 @@
     background: #eee;
     border: 0;
     margin: 40px 0;
+  }
+
+  .page-block {
+    text-align: right;
+    margin-bottom: 30px;
   }
 
   .comment-textarea {

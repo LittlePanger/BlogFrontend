@@ -40,3 +40,7 @@ export const articleDetailFolder = (params) => {
 export const commentSubmit = (params) => {
   return http.fetchPost(`${baseUrl}/api/comment`, params)
 };
+// 留言板提交留言
+export const commentGet = (params) => {
+  return http.fetchGet(`${baseUrl}/api/comment`, params)
+};
