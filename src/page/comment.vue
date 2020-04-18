@@ -19,7 +19,10 @@
           <a :href="item.site"><span>{{item.writer}}</span></a>
         </div>
         <div class="comment-info">
-          <span>发布于{{item.time}}({{item.system}}{{item.browser}})来自:{{item.address}}</span>
+          <span>发布于{{item.time}} &nbsp;
+            (<img :src="item.systemSrc" alt="" class="comment-info-svg">&nbsp;{{item.system}} &nbsp;|&nbsp;
+            <img :src="item.browserSrc" alt="" class="comment-info-svg">&nbsp;{{item.browser}})
+            来自:{{item.address}}</span>
         </div>
         <div class="comment-body">
           <p style="text-align: left">
@@ -48,18 +51,16 @@
         </div>
         <div class="comment-form-input">
           <input placeholder="阁下是?" v-model="commentData.writer"></input>
-          <input placeholder="邮箱" v-model="commentData.mail"></input>
-          <input placeholder="个人站点" v-model="commentData.site"></input>
+          <input placeholder="邮箱" v-model="commentData.mail" @blur.prevent="checkMail"></input>
+          <input placeholder="个人站点" v-model="commentData.site" @blur.prevent="checkSite"></input>
         </div>
         <div class="comment-form-robot">
           <input type="checkbox" id="checkbox" v-model="commentData.robot"/><label for="checkbox"></label>
-          <span @click="commentData.robot = !commentData.robot">I'm not a robot</span>
+          <span @click="commentData.robot = !commentData.robot">能量槽充能 | I'm not a robot</span>
         </div>
         <div class="comment-form-submit">
-          <button @click="submit">BOOM!!!</button>
-          <div class="comment-form-upload el-icon-picture-outline" @mouseover="tips=true" @mouseleave="tips=false">
-            <!--              <span v-if="tips" class="comment-input-tip">给自己一个头像吧</span>-->
-            <!--              <span v-if="tips" class="triangle-down"></span>-->
+          <button @click="submit">传输信号</button>
+          <div class="comment-form-upload el-icon-picture-outline">
             <el-tooltip effect="dark" content="给自己一个头像吧" placement="top">
               <input type="file" @change="addImg" ref="inputer">
             </el-tooltip>
@@ -99,47 +100,88 @@
       imgUrl(path) {//拼接图片URL
         return baseUrl + '/api/img/' + path
       },
+      getSVG() {
+        // TODO 最好在后端返回svg名字
+        this.comment.forEach(ele => {
+          ele.systemSrc = require('../assets/svg/' + ele.system + '.svg');
+          ele.browserSrc = require('../assets/svg/' + ele.browser.split(' ')[0] + '.svg');
+        })
+      },
       handleCurrentChange(val) {
         commentGet({'page': val}).then(res => {
           this.commentCount = res.count
           this.comment = res.results
         })
       },
-      check() {//校验数据
-
+      checkMail() {
+        let reg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+        if (!reg.test(this.commentData.mail)) {
+          this.checkMsg('邮箱好像不太对嗷~')
+        }
       },
-      submit() {//提交
-        let send = this.sending();
-        let comment = this.commentData;
-        comment['userAgent'] = navigator.userAgent;
-        for (let i in comment) {
-          if (comment.hasOwnProperty(i)) {
-            this.formData.append(i, comment[i])
+      checkSite() {
+        let reg = /^(http:\/\/|https:\/\/)/;
+        if (!reg.test(this.commentData.site)) {
+          this.checkMsg('网站请以http://或https://开头')
+        }
+      },
+      check(commentData) {//校验数据
+        if (!commentData.robot) {
+          this.checkMsg('⚠检测到能量槽未充能,无法传输信号⚠')
+          return false
+        }
+        let warningMsg = {
+          'writer': '留下名字呗',
+          'mail': '留个联系方式啦',
+          'content': '你想说什么呢?',
+        };
+        for (let i in commentData) {
+          if (commentData.hasOwnProperty(i)) {
+            if (i !== 'site' && i !== 'userAgent') {
+              if (commentData[i] == null || commentData[i] === '') {
+                this.checkMsg(warningMsg[i]);
+                return false
+              }
+            }
           }
         }
-        commentSubmit(this.formData).then(res => {
-          if (res.code === 200) {
-            // 成功后移除发送中,弹出发送成功
-            send.close();
-            this.sendSuccess();
-            this.comment.unshift(res.data);
-            this.comment.pop();
-            this.commentCount += 1;
-            this.imgData = {};
-            this.commentData = {
-              writer: '',
-              mail: '',
-              site: '',
-              robot: false,
-              content: '',
-              userAgent: ''
-            }
-          } else {
-            // 失败后移除发送中,弹出发送失败及错误原因
-            send.close();
-            this.sendError(res.error)
+        return true
+      },
+      submit() {//提交
+        let commentData = this.commentData;
+        if (!this.check(commentData)) {
+          return
+        }
+        let send = this.sending();
+        commentData['userAgent'] = navigator.userAgent;
+        for (let i in commentData) {
+          if (commentData.hasOwnProperty(i)) {
+            this.formData.append(i, commentData[i])
           }
-        })
+        }
+        // commentSubmit(this.formData).then(res => {
+        //   if (res.code === 200) {
+        //     // 成功后移除发送中,弹出发送成功
+        //     send.close();
+        //     this.sendSuccess();
+        //     this.comment.unshift(res.data);
+        //     this.comment.pop();
+        //     this.commentCount += 1;
+        //     this.imgData = {};
+        //     this.commentData = {
+        //       writer: '',
+        //       mail: '',
+        //       site: '',
+        //       robot: false,
+        //       content: '',
+        //       userAgent: ''
+        //     }
+        //   } else {
+        //     // 失败后移除发送中,弹出发送失败及错误原因
+        //     send.close();
+        //     this.sendError(res.error)
+        //   }
+        // })
       },
       returnTitleImg(data) {
         this.$emit('getTitle', data)
@@ -193,6 +235,12 @@
           type: 'error',
           dangerouslyUseHTMLString: true,
         });
+      },
+      checkMsg(msg) {
+        this.$message({
+          message: msg,
+          type: 'warning'
+        });
       }
     },
     mounted() {
@@ -207,6 +255,7 @@
       commentGet().then(res => {
         this.commentCount = res.count
         this.comment = res.results
+        this.getSVG()
       })
     }
   }
@@ -320,6 +369,11 @@
     letter-spacing: 0;
     text-transform: none;
     color: rgba(0, 0, 0, .35);
+  }
+
+  .comment-info-svg {
+    height: 14px;
+    vertical-align: text-bottom;
   }
 
   .comment hr {

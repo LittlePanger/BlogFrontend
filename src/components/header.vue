@@ -34,7 +34,7 @@
         <div class="menu-open-left animated fadeInUp faster">
           <div class="menu-top">
             <div class="menu-avatar">
-              <img src="../assets/avatar.jpg" alt="">
+              <img :src="menuTop.avatar" alt="">
             </div>
             <div class="menu-name">
               <p>{{menuTop.name}}</p>
@@ -113,9 +113,9 @@
         ]
       });
       personalInfo().then(res =>{
-        this.menuTop = res.data[0]
+        this.menuTop = res.data
       }).catch(res => {
-        this.menuSocial = {
+        this.menuTop = {
           'name': 'LittlePanger', 'avatar': '../assets/avatar.jpg',
         }
       });
