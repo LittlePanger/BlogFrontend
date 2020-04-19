@@ -20,7 +20,7 @@
         </div>
         <div class="comment-info">
           <span>发布于{{item.time}} &nbsp;
-            (<img :src="item.systemSrc" alt="" class="comment-info-svg">&nbsp;{{item.system}} &nbsp;|&nbsp;
+            (&nbsp;<img :src="item.systemSrc" alt="" class="comment-info-svg">&nbsp;{{item.system}} &nbsp;
             <img :src="item.browserSrc" alt="" class="comment-info-svg">&nbsp;{{item.browser}})
             来自:{{item.address}}</span>
         </div>
@@ -101,17 +101,23 @@
         return baseUrl + '/api/img/' + path
       },
       getSVG() {
-        // TODO 最好在后端返回svg名字
         this.comment.forEach(ele => {
-          ele.systemSrc = require('../assets/svg/' + ele.system + '.svg');
-          ele.browserSrc = require('../assets/svg/' + ele.browser.split(' ')[0] + '.svg');
+          if (ele.systemSrc.slice(-4) !== '.svg'){
+            ele.systemSrc = require('../assets/svg/' + ele.systemSrc + '.svg');
+            ele.browserSrc = require('../assets/svg/' + ele.browserSrc + '.svg');
+          }
+        })
+      },
+      getComment(val){
+        commentGet({'page': val}).then(res => {
+          this.commentCount = res.count;
+          this.comment = res.results;
+          this.getSVG();
+          this.setTime()
         })
       },
       handleCurrentChange(val) {
-        commentGet({'page': val}).then(res => {
-          this.commentCount = res.count
-          this.comment = res.results
-        })
+        this.getComment(val)
       },
       checkMail() {
         let reg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
@@ -127,7 +133,7 @@
       },
       check(commentData) {//校验数据
         if (!commentData.robot) {
-          this.checkMsg('⚠检测到能量槽未充能,无法传输信号⚠')
+          this.checkMsg('⚠检测到能量槽未充能,无法传输信号⚠');
           return false
         }
         let warningMsg = {
@@ -159,29 +165,32 @@
             this.formData.append(i, commentData[i])
           }
         }
-        // commentSubmit(this.formData).then(res => {
-        //   if (res.code === 200) {
-        //     // 成功后移除发送中,弹出发送成功
-        //     send.close();
-        //     this.sendSuccess();
-        //     this.comment.unshift(res.data);
-        //     this.comment.pop();
-        //     this.commentCount += 1;
-        //     this.imgData = {};
-        //     this.commentData = {
-        //       writer: '',
-        //       mail: '',
-        //       site: '',
-        //       robot: false,
-        //       content: '',
-        //       userAgent: ''
-        //     }
-        //   } else {
-        //     // 失败后移除发送中,弹出发送失败及错误原因
-        //     send.close();
-        //     this.sendError(res.error)
-        //   }
-        // })
+        commentSubmit(this.formData).then(res => {
+          if (res.code === 200) {
+            // 成功后移除发送中,弹出发送成功
+            send.close();
+            this.sendSuccess();
+            // 计算时间差值,将新数据填入数组首位,移除最后一位,总数量+1,清空图片和input
+            res.data.time = this.getTimeDiff(res.data.time);
+            this.comment.unshift(res.data);
+            this.comment.pop();
+            this.getSVG();
+            this.commentCount += 1;
+            this.imgData = {};
+            this.commentData = {
+              writer: '',
+              mail: '',
+              site: '',
+              robot: false,
+              content: '',
+              userAgent: ''
+            }
+          } else {
+            // 失败后移除发送中,弹出发送失败及错误原因
+            send.close();
+            this.sendError(res.error)
+          }
+        })
       },
       returnTitleImg(data) {
         this.$emit('getTitle', data)
@@ -241,6 +250,27 @@
           message: msg,
           type: 'warning'
         });
+      },
+      getTimeDiff(time){
+        let timestamp = new Date(time).getTime();
+        let time_diff = new Date().getTime() - timestamp;
+        let res = Math.round(time_diff / 1000);
+        if (res < 60){
+          return res + '秒前'
+        }else if(res < 60*60){
+          return Math.round(res / 60) + '分钟前'
+        }else if(res < 60*60*24){
+          return Math.round(res / (60 * 60)) + '小时前'
+        }else if(res < 60*60*24*30){
+          return Math.round(res / (60 * 60 * 24)) + '天前'
+        }else{
+          return time
+        }
+      },
+      setTime(){
+        this.comment.forEach(ele => {
+          ele.time = this.getTimeDiff(ele.time)
+        })
       }
     },
     mounted() {
@@ -252,11 +282,7 @@
           'src': 'http://img.article.pchome.net/01/58/91/24/pic_lib/wm/Bing03.jpg'
         })
       });
-      commentGet().then(res => {
-        this.commentCount = res.count
-        this.comment = res.results
-        this.getSVG()
-      })
+      this.getComment()
     }
   }
 </script>

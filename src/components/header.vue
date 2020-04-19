@@ -34,7 +34,7 @@
         <div class="menu-open-left animated fadeInUp faster">
           <div class="menu-top">
             <div class="menu-avatar">
-              <img :src="menuTop.avatar" alt="">
+              <img :src="imgUrl(menuTop.avatar)" alt="">
             </div>
             <div class="menu-name">
               <p>{{menuTop.name}}</p>
@@ -70,7 +70,7 @@
 </template>
 
 <script>
-  import {socialInfo} from "../api/api";
+  import {baseUrl, socialInfo} from "../api/api";
   import {personalInfo} from "../api/api";
   import {navBar} from "../api/api";
 
@@ -87,6 +87,9 @@
       }
     },
     methods: {
+      imgUrl(path) {//拼接图片URL
+        return baseUrl + '/api/img/' + path
+      },
       mouseOver(e) {
         e.currentTarget.firstElementChild.style.color = "#e67474";
         e.currentTarget.style.backgroundSize = "100% 5px"
