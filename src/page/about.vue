@@ -1,38 +1,38 @@
 <template>
   <div class="about-main">
     <div class="about-chat">
-      <h4 class="about-chat-top">与 神秘人 聊天中</h4>
+      <h4 class="about-chat-top">与 LittlePanger 聊天中</h4>
       <transition-group name="slide-fade">
         <div class="message-box box-left" v-if="timerNum>0" key="k1">
-          <div class="message-content">hello</div>
+          <div class="message-content">Hi~ o(*￣▽￣*)ブ</div>
         </div>
         <div class="message-box box-left" v-if="timerNum>1" key="k2">
-          <div class="message-content">hello</div>
+          <div class="message-content">我是LittlePanger</div>
         </div>
         <div class="message-box box-left" v-if="timerNum>2" key="k3">
-          <div class="message-content">hello</div>
+          <div class="message-content">这是我的博客</div>
         </div>
         <div class="message-box box-left" v-if="timerNum===4" key="k4">
-          <div class="message-content message-btn" @click="timerNum=5">who are you?</div>
-          <div class="message-content message-btn" @click="timerNum=9">Gun</div>
+          <div class="message-content message-btn" @click="timerNum=5">然后呢?</div>
+          <div class="message-content message-btn" @click="timerNum=9">不感兴趣,溜了溜了</div>
         </div>
         <div class="message-box box-right" v-if="timerNum>4 && timerNum<9" key="k5">
-          <div class="message-content">who are you?</div>
+          <div class="message-content">然后呢?</div>
         </div>
         <div class="message-box box-left" v-if="timerNum>5 && timerNum<9" key="k6">
-          <div class="message-content">one people</div>
+          <div class="message-content">一个刚入门的coder</div>
         </div>
         <div class="message-box box-left" v-if="timerNum>6 && timerNum<9" key="k7">
-          <div class="message-content">handsome</div>
+          <div class="message-content">穿梭于2次元与2进制的厨子</div>
         </div>
         <div class="message-box box-left" v-if="timerNum>7 && timerNum<9" key="k8">
-          <div class="message-content">genius</div>
+          <div class="message-content">代码虐我千百遍,我待代码如初恋</div>
         </div>
         <div class="message-box box-right" v-if="timerNum>8" key="k9">
-          <div class="message-content">Gun</div>
+          <div class="message-content">不感兴趣,溜了溜了</div>
         </div>
         <div class="message-box box-left" v-if="timerNum>9" key="k10">
-          <div class="message-content">GunLe</div>
+          <div class="message-content">꒦ິ꒳꒦ີ</div>
         </div>
       </transition-group>
     </div>
