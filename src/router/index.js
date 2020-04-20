@@ -11,7 +11,7 @@ const Comment = () => import('../page/blog/comment');
 const About = () => import('../page/blog/about');
 const ArticleCom = () => import('../page/blog/article');
 const Test = () => import('../page/test/test');
-
+const indexCMS = () => import('../page/cms/index');
 
 Vue.use(Router)
 
@@ -33,5 +33,6 @@ export default new Router({
     {path: '/home', component: Home},
     {path: '/account/login',name: 'login',component: Login},
     {path: '/test',name: 'test',component: Test},
+    {path: '/cms',name: 'indexCMS',component: indexCMS},
   ]
 })
