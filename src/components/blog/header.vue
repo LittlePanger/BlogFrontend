@@ -3,7 +3,7 @@
     <el-row>
       <el-col :span="4" style="line-height: 72px">
         <router-link to="/">
-          <img src="../assets/nameLOGO.png" alt="" style="height: 50px;vertical-align: middle">
+          <img src="../../assets/nameLOGO.png" alt="" style="height: 50px;vertical-align: middle">
         </router-link>
       </el-col>
       <el-col :span="16">
@@ -64,15 +64,15 @@
       <i class="el-icon-menu" @click="openMenu"></i>
     </div>
     <router-link to="/" class="mobile-header-logo">
-      <img src="../assets/nameLOGO.png" alt="" style="height: 50px;vertical-align: middle">
+      <img src="../../assets/nameLOGO.png" alt="" style="height: 50px;vertical-align: middle">
     </router-link>
   </el-header>
 </template>
 
 <script>
-  import {baseUrl, socialInfo} from "../api/api";
-  import {personalInfo} from "../api/api";
-  import {navBar} from "../api/api";
+  import {baseUrl, socialInfo} from "../../api/api";
+  import {personalInfo} from "../../api/api";
+  import {navBar} from "../../api/api";
 
   export default {
     props: ['isPc'],

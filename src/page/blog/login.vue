@@ -1,9 +1,9 @@
 <template>
   <div class="login-bg">
-    <img src="../../static/img/city.jpg" alt="" class="login-bg-img">
+    <img src="../../../static/img/city.jpg" alt="" class="login-bg-img">
     <div class="login-wrapper">
       <div class="login-title">
-        <router-link to="/"><img src="../assets/catLogoBig.png" alt="" style="height: 80px"></router-link>
+        <router-link to="/"><img src="../../assets/catLogoBig.png" alt="" style="height: 80px"></router-link>
       </div>
       <div class="login-form">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="200px" class="demo-ruleForm" inline="true"

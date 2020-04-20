@@ -28,10 +28,9 @@
 </template>
 
 <script>
-  import Header from '../components/header'
-  import Footer from '../components/footer'
-  import MainImg from '../components/mainImg'
-  import ScrollGoTop from '../components/scrollGoTop'
+  import Header from '../../components/blog/header'
+  import Footer from '../../components/blog/footer'
+  import ScrollGoTop from '../../components/blog/scrollGoTop'
 
   export default {
     name: "index",
@@ -45,7 +44,6 @@
     components: {
       Header,
       Footer,
-      MainImg,
       ScrollGoTop,
     },
     methods: {

@@ -61,7 +61,7 @@
     z-index: 99;
     top: 0;
     right: 50px;
-    background-image: url("../assets/scroll.png");
+    background-image: url("../../assets/scroll.png");
     background-size: 63px 810px;
   }
 </style>

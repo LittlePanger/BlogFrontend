@@ -13,7 +13,7 @@
 </template>
 
 <script>
-  import {articleAPI} from "../api/api";
+  import {articleAPI} from "../../api/api";
 
   export default {
     name: "articleCom",

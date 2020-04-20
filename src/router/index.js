@@ -3,13 +3,13 @@ import Router from 'vue-router'
 // import HelloWorld from '@/components/HelloWorld'
 // import index from '../page/index'
 // const Login = () => import('@/page/login')写法是vue-router 按需加载
-const Index = () => import('../page/index');
-const Home = () => import('../page/home');
-const Login = () => import('../page/login');
-const Folder = () => import('../page/folder');
-const Comment = () => import('../page/comment');
-const About = () => import('../page/about');
-const ArticleCom = () => import('../page/article');
+const Index = () => import('../page/blog/index');
+const Home = () => import('../page/blog/home');
+const Login = () => import('../page/blog/login');
+const Folder = () => import('../page/blog/folder');
+const Comment = () => import('../page/blog/comment');
+const About = () => import('../page/blog/about');
+const ArticleCom = () => import('../page/blog/article');
 const Test = () => import('../page/test/test');
 
 
