@@ -2,44 +2,35 @@
   <div>
     <el-container>
 
-      <el-menu default-active="1-4-1" class="el-menu-vertical-demo" :style="{'height':screenHeight+'px'}" @open="handleOpen" @close="handleClose"
-               :collapse="isCollapse">
-        <el-submenu index="1">
-          <template slot="title">
-            <i class="el-icon-location"></i>
-            <span slot="title">导航一</span>
-          </template>
-          <el-menu-item-group>
-            <span slot="title">分组一</span>
-            <el-menu-item index="1-1">选项1</el-menu-item>
-            <el-menu-item index="1-2">选项2</el-menu-item>
-          </el-menu-item-group>
-          <el-menu-item-group title="分组2">
-            <el-menu-item index="1-3">选项3</el-menu-item>
-          </el-menu-item-group>
-          <el-submenu index="1-4">
-            <span slot="title">选项4</span>
-            <el-menu-item index="1-4-1">选项1</el-menu-item>
-          </el-submenu>
-        </el-submenu>
-        <el-menu-item index="2">
-          <i class="el-icon-menu"></i>
-          <span slot="title">导航二</span>
+      <el-menu default-active="1-4-1" class="el-menu-vertical-demo" :style="{'height':screenHeight+'px'}"
+               @open="handleOpen" @close="handleClose"
+               :collapse="isCollapse" :router="true">
+        <el-menu-item index="/cms/dashboard">
+          <i class="el-icon-odometer">
+          </i>
+          <span slot="title">仪表盘</span>
         </el-menu-item>
-        <el-menu-item index="3" disabled>
-          <i class="el-icon-document"></i>
-          <span slot="title">导航三</span>
+        <el-menu-item index="/cms/folder">
+          <i class="el-icon-folder"></i>
+          <span slot="title">归档</span>
         </el-menu-item>
-        <el-menu-item index="4">
+        <el-menu-item index="/cms/comment">
+          <i class="el-icon-edit-outline"></i>
+          <span slot="title">留言</span>
+        </el-menu-item>
+        <el-menu-item index="/cms/settings">
           <i class="el-icon-setting"></i>
-          <span slot="title">导航四</span>
+          <span slot="title">设置</span>
         </el-menu-item>
       </el-menu>
       <el-container>
-        <el-header height="50">
-          <i class="el-icon-menu header-icon" @click="isCollapse=!isCollapse"/>
+        <el-header height="50px">
+          <!--          <i class="el-icon-menu header-icon" @click="isCollapse=!isCollapse"/>-->
+          <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
         </el-header>
-        <el-main>Main</el-main>
+        <el-main>
+          <router-view/>
+        </el-main>
         <!--        <el-footer>Footer</el-footer>-->
       </el-container>
     </el-container>
@@ -52,7 +43,7 @@
     data() {
       return {
         isCollapse: true,
-        screenHeight:0
+        screenHeight: 0
       };
     },
     methods: {
@@ -79,9 +70,6 @@
     font-size: 18px;
     padding: 16px 0;
   }
-  .el-main {
-    height: calc(100% - 30px);
-  }
 
   .el-menu-vertical-demo:not(.el-menu--collapse) {
     width: 200px;
@@ -93,20 +81,6 @@
     color: #333;
     text-align: center;
     line-height: 60px;
-  }
-
-  .el-aside {
-    background-color: #D3DCE6;
-    color: #333;
-    text-align: center;
-    line-height: 200px;
-  }
-
-  .el-main {
-    background-color: #E9EEF3;
-    color: #333;
-    text-align: center;
-    line-height: 160px;
   }
 
   body > .el-container {
