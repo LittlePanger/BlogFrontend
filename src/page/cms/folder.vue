@@ -20,7 +20,7 @@
       </el-table-column>
       <el-table-column
         prop="src"
-        label="图片"
+        label="封面"
         width="180"
         align="center">
         <template slot-scope="scope">
