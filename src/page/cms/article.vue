@@ -26,102 +26,97 @@
 <!--      <input type="text" placeholder="标题" class="input-title" v-model="article.title">-->
 <!--      &lt;!&ndash;      <el-input v-model="article.title" style="width: 80%"></el-input>&ndash;&gt;-->
 <!--    </div>-->
-<!--    &lt;!&ndash;    <div class="span-input">&ndash;&gt;-->
-<!--    &lt;!&ndash;      <span>热度:</span>&ndash;&gt;-->
-<!--    &lt;!&ndash;      <el-input v-model="article.heat" style="width: 80%"></el-input>&ndash;&gt;-->
-<!--    &lt;!&ndash;    </div>&ndash;&gt;-->
-
-<!--    &lt;!&ndash;    <div class="span-input">&ndash;&gt;-->
-<!--    &lt;!&ndash;      <span>链接:</span>&ndash;&gt;-->
-<!--    &lt;!&ndash;      <el-input v-model="article.url" style="width: 80%"></el-input>&ndash;&gt;-->
-<!--    &lt;!&ndash;    </div>&ndash;&gt;-->
-<!--    &lt;!&ndash;    <div class="span-input">&ndash;&gt;-->
-<!--    &lt;!&ndash;      <span>评论:</span>&ndash;&gt;-->
-<!--    &lt;!&ndash;      <el-input v-model="article.commentNum" style="width: 80%"></el-input>&ndash;&gt;-->
-<!--    &lt;!&ndash;    </div>&ndash;&gt;-->
-
-<!--    &lt;!&ndash;    <div class="span-input">&ndash;&gt;-->
-<!--    &lt;!&ndash;      <span>时间:</span>&ndash;&gt;-->
-<!--    &lt;!&ndash;      <el-date-picker&ndash;&gt;-->
-<!--    &lt;!&ndash;        v-model="article.time"&ndash;&gt;-->
-<!--    &lt;!&ndash;        type="datetime"&ndash;&gt;-->
-<!--    &lt;!&ndash;        placeholder="选择日期时间"&ndash;&gt;-->
-<!--    &lt;!&ndash;        default-time="12:00:00">&ndash;&gt;-->
-<!--    &lt;!&ndash;      </el-date-picker>&ndash;&gt;-->
-<!--    &lt;!&ndash;    </div>&ndash;&gt;-->
-<!--    &lt;!&ndash;    <el-input v-model="article.src"></el-input>&ndash;&gt;-->
-<!--    &lt;!&ndash;    <el-input type="textarea" v-model="article.detail"></el-input>&ndash;&gt;-->
-<!--    &lt;!&ndash;    <el-form-item label="是否显示" prop="delivery">&ndash;&gt;-->
-<!--    &lt;!&ndash;      <el-switch v-model=""></el-switch>&ndash;&gt;-->
-<!--    &lt;!&ndash;    </el-form-item>&ndash;&gt;-->
-
-<!--    &lt;!&ndash;    <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>&ndash;&gt;-->
-<!--    &lt;!&ndash;    <el-button @click="resetForm('ruleForm')">重置</el-button>&ndash;&gt;-->
-
-<!--    <mavon-editor-->
-<!--      class="md"-->
-<!--      :value="article.content"-->
-<!--      :subfield="prop.subfield"-->
-<!--      :defaultOpen="prop.defaultOpen"-->
-<!--      :toolbarsFlag="prop.toolbarsFlag"-->
-<!--      :editable="prop.editable"-->
-<!--      :scrollStyle="prop.scrollStyle"-->
-<!--      :ishljs="prop.ishljs"-->
-<!--    ></mavon-editor>-->
-<!--  </div>-->
 
 <!--</template>-->
 <template>
   <el-container>
-    <el-header>
-      <el-page-header @back="goBack">
-      </el-page-header>
+    <el-header style="margin-bottom: 20px">
+      <!--      <el-page-header @back="goBack" class="header-back">-->
+      <!--      </el-page-header>-->
+      <el-steps :active="stepActive" style="width: 500px;float: left" align-center finish-status="success">
+        <el-step title="开局一张图" icon="el-icon-picture"></el-step>
+        <el-step title="内容全靠编" icon="el-icon-edit"></el-step>
+        <el-step title="其他设置" icon="el-icon-setting"></el-step>
+        <el-step title="上传" icon="el-icon-upload"></el-step>
+      </el-steps>
+      <el-button-group style="float: right;margin-top: 10px">
+        <el-button type="" icon="el-icon-arrow-left" v-show="stepActive!==0" @click="stepActive-=1"></el-button>
+        <el-button type="" icon="el-icon-arrow-right" v-show="stepActive!==2" @click="stepActive+=1"></el-button>
+        <el-button type="" icon="el-icon-upload2" v-show="stepActive===2" style="font-size: 14px"></el-button>
+      </el-button-group>
     </el-header>
     <el-container>
-      <el-aside width="50px" style="height: 3000px">
-        <el-steps :active="stepActive" align-center direction="vertical">
-          <el-step icon="el-icon-picture"></el-step>
-          <el-step icon="el-icon-edit"></el-step>
-          <el-step icon="el-icon-setting"></el-step>
-          <el-step icon="el-icon-upload"></el-step>
-        </el-steps>
-      </el-aside>
+      <!--      <el-aside width="50px">-->
+      <!--        <el-steps :active="stepActive" align-center direction="vertical" space="750px">-->
+      <!--          <el-step icon="el-icon-picture"></el-step>-->
+      <!--          <el-step icon="el-icon-edit"></el-step>-->
+      <!--          <el-step icon="el-icon-setting"></el-step>-->
+      <!--          <el-step icon="el-icon-upload" class="step-last" style="height: 0"></el-step>-->
+      <!--        </el-steps>-->
+      <!--      </el-aside>-->
       <el-main>
-        <el-divider content-position="right" class="main-divider-1">开局一张图</el-divider>
-        <input type="file" class="input-img">
-        <div style="height: 580px">
-          <el-image
-            style="height: 100%;width: 100%;"
-            :src="article.src"
-            fit="scale-down"
-            :preview-src-list="[article.src]"
-          >
-            <!--图标错误提示-->
-            <!--            <div slot="error" class="image-slot"-->
-            <!--                 style="display: flex;justify-content: center;align-items: center;width: 100%;height: 100%;background: #f5f7fa;color: #909399;">-->
-            <!--              <i class="el-icon-picture-outline"></i>-->
-            <!--            </div>-->
-          </el-image>
+        <!--图片页-->
+        <div class="step-0" v-show="stepActive===0">
+          <div style="height: 580px">
+            <el-image
+              style="height: 100%;width: 100%;"
+              :src="getSrc()"
+              fit="scale-down"
+              :preview-src-list="[article.src]"
+            >
+              <!--图标错误提示-->
+              <!--            <div slot="error" class="image-slot"-->
+              <!--                 style="display: flex;justify-content: center;align-items: center;width: 100%;height: 100%;background: #f5f7fa;color: #909399;">-->
+              <!--              <i class="el-icon-picture-outline"></i>-->
+              <!--            </div>-->
+            </el-image>
+          </div>
+          <input type="file" class="input-img">
         </div>
 
-
-        <el-divider content-position="right" class="main-divider-2">内容全靠编</el-divider>
-
-        <div class="span-input">
-          <input type="text" placeholder="标题" class="input-title" v-model="article.title">
+        <!--文章页-->
+        <div class="step-1" v-show="stepActive===1">
+          <div class="span-input">
+            <input type="text" placeholder="标题" class="input-title" v-model="article.title">
+          </div>
+          <mavon-editor
+            style="height: 600px"
+            class="md"
+            :value="article.content"
+            :subfield="prop.subfield"
+            :defaultOpen="prop.defaultOpen"
+            :toolbarsFlag="prop.toolbarsFlag"
+            :editable="prop.editable"
+            :scrollStyle="prop.scrollStyle"
+            :ishljs="prop.ishljs"
+          ></mavon-editor>
         </div>
-        <mavon-editor
-          style="height: 600px"
-          class="md"
-          :value="article.content"
-          :subfield="prop.subfield"
-          :defaultOpen="prop.defaultOpen"
-          :toolbarsFlag="prop.toolbarsFlag"
-          :editable="prop.editable"
-          :scrollStyle="prop.scrollStyle"
-          :ishljs="prop.ishljs"
-        ></mavon-editor>
-        <el-divider content-position="right" class="main-divider">来张图</el-divider>
+
+        <!--设置页-->
+        <div class="step-2" v-show="stepActive===2">
+          <div class="span-input">
+            <span>链接:</span>
+            <el-input v-model="article.url" style="width: 80%"></el-input>
+          </div>
+          <div class="span-input">
+            <span>时间:</span>
+            <el-date-picker
+              v-model="article.time"
+              type="datetime"
+              placeholder="选择日期时间"
+              default-time="12:00:00">
+            </el-date-picker>
+          </div>
+          <div class="span-input">
+            <span>概述:</span>
+            <el-input v-model="article.detail" style="width: 80%"></el-input>
+          </div>
+          <div class="span-input">
+            <span>热度:</span>
+            <el-input v-model="article.heat" style="width: 80%"></el-input>
+          </div>
+          <!--          <el-switch v-model=""></el-switch>-->
+        </div>
 
       </el-main>
     </el-container>
@@ -144,7 +139,8 @@
           'commentNum': '',
           'content': '',
         },
-        stepActive:1
+        stepActive: 0,
+        isNew: true,
       }
     },
     computed: {
@@ -160,52 +156,81 @@
       }
     },
     methods: {
-      handleScroll() {
-        let scroll = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
-        if (scroll<400){
-          this.stepActive = 1
-        }else if(scroll>400){
-          this.stepActive = 2
+      getSrc() {
+        if (this.isNew) {
+
+        } else {
+          return this.article.src
         }
       },
+      reArticle(){
+        this.isNew = true;
+        this.article = {
+          'title': '',
+          'time': '',
+          'url': '',
+          'src': '',
+          'detail': '',
+          'heat': '',
+          'commentNum': '',
+          'content': '',
+        }
+      }
+    },
+    watch: {
+      'article.title': function (title) {
+        if (this.isNew) {
+          let name = '';
+          let pinyin = require("pinyin");
+          let nameList = pinyin(title.substr(0, 10), {style: pinyin.STYLE_NORMAL,});
+          for (let n = 0; n < nameList.length; n++) {
+            name += nameList[n][0]
+          }
+          let date = new Date().toLocaleDateString();
+          this.article.url = `/article/${date}/${name}.html`;
+        }
+      },
+      $route(to,from) {
+        if (to.params.year === '0000') {
+          this.reArticle()
+        }
+      }
     },
     mounted() {
-      articleAPI(this.$route.params).then(res => {
-        this.article = res.data
-      }).catch(res => {
-      });
-    //给window添加一个滚动监听事件
-      window.addEventListener('scroll', this.handleScroll);
-    },
-    destroyed() {//离开该页面需要移除这个监听的事件
-      window.removeEventListener('scroll', this.handleScroll)
+      // TODO 监听路由变化
+      if (this.$route.params.year !== '0000') {
+        this.isNew = false;
+        articleAPI(this.$route.params).then(res => {
+          this.article = res.data
+        }).catch(res => {
+        });
+      } else {
+        this.reArticle()
+      }
     },
   }
 </script>
 
 <style scoped>
+  .header-back {
+    float: left;
+    margin-top: 18px
+  }
+
   .article-header {
     height: 50px;
   }
 
-  .main-divider-1 {
-    margin: 0 0 50px 0;
-  }
-  .input-img{
+  .input-img {
     margin-bottom: 50px;
-  }
-
-  .main-divider-2 {
-    margin: 50px 0;
-
-  }
-
-  .main-divider {
-    margin: 50px 0;
   }
 
   .span-input {
     margin-bottom: 20px;
+  }
+
+  .span-input span {
+    margin-right: 10px;
   }
 
   .input-title {
@@ -216,5 +241,9 @@
     outline: none;
     border-bottom-color: #000;
     font-size: 20px;
+  }
+
+  .step-2 {
+    text-align: left;
   }
 </style>

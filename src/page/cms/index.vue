@@ -9,6 +9,10 @@
           </i>
           <span slot="title">仪表盘</span>
         </el-menu-item>
+        <el-menu-item index="/cms/article/0000/00/00/*.html">
+          <i class="el-icon-document-add"></i>
+          <span slot="title">发布文章</span>
+        </el-menu-item>
         <el-menu-item index="/cms/folder">
           <i class="el-icon-folder"></i>
           <span slot="title">归档</span>
