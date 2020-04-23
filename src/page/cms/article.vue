@@ -79,7 +79,7 @@
     </el-header>
     <el-container>
       <el-aside width="50px" style="height: 3000px">
-        <el-steps :active="1" align-center direction="vertical">
+        <el-steps :active="stepActive" align-center direction="vertical">
           <el-step icon="el-icon-picture"></el-step>
           <el-step icon="el-icon-edit"></el-step>
           <el-step icon="el-icon-setting"></el-step>
@@ -144,6 +144,7 @@
           'commentNum': '',
           'content': '',
         },
+        stepActive:1
       }
     },
     computed: {
@@ -158,13 +159,27 @@
         }
       }
     },
-    methods: {},
+    methods: {
+      handleScroll() {
+        let scroll = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+        if (scroll<400){
+          this.stepActive = 1
+        }else if(scroll>400){
+          this.stepActive = 2
+        }
+      },
+    },
     mounted() {
       articleAPI(this.$route.params).then(res => {
         this.article = res.data
       }).catch(res => {
       });
-    }
+    //给window添加一个滚动监听事件
+      window.addEventListener('scroll', this.handleScroll);
+    },
+    destroyed() {//离开该页面需要移除这个监听的事件
+      window.removeEventListener('scroll', this.handleScroll)
+    },
   }
 </script>
 

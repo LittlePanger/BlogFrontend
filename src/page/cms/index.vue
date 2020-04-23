@@ -1,30 +1,27 @@
 <template>
   <div>
     <el-container>
-      <el-aside>
-        TODO 修改
-      </el-aside>
-      <!--      <el-menu default-active="1-4-1" class="el-menu-vertical-demo" :style="{'height':screenHeight+'px'}"-->
-<!--               @open="handleOpen" @close="handleClose"-->
-<!--               :collapse="isCollapse" :router="true">-->
-<!--        <el-menu-item index="/cms/dashboard">-->
-<!--          <i class="el-icon-odometer">-->
-<!--          </i>-->
-<!--          <span slot="title">仪表盘</span>-->
-<!--        </el-menu-item>-->
-<!--        <el-menu-item index="/cms/folder">-->
-<!--          <i class="el-icon-folder"></i>-->
-<!--          <span slot="title">归档</span>-->
-<!--        </el-menu-item>-->
-<!--        <el-menu-item index="/cms/comment">-->
-<!--          <i class="el-icon-edit-outline"></i>-->
-<!--          <span slot="title">留言</span>-->
-<!--        </el-menu-item>-->
-<!--        <el-menu-item index="/cms/settings">-->
-<!--          <i class="el-icon-setting"></i>-->
-<!--          <span slot="title">设置</span>-->
-<!--        </el-menu-item>-->
-<!--      </el-menu>-->
+      <el-menu default-active="1-4-1" class="el-menu-vertical-demo" :style="{'height':screenHeight+'px'}"
+               @open="handleOpen" @close="handleClose"
+               :collapse="isCollapse" :router="true">
+        <el-menu-item index="/cms/dashboard">
+          <i class="el-icon-odometer">
+          </i>
+          <span slot="title">仪表盘</span>
+        </el-menu-item>
+        <el-menu-item index="/cms/folder">
+          <i class="el-icon-folder"></i>
+          <span slot="title">归档</span>
+        </el-menu-item>
+        <el-menu-item index="/cms/comment">
+          <i class="el-icon-edit-outline"></i>
+          <span slot="title">留言</span>
+        </el-menu-item>
+        <el-menu-item index="/cms/settings">
+          <i class="el-icon-setting"></i>
+          <span slot="title">设置</span>
+        </el-menu-item>
+      </el-menu>
       <el-container>
         <el-header height="50px">
           <!--          <i class="el-icon-menu header-icon" @click="isCollapse=!isCollapse"/>-->
