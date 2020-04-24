@@ -1,33 +1,3 @@
-<!--<template>-->
-<!--  <div>-->
-<!--    <div class="article-header">-->
-<!--      <div style="float: left">-->
-<!--        <el-page-header @back="goBack">-->
-<!--        </el-page-header>-->
-<!--      </div>-->
-<!--&lt;!&ndash;      <div style="width: 500px;float:right;    height: 24px; ">&ndash;&gt;-->
-<!--&lt;!&ndash;        <el-steps :active="1" align-center>&ndash;&gt;-->
-<!--&lt;!&ndash;          <el-step icon="el-icon-edit"></el-step>&ndash;&gt;-->
-<!--&lt;!&ndash;          <el-step icon="el-icon-picture"></el-step>&ndash;&gt;-->
-<!--&lt;!&ndash;          <el-step icon="el-icon-setting"></el-step>&ndash;&gt;-->
-<!--&lt;!&ndash;          <el-step icon="el-icon-upload"></el-step>&ndash;&gt;-->
-<!--&lt;!&ndash;        </el-steps>&ndash;&gt;-->
-<!--&lt;!&ndash;      </div>&ndash;&gt;-->
-<!--    </div>-->
-<!--    <div style="width: 500px;float:right;    height: 24px; ">-->
-<!--      <el-steps :active="1" align-center direction="vertical">-->
-<!--        <el-step icon="el-icon-edit"></el-step>-->
-<!--        <el-step icon="el-icon-picture"></el-step>-->
-<!--        <el-step icon="el-icon-setting"></el-step>-->
-<!--        <el-step icon="el-icon-upload"></el-step>-->
-<!--      </el-steps>-->
-<!--    </div>-->
-<!--    <div class="span-input">-->
-<!--      <input type="text" placeholder="标题" class="input-title" v-model="article.title">-->
-<!--      &lt;!&ndash;      <el-input v-model="article.title" style="width: 80%"></el-input>&ndash;&gt;-->
-<!--    </div>-->
-
-<!--</template>-->
 <template>
   <el-container>
     <el-header style="margin-bottom: 20px">
@@ -60,9 +30,10 @@
           <div style="height: 580px">
             <el-image
               style="height: 100%;width: 100%;"
-              :src="getSrc()"
+              :src="article.src"
               fit="scale-down"
-              :preview-src-list="[article.src]"
+              :preview-src-list="previewSrcList"
+              ref="imgEl"
             >
               <!--图标错误提示-->
               <!--            <div slot="error" class="image-slot"-->
@@ -71,7 +42,7 @@
               <!--            </div>-->
             </el-image>
           </div>
-          <input type="file" class="input-img">
+          <input type="file" class="input-img" @change="addImg" ref="inputer">
         </div>
 
         <!--文章页-->
@@ -141,6 +112,9 @@
         },
         stepActive: 0,
         isNew: true,
+        formData: new FormData(),
+        imgData: {},
+        previewSrcList: [],
       }
     },
     computed: {
@@ -156,14 +130,39 @@
       }
     },
     methods: {
-      getSrc() {
-        if (this.isNew) {
-
+      getSrc(dict) {
+        let url = null;
+        let file = null;
+        if (dict.upload !== undefined) {
+          file = dict.upload
         } else {
-          return this.article.src
+          return
+          // return this.defaultImgUrl
         }
+        if (window.createObjectURL !== undefined) { // basic
+          url = window.createObjectURL(file);
+        } else if (window.URL !== undefined) { // mozilla(firefox)
+          url = window.URL.createObjectURL(file);
+        } else if (window.webkitURL !== undefined) { // webkit or chrome
+          url = window.webkitURL.createObjectURL(file);
+        }
+        this.previewSrcList.push(url);
+        this.article.src = url;
       },
-      reArticle(){
+      addImg(event) {//头像添加到头像框内
+        let inputDOM = this.$refs.inputer;
+        // 通过DOM取文件数据
+        let fil = inputDOM.files[0];
+        if (fil.size > 1024 * 1024) {
+          // alert('请选择1M以内的图片！');
+          this.$message.error('请选择1M以内的图片！');
+          return false
+        }
+        this.$set(this.imgData, 'upload', fil);
+        this.formData.append('file', fil);
+        this.getSrc(this.imgData)
+      },
+      reArticle() {
         this.isNew = true;
         this.article = {
           'title': '',
@@ -190,18 +189,18 @@
           this.article.url = `/article/${date}/${name}.html`;
         }
       },
-      $route(to,from) {
+      $route(to, from) {
         if (to.params.year === '0000') {
           this.reArticle()
         }
       }
     },
     mounted() {
-      // TODO 监听路由变化
       if (this.$route.params.year !== '0000') {
         this.isNew = false;
         articleAPI(this.$route.params).then(res => {
-          this.article = res.data
+          this.article = res.data;
+          this.previewSrcList.push(res.data.src)
         }).catch(res => {
         });
       } else {

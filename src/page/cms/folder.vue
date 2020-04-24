@@ -4,7 +4,7 @@
       <el-table-column
         prop="title"
         label="标题"
-        width="100"
+        min-width="100"
         align="center">
         <template slot-scope="scope">
           <!--          <router-link :to="scope.row.url">{{scope.row.title}}</router-link>-->
@@ -34,7 +34,7 @@
       <el-table-column
         prop="detail"
         label="概述"
-        width="180"
+        min-width="180"
         align="center">
       </el-table-column>
       <el-table-column
@@ -56,11 +56,22 @@
         width="100"
         align="center">
         <template slot-scope="scope">
-          <router-link :to="'/cms'+scope.row.url"><el-button type="text" size="small">编辑</el-button></router-link>
+          <router-link :to="'/cms'+scope.row.url">
+            <el-button type="text" size="small">编辑</el-button>
+          </router-link>
           <el-button type="text" size="small">隐藏</el-button>
         </template>
       </el-table-column>
     </el-table>
+    <div class="page-block">
+      <el-pagination
+        layout="prev, pager, next"
+        :total="folderCount"
+        :page-size="5"
+        @current-change="handleCurrentChange"
+      >
+      </el-pagination>
+    </div>
   </div>
 </template>
 
@@ -72,17 +83,25 @@
     data() {
       return {
         tableData: [],
+        folderCount: 0
       }
     },
     methods: {
       handleClick(row) {
         console.log(row);
-      }
+      },
+      getFolder(val) {
+        articleDetailFolder({'page': val}).then(res => {
+          this.folderCount = res.count;
+          this.tableData = res.results;
+        })
+      },
+      handleCurrentChange(val) {
+        this.getFolder(val)
+      },
     },
     mounted() {
-      articleDetailFolder().then(res => {
-        this.tableData = res.results
-      })
+      this.getFolder()
     }
   }
 </script>
@@ -93,5 +112,9 @@
     text-decoration: none;
   }
 
+  .page-block {
+    float: right;
+    margin-top: 10px;
+  }
 
 </style>
