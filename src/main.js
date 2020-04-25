@@ -31,6 +31,10 @@ NProgress.configure({
 router.beforeEach((to, from , next) => {
   // 每次切换页面时，调用进度条
   NProgress.start();
+  // 路由发生变化修改页面title
+  if (to.meta.title) {
+    document.title = to.meta.title
+  }
   // 这个一定要加，没有next()页面不会跳转的。这部分还不清楚的去翻一下官网就明白了
   next();
 })

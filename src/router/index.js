@@ -17,7 +17,7 @@ const FolderCMS = () => import('../page/cms/folder');
 const CommentCMS = () => import('../page/cms/comment');
 const SettingsCMS = () => import('../page/cms/settings');
 const ArticleCMS = () => import('../page/cms/article');
-
+const NotFound = () => import('../page/blog/notFound');
 Vue.use(Router)
 
 export default new Router({
@@ -50,5 +50,6 @@ export default new Router({
         {path: '/cms/article/:year/:month/:day/:name', name: 'articleCMS', component: ArticleCMS},
       ]
     },
+    {path: '*', name: '404', component: NotFound, meta: {title: '页面不存在'}},
   ]
 })
