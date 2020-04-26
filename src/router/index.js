@@ -41,6 +41,7 @@ export default new Router({
     {
       path: '/cms',
       name: 'indexCMS',
+      redirect: '/cms/dashboard',
       component: IndexCMS,
       children: [
         {path: '/cms/dashboard', name: 'dashboardCMS', component: DashboardCMS},

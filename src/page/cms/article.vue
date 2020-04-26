@@ -80,7 +80,7 @@
           </div>
           <div class="span-input">
             <span>概述:</span>
-            <el-input v-model="article.detail" style="width: 80%"></el-input>
+            <el-input v-model="article.detail" style="width: 80%" maxlength="50" show-word-limit></el-input>
           </div>
           <div class="span-input">
             <span>热度:</span>
@@ -106,7 +106,7 @@
           'url': '',
           'src': '',
           'detail': '',
-          'heat': '',
+          'heat': 0,
           'commentNum': '',
           'content': '',
         },
@@ -170,7 +170,7 @@
           'url': '',
           'src': '',
           'detail': '',
-          'heat': '',
+          'heat': 0,
           'commentNum': '',
           'content': '',
         }
