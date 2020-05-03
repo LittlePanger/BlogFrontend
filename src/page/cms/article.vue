@@ -10,8 +10,8 @@
         <el-step title="上传" icon="el-icon-upload"></el-step>
       </el-steps>
       <el-button-group style="float: right;margin-top: 10px">
-        <el-button type="" icon="el-icon-arrow-left" v-show="stepActive!==0" @click="stepActive-=1"></el-button>
-        <el-button type="" icon="el-icon-arrow-right" v-show="stepActive!==2" @click="stepActive+=1"></el-button>
+        <el-button type="" icon="el-icon-arrow-left" v-show="stepActive!==0 && stepActive!==3" @click="stepActive-=1"></el-button>
+        <el-button type="" icon="el-icon-arrow-right" v-show="stepActive!==2 && stepActive!==3" @click="stepActive+=1"></el-button>
         <el-button type="" icon="el-icon-upload2" v-show="stepActive===2" style="font-size: 14px"
                    @click="articleSubmit"></el-button>
       </el-button-group>
@@ -90,6 +90,11 @@
             <el-input v-model="article.heat" style="width: 80%"></el-input>
           </div>
           <!--          <el-switch v-model=""></el-switch>-->
+        </div>
+
+        <!--成功页-->
+        <div class="step-3" v-show="stepActive===3">
+          发表成功
         </div>
 
       </el-main>
@@ -192,6 +197,9 @@
           }
         }
         articleSubmit(this.formData).then(res => {
+          if (res.data===200){
+            this.stepActive = 3
+          }
         }).catch(res => {
         });
       },
