@@ -48,3 +48,7 @@ export const commentGet = (params) => {
 export const pageAll = (params) => {
   return http.fetchGet(`${baseUrl}/api/page/all`, params)
 };
+// 提交文章
+export const articleSubmit = (params) => {
+  return http.fetchPost(`${baseUrl}/api/article`, params)
+};

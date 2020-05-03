@@ -12,7 +12,8 @@
       <el-button-group style="float: right;margin-top: 10px">
         <el-button type="" icon="el-icon-arrow-left" v-show="stepActive!==0" @click="stepActive-=1"></el-button>
         <el-button type="" icon="el-icon-arrow-right" v-show="stepActive!==2" @click="stepActive+=1"></el-button>
-        <el-button type="" icon="el-icon-upload2" v-show="stepActive===2" style="font-size: 14px"></el-button>
+        <el-button type="" icon="el-icon-upload2" v-show="stepActive===2" style="font-size: 14px"
+                   @click="articleSubmit"></el-button>
       </el-button-group>
     </el-header>
     <el-container>
@@ -60,6 +61,7 @@
             :editable="prop.editable"
             :scrollStyle="prop.scrollStyle"
             :ishljs="prop.ishljs"
+            v-model="article.content"
           ></mavon-editor>
         </div>
 
@@ -75,7 +77,8 @@
               v-model="article.time"
               type="datetime"
               placeholder="选择日期时间"
-              default-time="12:00:00">
+              default-time="12:00:00"
+              value-format="yyyy-MM-dd HH:mm:ss">
             </el-date-picker>
           </div>
           <div class="span-input">
@@ -94,7 +97,7 @@
   </el-container>
 </template>
 <script>
-  import {articleAPI} from "../../api/api";
+  import {articleAPI, articleSubmit} from "../../api/api";
 
   export default {
     name: "articleCMS",
@@ -107,7 +110,7 @@
           'src': '',
           'detail': '',
           'heat': 0,
-          'commentNum': '',
+          'commentNum': 0,
           'content': '',
         },
         stepActive: 0,
@@ -171,10 +174,27 @@
           'src': '',
           'detail': '',
           'heat': 0,
-          'commentNum': '',
+          'commentNum': 0,
           'content': '',
         }
-      }
+      },
+      articleSubmit() {
+        if (this.$route.params.year === '0000') {
+          this.formData.append('isNew', 'true')
+        }else{
+          this.formData.append('isNew', 'false')
+        }
+        let article = this.article;
+        for (let i in article) {
+          if (article.hasOwnProperty(i)) {
+            this.formData.delete(i);
+            this.formData.append(i, article[i])
+          }
+        }
+        articleSubmit(this.formData).then(res => {
+        }).catch(res => {
+        });
+      },
     },
     watch: {
       'article.title': function (title) {
