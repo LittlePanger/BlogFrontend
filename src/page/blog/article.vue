@@ -13,17 +13,13 @@
 </template>
 
 <script>
-  import {articleAPI} from "../../api/api";
+  import {articleAPI, baseUrl} from "../../api/api";
 
   export default {
     name: "articleCom",
     data() {
       return {
         article: {
-          'title': 'bia',
-          'img': 'http://a4.att.hudong.com/20/62/01000000000000119086280352820.jpg',
-          'content': '',
-          'time': '2020-03-08',
         }
       }
     },
@@ -43,19 +39,22 @@
       returnTitleImg() {
         this.$emit('getTitle', {
           'title': this.article.title,
-          'src': this.article.img,
+          'src': this.article.src,
         })
+      },
+      imgUrl(path) {//拼接图片URL
+        if (path.slice(0,4) === 'http'){
+          return path
+        }
+        return baseUrl + '/api/img/' + path
       },
     },
     mounted() {
-      this.returnTitleImg()
       articleAPI(this.$route.params).then(res => {
-        this.article.content = res.data.content
+        this.article = res.data;
+        this.article.src = this.imgUrl(this.article.src)
+        this.returnTitleImg()
       }).catch(res => {
-        this.returnTitleImg({
-          'title': '留言板',
-          'src': 'http://img.article.pchome.net/01/58/91/24/pic_lib/wm/Bing03.jpg'
-        })
       });
     }
   }

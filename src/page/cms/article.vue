@@ -10,10 +10,12 @@
         <el-step title="上传" icon="el-icon-upload"></el-step>
       </el-steps>
       <el-button-group style="float: right;margin-top: 10px">
-        <el-button type="" icon="el-icon-arrow-left" v-show="stepActive!==0 && stepActive!==3" @click="stepActive-=1"></el-button>
-        <el-button type="" icon="el-icon-arrow-right" v-show="stepActive!==2 && stepActive!==3" @click="stepActive+=1"></el-button>
+        <el-button type="" icon="el-icon-arrow-left" v-show="stepActive!==0"
+                   @click="stepActive-=1"></el-button>
+        <el-button type="" icon="el-icon-arrow-right" v-show="stepActive!==2 && stepActive!==3"
+                   @click="stepActive+=1"></el-button>
         <el-button type="" icon="el-icon-upload2" v-show="stepActive===2" style="font-size: 14px"
-                   @click="articleSubmit"></el-button>
+                   @click="articleSub"></el-button>
       </el-button-group>
     </el-header>
     <el-container>
@@ -92,11 +94,6 @@
           <!--          <el-switch v-model=""></el-switch>-->
         </div>
 
-        <!--成功页-->
-        <div class="step-3" v-show="stepActive===3">
-          发表成功
-        </div>
-
       </el-main>
     </el-container>
   </el-container>
@@ -109,6 +106,7 @@
     data() {
       return {
         article: {
+          'id': '',
           'title': '',
           'time': '',
           'url': '',
@@ -173,6 +171,7 @@
       reArticle() {
         this.isNew = true;
         this.article = {
+          'id': null,
           'title': '',
           'time': '',
           'url': '',
@@ -183,12 +182,31 @@
           'content': '',
         }
       },
-      articleSubmit() {
-        if (this.$route.params.year === '0000') {
-          this.formData.append('isNew', 'true')
-        }else{
-          this.formData.append('isNew', 'false')
+      retTime() {
+        let date = new Date();
+        let year = date.getFullYear();
+        let month = date.getMonth();
+        let day = date.getDate();
+        if (month < 9) {
+          month += 1;
+          month = '0' + month
         }
+        if (day < 10) {
+          day = '0' + day
+        }
+        return `${year}/${month}/${day}`
+      },
+      errMsg(msg){
+        this.$message({
+          message: msg,
+          center: true,
+          type: 'error'
+        });
+      },
+      articleSub() {
+        let params = this.$route.params;
+        let url = `${params.year}/${params.month}/${params.day}/${params.name}`;
+        this.stepActive = 3;
         let article = this.article;
         for (let i in article) {
           if (article.hasOwnProperty(i)) {
@@ -197,8 +215,11 @@
           }
         }
         articleSubmit(this.formData).then(res => {
-          if (res.data===200){
-            this.stepActive = 3
+          if (res.code === 200) {
+            this.stepActive = 4;
+            this.$router.push({path:'/cms/folder'})
+          }else if(res.code === 201){
+            this.errMsg(res.error)
           }
         }).catch(res => {
         });
@@ -213,7 +234,7 @@
           for (let n = 0; n < nameList.length; n++) {
             name += nameList[n][0]
           }
-          let date = new Date().toLocaleDateString();
+          let date = this.retTime();
           this.article.url = `/article/${date}/${name}.html`;
         }
       },

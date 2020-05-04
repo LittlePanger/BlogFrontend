@@ -26,9 +26,9 @@
         <template slot-scope="scope">
           <el-image
             style="width: 160px"
-            :src="scope.row.src"
+            :src="imgUrl(scope.row.src)"
             fit="scale-down"
-            :previewSrcList="[scope.row.src]"></el-image>
+            :previewSrcList="previewSrcList"></el-image>
         </template>
       </el-table-column>
       <el-table-column
@@ -76,14 +76,16 @@
 </template>
 
 <script>
-  import {articleDetailFolder} from "../../api/api";
+  import {articleDetailFolder, baseUrl} from "../../api/api";
+  import scrollGoTop from "../../components/blog/scrollGoTop";
 
   export default {
     name: "folderCMS",
     data() {
       return {
         tableData: [],
-        folderCount: 0
+        folderCount: 0,
+        previewSrcList: []
       }
     },
     methods: {
@@ -94,11 +96,28 @@
         articleDetailFolder({'page': val}).then(res => {
           this.folderCount = res.count;
           this.tableData = res.results;
+          this.setSrcList(res.results)
         })
       },
       handleCurrentChange(val) {
         this.getFolder(val)
       },
+      imgUrl(path) {//拼接图片URL
+        if (path){
+          if (path.slice(0,4) === 'http'){
+            return path
+          }
+          return baseUrl + '/api/img/' + path
+        }
+      },
+      setSrcList(res){// 设置图片列表
+        for (let i in res) {
+          if (res.hasOwnProperty(i)) {
+            let path = this.imgUrl(res[i].src);
+            this.previewSrcList.push(path)
+          }
+        }
+      }
     },
     mounted() {
       this.getFolder()
