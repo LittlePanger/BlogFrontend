@@ -52,3 +52,19 @@ export const pageAll = (params) => {
 export const articleSubmit = (params) => {
   return http.fetchPost(`${baseUrl}/api/article`, params)
 };
+// 社交修改
+export const socialInfoSub = (params) => {
+  return http.fetchPost(`${baseUrl}/api/socialInfo`, params)
+};
+// 个人信息修改
+export const personalInfoSub = (params) => {
+  return http.fetchPost(`${baseUrl}/api/personalInfo`, params)
+};
+// 页面信息修改
+export const pageAllSub = (params) => {
+  return http.fetchPost(`${baseUrl}/api/page/all`, params)
+};
+// 导航修改
+export const navBarSub = (params) => {
+  return http.fetchPost(`${baseUrl}/api/navBar`, params)
+};

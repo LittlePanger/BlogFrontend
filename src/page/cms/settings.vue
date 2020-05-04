@@ -48,7 +48,7 @@
         </div>
         <div class="second-div">
           <span>头像:</span>
-          <input type="file" v-show="editable">
+          <input type="file" v-show="editable" @change="addImg" ref="inputer">
           <!--          <el-input placeholder="请输入内容" v-show="editable" v-model="personalData.avatar"></el-input>-->
           <el-image
             v-show="!editable"
@@ -141,14 +141,25 @@
       </el-tab-pane>
     </el-tabs>
     <div class="header-button">
-      <el-button @click="editable =true">编辑</el-button>
-      <el-button @click="editable =false">保存</el-button>
+      <el-button @click="editable =true" v-show="!editable">编辑</el-button>
+      <el-button @click="editable =false" v-show="editable">取消</el-button>
+      <el-button @click="saveBtn">保存</el-button>
     </div>
   </div>
 </template>
 
 <script>
-  import {baseUrl, socialInfo, personalInfo, pageAll, navBar} from "../../api/api";
+  import {
+    baseUrl,
+    socialInfo,
+    personalInfo,
+    pageAll,
+    navBar,
+    socialInfoSub,
+    personalInfoSub,
+    pageAllSub,
+    navBarSub
+  } from "../../api/api";
 
   export default {
     name: "settings",
@@ -157,6 +168,7 @@
         editable: false,
         socialData: [],
         personalData: {},
+        formData: new FormData(),
         pageData: [],
         pageSrcList: [],
         navData: [],
@@ -170,6 +182,43 @@
       getSrc(path) {
         return baseUrl + '/api/img/' + path
       },
+      addImg(event) {//头像添加到头像框内
+        let inputDOM = this.$refs.inputer;
+        // 通过DOM取文件数据
+        let fil = inputDOM.files[0];
+        if (fil.size > 1024 * 1024) {
+          // alert('请选择1M以内的图片！');
+          this.$message.error('请选择1M以内的图片！');
+          return false
+        }
+        this.formData.append('file', fil);
+      },
+      saveBtn() {
+        this.editable = false;
+        if (this.activeName === 'first') {
+          socialInfoSub(this.socialData).then(res => {
+          });
+        } else if (this.activeName === 'second') {
+          let perData = this.personalData;
+          for (let i in perData) {
+            if (perData.hasOwnProperty(i)) {
+              this.formData.delete(i);
+              this.formData.append(i, perData[i])
+            }
+          }
+          personalInfoSub(this.formData).then(res => {
+            this.personalData = res.data
+          });
+        } else if (this.activeName === 'third') {
+          pageAllSub(this.pageData).then(res => {
+            this.pageData = res.data
+          });
+        }
+        else if (this.activeName === 'fourth') {
+          navBarSub(this.navData).then(res => {
+          });
+        }
+      }
     },
     mounted() {
       socialInfo().then(res => {
@@ -186,8 +235,8 @@
       });
       navBar().then(res => {
         let data = res.data;
-        for (let d in data){
-          for(let i in data[d]){
+        for (let d in data) {
+          for (let i in data[d]) {
             this.navData.push(data[d][i])
           }
         }
