@@ -42,17 +42,10 @@
           'src': this.article.src,
         })
       },
-      imgUrl(path) {//拼接图片URL
-        if (path.slice(0,4) === 'http'){
-          return path
-        }
-        return baseUrl + '/api/img/' + path
-      },
     },
     mounted() {
       articleAPI(this.$route.params).then(res => {
         this.article = res.data;
-        this.article.src = this.imgUrl(this.article.src)
         this.returnTitleImg()
       }).catch(res => {
       });

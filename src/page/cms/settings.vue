@@ -40,6 +40,7 @@
           </el-table-column>
         </el-table>
       </el-tab-pane>
+
       <el-tab-pane label="个人信息" name="second">
         <div class="second-div">
           <span>昵称:</span>
@@ -53,12 +54,13 @@
           <el-image
             v-show="!editable"
             style="width: 40px"
-            :src="getSrc(personalData.avatar)"
+            :src="personalData.avatar"
             fit="scale-down"
-            :previewSrcList="[getSrc(personalData.avatar)]"></el-image>
+            :previewSrcList="[personalData.avatar]"></el-image>
         </div>
 
       </el-tab-pane>
+
       <el-tab-pane label="页面信息" name="third">
         <el-table
           :data="pageData"
@@ -98,6 +100,7 @@
           </el-table-column>
         </el-table>
       </el-tab-pane>
+
       <el-tab-pane label="导航设置" name="fourth">
         <el-table
           :data="navData"
@@ -178,9 +181,6 @@
     methods: {
       tabChange() {
         this.editable = false
-      },
-      getSrc(path) {
-        return baseUrl + '/api/img/' + path
       },
       addImg(event) {//头像添加到头像框内
         let inputDOM = this.$refs.inputer;

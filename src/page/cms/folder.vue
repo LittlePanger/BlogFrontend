@@ -26,7 +26,7 @@
         <template slot-scope="scope">
           <el-image
             style="width: 160px"
-            :src="imgUrl(scope.row.src)"
+            :src="scope.row.src"
             fit="scale-down"
             :previewSrcList="previewSrcList"></el-image>
         </template>
@@ -102,19 +102,10 @@
       handleCurrentChange(val) {
         this.getFolder(val)
       },
-      imgUrl(path) {//拼接图片URL
-        if (path){
-          if (path.slice(0,4) === 'http'){
-            return path
-          }
-          return baseUrl + '/api/img/' + path
-        }
-      },
       setSrcList(res){// 设置图片列表
         for (let i in res) {
           if (res.hasOwnProperty(i)) {
-            let path = this.imgUrl(res[i].src);
-            this.previewSrcList.push(path)
+            this.previewSrcList.push(res[i].src)
           }
         }
       }
