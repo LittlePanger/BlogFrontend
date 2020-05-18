@@ -32,9 +32,9 @@
           <template slot-scope="scope">
             <el-image
               style="width: 40px"
-              :src="getSrc(scope.row.avatar)"
+              :src="scope.row.avatar"
               fit="scale-down"
-              :previewSrcList="[getSrc(scope.row.avatar)]"></el-image>
+              :previewSrcList="[scope.row.avatar]"></el-image>
           </template>
         </el-table-column>
         <el-table-column
@@ -228,9 +228,6 @@
     methods: {
       handleClick(row) {
         console.log(row);
-      },
-      getSrc(path) {
-        return baseUrl + '/api/img/' + path
       },
       getComment(val) {
         commentGet({'page': val}).then(res => {

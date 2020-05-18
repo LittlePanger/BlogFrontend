@@ -13,7 +13,7 @@
       </div>
       <div class="comment" v-for="item in comment" :key="item.id">
         <div class="comment-avatar">
-          <img :src="imgUrl(item.avatar)" alt="">
+          <img :src="item.avatar" alt="">
         </div>
         <div class="comment-writer">
           <a :href="item.site"><span>{{item.writer}}</span></a>
@@ -97,9 +97,6 @@
       }
     },
     methods: {
-      imgUrl(path) {//拼接图片URL
-        return baseUrl + '/api/img/' + path
-      },
       getSVG() {
         this.comment.forEach(ele => {
           if (ele.systemSrc.slice(-4) !== '.svg'){
