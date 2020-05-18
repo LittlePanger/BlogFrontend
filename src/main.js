@@ -35,6 +35,11 @@ router.beforeEach((to, from , next) => {
   if (to.meta.title) {
     document.title = to.meta.title
   }
+  if (to.path.startsWith('/cms')){
+    if (!localStorage.getItem('accessToken')){
+      next({name: 'login'})
+    }
+  }
   // 这个一定要加，没有next()页面不会跳转的。这部分还不清楚的去翻一下官网就明白了
   next();
 })

@@ -68,3 +68,7 @@ export const pageAllSub = (params) => {
 export const navBarSub = (params) => {
   return http.fetchPost(`${baseUrl}/api/navBar`, params)
 };
+// 登录
+export const login = (params) => {
+  return http.fetchPost(`${baseUrl}/api/login`, params)
+};
