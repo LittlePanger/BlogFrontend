@@ -171,7 +171,7 @@
     width: 100%;
     height: 100%;
     position: absolute;
-    background: url(../../assets/home-bg.jpg) no-repeat fixed center;
+    background: url(http://qa81nh0fa.bkt.clouddn.com/home-bg.jpg) no-repeat fixed center;
     background-size: auto;
     display: flex;
   }

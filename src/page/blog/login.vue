@@ -1,6 +1,6 @@
 <template>
   <div class="login-bg">
-    <img src="../../../static/img/city.jpg" alt="" class="login-bg-img">
+    <img src="http://qa81nh0fa.bkt.clouddn.com/login-bg.jpg" alt="" class="login-bg-img">
     <div class="login-wrapper">
       <div class="login-title">
         <router-link to="/"><img src="../../assets/catLogoBig.png" alt="" style="height: 80px"></router-link>
