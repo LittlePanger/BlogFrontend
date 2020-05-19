@@ -63,12 +63,12 @@
       },
       getToken(){
         login(this.ruleForm).then(res => {
-          this.accessToken = res.token;
-          if (this.accessToken){
+          if (res.token){
+            this.accessToken = res.token;
             localStorage.setItem('accessToken', this.accessToken);
             this.$router.push({'name':'indexCMS'});
           }else{
-            this.$router.go(0)
+            this.$message.error(res.error);
           }
         })
       }
