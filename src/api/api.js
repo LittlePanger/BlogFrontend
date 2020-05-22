@@ -1,5 +1,5 @@
 import http from './base'
-export const baseUrl = 'http://127.0.0.1:8000'
+export const baseUrl = 'http://111.229.49.29:8000'
 // 归档
 export const pageFolder = (params) => {
   return http.fetchGet(`${baseUrl}/api/page/folder`, params)
