@@ -13,7 +13,7 @@
       </div>
       <div class="comment" v-for="item in comment" :key="item.id">
         <div class="comment-avatar">
-          <img :src="imgUrl(item.avatar)" alt="">
+          <img :src="item.avatar" alt="">
         </div>
         <div class="comment-writer">
           <a :href="item.site"><span>{{item.writer}}</span></a>
@@ -73,7 +73,7 @@
 </template>
 
 <script>
-  import {baseUrl, pageComment, commentGet, commentSubmit, articleDetailFolder} from "../api/api";
+  import {baseUrl, pageComment, commentGet, commentSubmit, articleDetailFolder} from "../../api/api";
 
   export default {
     name: "comment",
@@ -97,14 +97,11 @@
       }
     },
     methods: {
-      imgUrl(path) {//拼接图片URL
-        return baseUrl + '/api/img/' + path
-      },
       getSVG() {
         this.comment.forEach(ele => {
           if (ele.systemSrc.slice(-4) !== '.svg'){
-            ele.systemSrc = require('../assets/svg/' + ele.systemSrc + '.svg');
-            ele.browserSrc = require('../assets/svg/' + ele.browserSrc + '.svg');
+            ele.systemSrc = require('../../assets/svg/' + ele.systemSrc + '.svg');
+            ele.browserSrc = require('../../assets/svg/' + ele.browserSrc + '.svg');
           }
         })
       },
@@ -419,7 +416,7 @@
     width: 100%;
     min-height: 170px;
     padding: 10px 5px;
-    background-image: url('../assets/catLogo.png');
+    background-image: url('../../assets/catLogo.png');
     background-size: contain;
     background-repeat: no-repeat;
     background-position-x: right;

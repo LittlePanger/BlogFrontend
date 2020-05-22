@@ -3,7 +3,7 @@
     <el-row>
       <el-col :span="4" style="line-height: 72px">
         <router-link to="/">
-          <img src="../assets/nameLOGO.png" alt="" style="height: 50px;vertical-align: middle">
+          <img src="../../assets/nameLOGO.png" alt="" style="height: 50px;vertical-align: middle">
         </router-link>
       </el-col>
       <el-col :span="16">
@@ -34,7 +34,7 @@
         <div class="menu-open-left animated fadeInUp faster">
           <div class="menu-top">
             <div class="menu-avatar">
-              <img :src="imgUrl(menuTop.avatar)" alt="">
+              <img :src="menuTop.avatar" alt="">
             </div>
             <div class="menu-name">
               <p>{{menuTop.name}}</p>
@@ -64,15 +64,15 @@
       <i class="el-icon-menu" @click="openMenu"></i>
     </div>
     <router-link to="/" class="mobile-header-logo">
-      <img src="../assets/nameLOGO.png" alt="" style="height: 50px;vertical-align: middle">
+      <img src="../../assets/nameLOGO.png" alt="" style="height: 50px;vertical-align: middle">
     </router-link>
   </el-header>
 </template>
 
 <script>
-  import {baseUrl, socialInfo} from "../api/api";
-  import {personalInfo} from "../api/api";
-  import {navBar} from "../api/api";
+  import {baseUrl, socialInfo} from "../../api/api";
+  import {personalInfo} from "../../api/api";
+  import {navBar} from "../../api/api";
 
   export default {
     props: ['isPc'],
@@ -87,9 +87,6 @@
       }
     },
     methods: {
-      imgUrl(path) {//拼接图片URL
-        return baseUrl + '/api/img/' + path
-      },
       mouseOver(e) {
         e.currentTarget.firstElementChild.style.color = "#e67474";
         e.currentTarget.style.backgroundSize = "100% 5px"
@@ -118,9 +115,6 @@
       personalInfo().then(res =>{
         this.menuTop = res.data
       }).catch(res => {
-        this.menuTop = {
-          'name': 'LittlePanger', 'avatar': '../assets/avatar.jpg',
-        }
       });
       navBar().then(res =>{
         this.navBarMiddle = res.data.middle;

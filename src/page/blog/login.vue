@@ -1,12 +1,12 @@
 <template>
   <div class="login-bg">
-    <img src="../../static/img/city.jpg" alt="" class="login-bg-img">
+    <img src="http://qa81nh0fa.bkt.clouddn.com/login-bg.jpg" alt="" class="login-bg-img">
     <div class="login-wrapper">
       <div class="login-title">
-        <router-link to="/"><img src="../assets/catLogoBig.png" alt="" style="height: 80px"></router-link>
+        <router-link to="/"><img src="../../assets/catLogoBig.png" alt="" style="height: 80px"></router-link>
       </div>
       <div class="login-form">
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="200px" class="demo-ruleForm" inline="true"
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="200px" class="demo-ruleForm" :inline="true"
                  label-position="left">
           <el-form-item label="Username or Email Address" prop="username">
             <el-input v-model="ruleForm.username" style="width: 250px"></el-input>
@@ -27,6 +27,8 @@
 </template>
 
 <script>
+  import {login} from "../../api/api";
+
   export default {
     name: "login",
     data() {
@@ -41,14 +43,15 @@
             {required: true, message: '请输入活动名称', trigger: 'blur'},
             {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'}
           ],
-        }
+        },
+        accessToken: ''
       };
     },
     methods: {
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+            this.getToken();
           } else {
             console.log('error submit!!');
             return false;
@@ -57,6 +60,17 @@
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
+      },
+      getToken(){
+        login(this.ruleForm).then(res => {
+          if (res.token){
+            this.accessToken = res.token;
+            localStorage.setItem('accessToken', this.accessToken);
+            this.$router.push({'name':'indexCMS'});
+          }else{
+            this.$message.error(res.error);
+          }
+        })
       }
     }
   }

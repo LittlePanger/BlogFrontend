@@ -40,7 +40,35 @@ export const articleDetailFolder = (params) => {
 export const commentSubmit = (params) => {
   return http.fetchPost(`${baseUrl}/api/comment`, params)
 };
-// 留言板提交留言
+// 留言板留言
 export const commentGet = (params) => {
   return http.fetchGet(`${baseUrl}/api/comment`, params)
+};
+// 页面信息
+export const pageAll = (params) => {
+  return http.fetchGet(`${baseUrl}/api/page/all`, params)
+};
+// 提交文章
+export const articleSubmit = (params) => {
+  return http.fetchPost(`${baseUrl}/api/article`, params)
+};
+// 社交修改
+export const socialInfoSub = (params) => {
+  return http.fetchPost(`${baseUrl}/api/socialInfo`, params)
+};
+// 个人信息修改
+export const personalInfoSub = (params) => {
+  return http.fetchPost(`${baseUrl}/api/personalInfo`, params)
+};
+// 页面信息修改
+export const pageAllSub = (params) => {
+  return http.fetchPost(`${baseUrl}/api/page/all`, params)
+};
+// 导航修改
+export const navBarSub = (params) => {
+  return http.fetchPost(`${baseUrl}/api/navBar`, params)
+};
+// 登录
+export const login = (params) => {
+  return http.fetchPost(`${baseUrl}/api/login`, params)
 };

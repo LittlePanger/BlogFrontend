@@ -40,7 +40,7 @@
 </template>
 
 <script>
-  import {pageAbout} from "../api/api";
+  import {pageAbout} from "../../api/api";
 
   export default {
     name: "about",

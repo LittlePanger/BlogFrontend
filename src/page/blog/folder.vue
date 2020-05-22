@@ -47,8 +47,8 @@
 
 <script>
 
-  import {pageFolder} from "../api/api";
-  import {articleDetailFolder} from "../api/api";
+  import {pageFolder} from "../../api/api";
+  import {articleDetailFolder} from "../../api/api";
 
   export default {
     name: "folder",
@@ -159,6 +159,7 @@
 
   .folder-title a {
     text-decoration: none;
+    color: #504e4e;
   }
 
   .folder-title a:visited {

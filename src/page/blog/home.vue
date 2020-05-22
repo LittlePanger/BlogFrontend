@@ -97,9 +97,9 @@
 </template>
 
 <script>
-  import {articleDetailHome} from '../api/api'
-  import Footer from '../components/footer'
-  import Header from '../components/header'
+  import {articleDetailHome} from '../../api/api'
+  import Footer from '../../components/blog/footer'
+  import Header from '../../components/blog/header'
 
   export default {
     name: "home",
@@ -171,7 +171,7 @@
     width: 100%;
     height: 100%;
     position: absolute;
-    background: url(../assets/home-bg.jpg) no-repeat fixed center;
+    background: url(http://qa81nh0fa.bkt.clouddn.com/home-bg.jpg) no-repeat fixed center;
     background-size: auto;
     display: flex;
   }
@@ -401,7 +401,7 @@
 
   .waveTop {
     background-size: 50% 100px;
-    background-image: url('../assets/img/wave-top.png')
+    background-image: url('../../assets/img/wave-top.png')
   }
 
   .waveAnimation .waveTop {
@@ -413,7 +413,7 @@
 
   .waveMiddle {
     background-size: 50% 120px;
-    background-image: url('../assets/img/wave-mid.png')
+    background-image: url('../../assets/img/wave-mid.png')
   }
 
   .waveAnimation .waveMiddle {
@@ -422,7 +422,7 @@
 
   .waveBottom {
     background-size: 50% 100px;
-    background-image: url('../assets/img/wave-bot.png')
+    background-image: url('../../assets/img/wave-bot.png')
   }
 
   .waveAnimation .waveBottom {
